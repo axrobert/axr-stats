@@ -22,11 +22,14 @@
   <img src="assets/previews/lifetime.svg" width="100%" alt="Demo: Lifetime stats and custom rank" />
   <img src="assets/previews/languages.svg" width="100%" alt="Demo: Programming languages" />
   <img src="assets/previews/ranking.svg" width="49%" alt="Demo: WakaTime public ranking" />
-  <img src="assets/previews/emblem.svg" width="26%" alt="Demo: rank emblem" />
+  <img src="assets/badges/03-artisan.png" width="26%" alt="Demo: rank emblem" />
   <img src="assets/previews/heatmap.svg" width="100%" alt="Demo: 30-day activity heatmap" />
 </div>
 
 <sub>Previews use **fictional demonstration data** and are **not** stats from a real WakaTime account.</sub>
+
+
+**Rank artwork:** Seven original AI-generated illustration crops are included as transparent PNGs under `assets/badges/*.png`. The previous SVG rank shapes remain available as experimental vector alternatives. The PNGs were extracted from a generated concept composition; they are the first raster art iteration, not hand-painted exports.
 
 ## Features
 
@@ -38,7 +41,7 @@
 | Heatmap | 30 days of activity | WakaTime |
 | Emblem | Custom shield, level and stars | AXR Stats |
 
-- **Seven original layered rank sigils** with distinct metallic finishes, faceted gems and tier silhouettes.
+- **Seven image-generated PNG rank medals** with distinct metallic finishes, faceted gems and tier silhouettes.
 - All-time language stats via the official WakaTime `stats/all_time` endpoint; daily summaries remain 30 days.
 - Dedicated daily activity gauge with safe spacing.
 - An informational GitHub Pages website for ranks, guides and project roadmap.
