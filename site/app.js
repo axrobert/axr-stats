@@ -1,38 +1,189 @@
+"use strict";
+
 const ranks = [
-  { name: "Novice", hours: 0, image: "01-novice.png" },
-  { name: "Explorer", hours: 25, image: "02-explorer.png" },
-  { name: "Artisan", hours: 100, image: "03-artisan.png" },
-  { name: "Specialist", hours: 250, image: "04-specialist.png" },
-  { name: "Veteran", hours: 500, image: "05-veteran.png" },
-  { name: "Master", hours: 1000, image: "06-master.png" },
-  { name: "Legend", hours: 2500, image: "07-legend.png" },
+  { name: "Novato", hours: 0, image: "01-novice.png", note: "O início de uma nova jornada." },
+  { name: "Explorador", hours: 25, image: "02-explorer.png", note: "Primeiras conquistas e descobertas." },
+  { name: "Artesão", hours: 100, image: "03-artisan.png", note: "Consistência para transformar ideias em código." },
+  { name: "Especialista", hours: 250, image: "04-specialist.png", note: "Experiência conquistada linha por linha." },
+  { name: "Veterano", hours: 500, image: "05-veteran.png", note: "Muitas horas de trabalho e dedicação." },
+  { name: "Mestre", hours: 1000, image: "06-master.png", note: "Uma longa jornada de aprendizado." },
+  { name: "Lenda", hours: 2500, image: "07-legend.png", note: "O ápice desta coleção de ranks." },
 ];
 
-const rankGrid = document.querySelector("#rank-grid");
+const assetPath = (name) => "assets/badges/" + name;
+const byId = (id) => document.getElementById(id);
+const rankGrid = byId("rank-grid");
+const search = byId("rank-search");
+const rankCount = byId("rank-count");
+const dialog = byId("rank-dialog");
+let previousFocus = null;
+
+function findRank(hours) {
+  const safe = Math.max(0, Math.min(100000, Number.isFinite(hours) ? hours : 0));
+  let index = 0;
+  ranks.forEach((rank, i) => { if (safe >= rank.hours) index = i; });
+  const current = ranks[index];
+  const next = ranks[index + 1] || null;
+  const progress = next ? (safe - current.hours) / (next.hours - current.hours) : 1;
+  return { current, next, index, progress: Math.min(1, Math.max(0, progress)) };
+}
+
+function showRank(rank, index) {
+  if (!dialog || typeof dialog.showModal !== "function") return;
+  previousFocus = document.activeElement;
+  byId("dialog-tier").textContent = "TIER " + String(index + 1).padStart(2, "0");
+  byId("dialog-art").src = assetPath(rank.image);
+  byId("dialog-art").alt = "Emblema do rank " + rank.name;
+  byId("dialog-title").textContent = rank.name;
+  byId("dialog-details").textContent = rank.note + " Disponível a partir de " +
+    rank.hours.toLocaleString("pt-BR") + " horas acumuladas de programação.";
+  dialog.showModal();
+}
+
+function createRankCard(rank, index) {
+  const card = document.createElement("button");
+  card.type = "button";
+  card.className = "rank-card";
+  card.dataset.search = rank.name.toLocaleLowerCase("pt-BR");
+  card.setAttribute("aria-label", "Ver detalhes do rank " + rank.name);
+
+  const img = document.createElement("img");
+  img.src = assetPath(rank.image);
+  img.alt = "";
+  img.loading = "lazy";
+  img.width = 150;
+  img.height = 157;
+
+  const tier = document.createElement("span");
+  tier.className = "tier";
+  tier.textContent = "TIER " + String(index + 1).padStart(2, "0");
+
+  const label = document.createElement("strong");
+  label.textContent = rank.name;
+
+  const minimum = document.createElement("small");
+  minimum.textContent = rank.hours.toLocaleString("pt-BR") + " horas";
+
+  card.append(img, tier, label, minimum);
+  card.addEventListener("click", () => showRank(rank, index));
+  return card;
+}
 
 if (rankGrid) {
-  ranks.forEach(({ name, hours, image }, index) => {
-    const card = document.createElement("article");
-    card.className = "rank-card";
+  ranks.forEach((rank, index) => rankGrid.append(createRankCard(rank, index)));
+  const empty = document.createElement("p");
+  empty.className = "rank-empty";
+  empty.textContent = "Nenhum rank corresponde à sua busca.";
+  empty.hidden = true;
+  rankGrid.append(empty);
 
-    const art = document.createElement("img");
-    art.src = "assets/badges/" + image;
-    art.alt = "Emblema AXR " + name;
-    art.loading = "lazy";
-    art.width = 153;
-    art.height = 168;
+  const updateFilter = () => {
+    const query = (search?.value || "").trim().toLocaleLowerCase("pt-BR");
+    let count = 0;
+    rankGrid.querySelectorAll(".rank-card").forEach((card) => {
+      const visible = card.dataset.search.includes(query);
+      card.dataset.hidden = String(!visible);
+      if (visible) count++;
+    });
+    empty.hidden = count !== 0;
+    if (rankCount) rankCount.textContent = count + (count === 1 ? " rank encontrado" : " ranks encontrados");
+  };
+  search?.addEventListener("input", updateFilter);
+}
 
-    const tier = document.createElement("span");
-    tier.className = "idx";
-    tier.textContent = "TIER " + String(index + 1).padStart(2, "0");
+const hoursInput = byId("hours-input");
+function renderSimulation() {
+  if (!hoursInput) return;
+  const numeric = Number(hoursInput.value);
+  const hours = Number.isFinite(numeric) ? Math.max(0, Math.min(100000, numeric)) : 0;
+  const state = findRank(hours);
+  const percent = Math.floor(state.progress * 100);
 
-    const title = document.createElement("strong");
-    title.textContent = name;
+  byId("sim-rank-image").src = assetPath(state.current.image);
+  byId("sim-rank-name").textContent = state.current.name;
+  byId("sim-next").textContent = state.next
+    ? "Próximo: " + state.next.name + " · " + state.next.hours.toLocaleString("pt-BR") + "h"
+    : "Patamar máximo desta coleção";
+  byId("sim-progress-label").textContent = state.next ? "Progresso até o próximo rank" : "Rank máximo";
+  byId("sim-percent").textContent = percent + "%";
+  byId("sim-bar").style.width = percent + "%";
+  byId("sim-progress").setAttribute("aria-valuenow", String(percent));
+}
+hoursInput?.addEventListener("input", renderSimulation);
+renderSimulation();
 
-    const requirement = document.createElement("small");
-    requirement.textContent = hours.toLocaleString("pt-BR") + " horas registradas";
+byId("close-dialog")?.addEventListener("click", () => dialog?.close());
+dialog?.addEventListener("click", (event) => {
+  if (event.target === dialog) dialog.close();
+});
+dialog?.addEventListener("close", () => previousFocus?.focus?.());
+byId("dialog-link")?.addEventListener("click", () => dialog?.close());
 
-    card.append(art, tier, title, requirement);
-    rankGrid.append(card);
+const menu = document.querySelector(".menu-toggle");
+const nav = byId("main-nav");
+menu?.addEventListener("click", () => {
+  const open = menu.getAttribute("aria-expanded") !== "true";
+  menu.setAttribute("aria-expanded", String(open));
+  menu.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+  nav?.classList.toggle("open", open);
+});
+nav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
+  nav.classList.remove("open");
+  menu?.setAttribute("aria-expanded", "false");
+  menu?.setAttribute("aria-label", "Abrir menu");
+}));
+
+const slides = [
+  {
+    headline: ["Seu código merece", "reconhecimento."],
+    description: "Transforme suas horas de programação em uma jornada visual com estatísticas, emblemas e níveis próprios.",
+    action: "Conheça os ranks",
+    target: "#ranks",
+    image: "06-master.png"
+  },
+  {
+    headline: ["Seus dados contam", "uma história."],
+    description: "Linguagens, atividade e progresso registrados pelo WakaTime, com visual personalizado e sem pontuações inventadas.",
+    action: "Explorar os cards",
+    target: "#cards",
+    image: "03-artisan.png"
+  },
+  {
+    headline: ["Um perfil único.", "Do seu jeito."],
+    description: "Projeto aberto para aprender, experimentar, colaborar e construir uma identidade visual para desenvolvedores.",
+    action: "Ver o guia",
+    target: "#guia",
+    image: "07-legend.png"
+  },
+];
+let slideIndex = 0;
+
+function selectSlide(index) {
+  slideIndex = (index + slides.length) % slides.length;
+  const slide = slides[slideIndex];
+  const title = byId("hero-title");
+  title.replaceChildren(
+    document.createTextNode(slide.headline[0]),
+    document.createElement("br"),
+    Object.assign(document.createElement("span"), { textContent: slide.headline[1] })
+  );
+  byId("hero-description").textContent = slide.description;
+  const action = byId("hero-action");
+  action.href = slide.target;
+  action.replaceChildren(
+    document.createTextNode(slide.action + " "),
+    Object.assign(document.createElement("span"), { textContent: "↗" })
+  );
+  byId("hero-medal").src = assetPath(slide.image);
+  byId("hero-counter").textContent = String(slideIndex + 1).padStart(2, "0") + " / " + String(slides.length).padStart(2, "0");
+  document.querySelectorAll(".slide-dot").forEach((dot, idx) => {
+    dot.classList.toggle("selected", idx === slideIndex);
+    if (idx === slideIndex) dot.setAttribute("aria-current", "true");
+    else dot.removeAttribute("aria-current");
   });
 }
+byId("prev-slide")?.addEventListener("click", () => selectSlide(slideIndex - 1));
+byId("next-slide")?.addEventListener("click", () => selectSlide(slideIndex + 1));
+document.querySelectorAll(".slide-dot").forEach((dot) => {
+  dot.addEventListener("click", () => selectSlide(Number(dot.dataset.slide)));
+});
