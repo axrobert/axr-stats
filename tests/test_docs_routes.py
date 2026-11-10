@@ -51,6 +51,14 @@ def local_target(document, link):
         target = (document.parent / unquote(parsed.path)).resolve()
     else:
         target = document.resolve()
+    # Pages copies repository assets/ to the site root during deployment.
+    # Validate against the source assets for routes that reference that copy.
+    try:
+        relative = target.relative_to(SITE.resolve())
+        if relative.parts and relative.parts[0] == "assets":
+            target = ROOT / relative
+    except ValueError:
+        pass
     if target.is_dir():
         target = target / "index.html"
     return target
