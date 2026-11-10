@@ -22,11 +22,14 @@
   <img src="assets/previews/lifetime.svg" width="100%" alt="Demo: Lifetime stats and custom rank" />
   <img src="assets/previews/languages.svg" width="100%" alt="Demo: Programming languages" />
   <img src="assets/previews/ranking.svg" width="49%" alt="Demo: WakaTime public ranking" />
-  <img src="assets/previews/emblem.svg" width="26%" alt="Demo: rank emblem" />
+  <img src="assets/badges/03-artisan.png" width="26%" alt="Demo: rank emblem" />
   <img src="assets/previews/heatmap.svg" width="100%" alt="Demo: 30-day activity heatmap" />
 </div>
 
 <sub>Previews use **fictional demonstration data** and are **not** stats from a real WakaTime account.</sub>
+
+
+**Rank artwork:** Seven original AI-generated illustration crops are included as transparent PNGs under `assets/badges/*.png`. The previous SVG rank shapes remain available as experimental vector alternatives. The PNGs were extracted from a generated concept composition; they are the first raster art iteration, not hand-painted exports.
 
 ## Features
 
@@ -38,12 +41,12 @@
 | Heatmap | 30 days of activity | WakaTime |
 | Emblem | Custom shield, level and stars | AXR Stats |
 
-- **Seven original layered rank sigils** with distinct metallic finishes, faceted gems and tier silhouettes.
+- **Seven image-generated PNG rank medals** with distinct metallic finishes, faceted gems and tier silhouettes.
 - All-time language stats via the official WakaTime `stats/all_time` endpoint; daily summaries remain 30 days.
 - Dedicated daily activity gauge with safe spacing.
 - An informational GitHub Pages website for ranks, guides and project roadmap.
 - Three included themes: `midnight`, `graphite`, `aurora`.
-- Python standard library only — no image hosting or `pip install` required.
+- Python SVG engine uses the standard library; the raster PNG composer installs Pillow and CairoSVG inside the Action.
 - Privacy-oriented: OAuth token goes only to the **official WakaTime API**.
 - XML validation before output; malformed stats do not replace previously committed cards.
 - Every custom score is clearly labeled as such; an unavailable official rank is never invented.
@@ -63,9 +66,10 @@ A static, responsive documentation website is included in [`site/`](site/). Once
 Example README embedding after workflow output is available:
 
 ```md
-![AXR Stats lifetime](assets/axr-stats/lifetime.svg)
+![AXR Stats lifetime](assets/axr-stats/lifetime.png)
 ![AXR Stats languages](assets/axr-stats/languages.svg)
 ![AXR Stats rank](assets/axr-stats/ranking.svg)
+![AXR Stats emblem](assets/axr-stats/emblem.png)
 ![AXR Stats activity](assets/axr-stats/heatmap.svg)
 ```
 
