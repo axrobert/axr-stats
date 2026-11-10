@@ -28,7 +28,8 @@ class SiteTest(unittest.TestCase):
         names=["01-novice","02-explorer","03-artisan","04-specialist",
                "05-veteran","06-master","07-legend"]
         for name in names:
-            svg=ROOT/"assets/badges"/(name+".svg")
+            svg=ROOT/"assets/badges/legacy"/(name+".svg")
             self.assertTrue(svg.exists(),name)
+            self.assertTrue((ROOT/"assets/badges"/(name+".png")).exists(),name)
             self.assertEqual(ET.parse(svg).getroot().tag,
                              "{http://www.w3.org/2000/svg}svg")

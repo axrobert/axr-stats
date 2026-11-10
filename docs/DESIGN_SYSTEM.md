@@ -1,27 +1,64 @@
 # AXR Stats — visual system
 
-## Identity
-Minimal, deliberate, precise: deep navy surfaces, thin bright accents, soft cyan/teal, seven original layered rank sigils with faceted gemstones, metallic gradients, varied wing/crest silhouettes and restrained highlights. Use one type hierarchy and generous card padding; never clutter a card to mimic a game loot screen.
+## Principles
 
-## Included themes
+- Consistent geometry and predictable spacing: no cramped labels or floating metrics.
+- One header baseline and one footer baseline for cards displayed together.
+- Quiet dark backgrounds, a single accent, and strong readable hierarchy.
+- Never manufacture official WakaTime ranks or historical totals.
+
+## Card layout tokens
+
+| Token | Standard |
+| --- | --- |
+| Paired card canvas | 350 × 300 pixels |
+| Header title baseline | 45 px |
+| Subtitle baseline | 70 px |
+| Content value baseline | 179 px |
+| Footer divider | y = 251 px |
+| Footer text baseline | 280 px |
+| Corner radius | 18 px |
+| Safe inset | 28 px |
+
+Charts use SVG so numeric values remain selectable and data-driven. The lifetime card may be composed into a PNG when it includes an illustrated badge. Two adjacent README cards must share **exact viewBox dimensions** and **equal width attributes**.
+
+## Rank artwork
+
+The seven PNG illustrations in [assets/badges](../assets/badges/) are **temporary visual assets** and can be replaced one by one. Use a transparent PNG with ample transparent padding, consistent silhouette scale and centered subject.
+
+- **Current illustrations**: 01-novice.png through 07-legend.png.
+- **Legacy experiments**: assets/badges/legacy/*.svg. These are archived examples, not the visual identity we are recommending.
+- **Renderer**: src/render_rank_png.py composes illustration with dynamic card data.
+- **Demo previews**: assets/previews/*.svg contain fictional numbers and must never be confused with statistics of a real user.
+
+The source still contains a procedural vector fallback for compatibility. Do not present that fallback as the finalized badge art.
+
+## Theme palette
+
 | Theme | Background | Accent | Highlight |
 | --- | --- | --- | --- |
-| Midnight | `#0c1220` | `#5caeff` | `#54d2a0` |
-| Graphite | `#111317` | `#c3a7ff` | `#58d7b0` |
-| Aurora | `#0a171b` | `#5de2c5` | `#c3ef8e` |
+| Midnight | #0c1220 | #5caeff | #54d2a0 |
+| Graphite | #111317 | #c3a7ff | #58d7b0 |
+| Aurora | #0a171b | #5de2c5 | #c3ef8e |
 
-## Tier system
-| Level | Hours to enter | Tier |
-| ---: | ---: | --- |
-| 1 | 0 | Novice |
-| 2 | 25 | Explorer |
-| 3 | 100 | Artisan |
-| 4 | 250 | Specialist |
-| 5 | 500 | Veteran |
-| 6 | 1000 | Master |
-| 7 | 2500 | Legend |
+## Tier thresholds
 
-Five small stars represent **progress within a tier**, not an official GitHub/WakaTime endorsement. Each tier has its own original SVG artwork in `assets/badges/`, from a simple bronze coin through a radiant winged crest. Rank artwork is embedded into generated profile cards from `src/rank_art.py` and contains no external image requests.
+| Tier | Rank | Hours |
+| ---: | --- | ---: |
+| 01 | Novice | 0 |
+| 02 | Explorer | 25 |
+| 03 | Artisan | 100 |
+| 04 | Specialist | 250 |
+| 05 | Veteran | 500 |
+| 06 | Master | 1,000 |
+| 07 | Legend | 2,500 |
 
-## File naming
-Static art lives in `assets/brand`, `assets/icons`, `assets/badges`; demonstration samples in `assets/previews`. Generated user-specific cards belong in the *consuming* repository under `assets/axr-stats` by default. Don't commit OAuth tokens or user-identifying telemetry into this central project.
+Star progress reflects a *custom tier calculation*, not an official GitHub/WakaTime endorsement. All artwork can be replaced without changing these rules.
+
+## Publishing checklist
+
+1. Run the Python unit tests and inspect the generated SVG XML.
+2. Ensure the README and website use the same current asset paths.
+3. Test 320px, 768px and wide desktop widths.
+4. Use neutral fictional sample data on public product previews.
+5. Keep OAuth secrets in the consuming repository; never insert them into URLs or static site JavaScript.

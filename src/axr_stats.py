@@ -134,32 +134,50 @@ def languages_card(stats,t,historical=False):
     if not items: body+=label(32,200,'No languages recorded in the available all-time data.',t,color='muted')
     return shell(700,480,'Languages','All-time coding languages · verified WakaTime records' if historical else 'Last 30 days · verified WakaTime records',body,t)
 
-def activity_card(today_seconds,avg_seconds,t):
-    # Inner text has a 42px safety margin from the arc and a separate footer.
-    frac=min(1,max(0,float(today_seconds or 0)/(8*3600)))
-    start=-math.pi
-    end=-math.pi+frac*math.pi
-    x,y=165+84*math.cos(end),206+84*math.sin(end)
-    arc=(f'<path d="M81 206 A84 84 0 0 1 249 206" fill="none" stroke="{t["outline"]}" stroke-width="12" stroke-linecap="round"/>')
-    if frac>0:
-        arc+=f'<path d="M81 206 A84 84 0 {1 if frac>.5 else 0} 1 {x:.2f} {y:.2f}" fill="none" stroke="{t["success"]}" stroke-width="12" stroke-linecap="round"/>'
-    body=arc+label(165,172,duration(today_seconds),t,24,700,anchor='middle')
-    body+=label(165,195,'Logged today',t,12,color='muted',anchor='middle')
-    body+=f'<path d="M28 238 H302" stroke="{t["outline"]}"/>'
-    body+=label(29,266,'Daily average (7 days)',t,11,color='muted')
-    body+=label(302,266,duration(avg_seconds),t,12,700,anchor='end')
-    return shell(330,293,'Activity','Today · visual 8h target',body,t)
+def activity_card(today_seconds, avg_seconds, t):
+    """Same canvas, header and footer geometry as the weekly ranking card."""
+    fraction = min(1.0, max(0.0, float(today_seconds or 0) / (8 * 3600)))
+    cx, cy, radius = 175, 218, 84
+    theta = math.pi * (1 - fraction)
+    x = cx + radius * math.cos(theta)
+    y = cy - radius * math.sin(theta)
+    body = (
+        f'<path d="M91 218 A84 84 0 0 1 259 218" fill="none" '
+        f'stroke="{t["outline"]}" stroke-width="12" stroke-linecap="round"/>'
+    )
+    if fraction > 0:
+        body += (
+            f'<path d="M91 218 A84 84 0 {1 if fraction > .5 else 0} 1 '
+            f'{x:.2f} {y:.2f}" fill="none" stroke="{t["success"]}" '
+            'stroke-width="12" stroke-linecap="round"/>'
+        )
+    body += label(cx, 179, duration(today_seconds), t, 26, 700, anchor='middle')
+    body += label(cx, 201, 'Logged today', t, 12, color='muted', anchor='middle')
+    body += f'<path d="M28 251 H322" stroke="{t["outline"]}"/>'
+    body += label(28, 280, 'Daily average (7 days)', t, 11, color='muted')
+    body += label(322, 280, duration(avg_seconds), t, 12, 700, anchor='end')
+    return shell(350, 300, 'Activity', 'Today · visual 8h target', body, t)
 
-def rank_card(week,leaders,t):
-    current=(leaders or {}).get('current_user') or {}
-    rank=current.get('rank')
-    valid=isinstance(rank,int) and not isinstance(rank,bool) and rank>0
-    body=label(30,118,'PUBLIC LEADERBOARD',t,11,700,color='muted')
-    body+=label(30,177,'#'+str(rank) if valid else '—',t,47,700,color='success' if valid else 'muted')
-    body+=label(30,200,'Official WakaTime position' if valid else 'Position not confirmed',t,13,color='muted')
-    body+=f'<path d="M30 218 H330" stroke="{t["outline"]}"/>'
-    body+=label(30,246,'Last 7 days',t,12,color='muted')+label(329,246,duration(week.get('total_seconds')),t,14,700,anchor='end')
-    return shell(360,270,'Weekly ranking','WakaTime public leaderboard',body,t)
+
+def rank_card(week, leaders, t):
+    """Public position only, sharing the Activity card's layout grid."""
+    current = (leaders or {}).get('current_user') or {}
+    rank = current.get('rank')
+    valid = isinstance(rank, int) and not isinstance(rank, bool) and rank > 0
+    body = label(28, 125, 'PUBLIC LEADERBOARD', t, 11, 700, color='muted')
+    body += label(
+        28, 179, '#'+str(rank) if valid else '—', t, 46, 700,
+        color='success' if valid else 'muted'
+    )
+    body += label(
+        28, 201, 'Official WakaTime position' if valid
+        else 'Position not confirmed', t, 12, color='muted'
+    )
+    body += f'<path d="M28 251 H322" stroke="{t["outline"]}"/>'
+    body += label(28, 280, 'Last 7 days', t, 11, color='muted')
+    body += label(322, 280, duration(week.get('total_seconds')), t, 12, 700, anchor='end')
+    return shell(350, 300, 'Weekly ranking', 'WakaTime public leaderboard', body, t)
+
 
 def heatmap_card(summaries,today,t):
     by_date={}

@@ -27,7 +27,6 @@ jobs:
         run: |
           mkdir -p _site/assets/badges _site/assets/previews
           cp -r site/. _site/
-          cp assets/badges/*.svg _site/assets/badges/
           cp assets/badges/*.png _site/assets/badges/
           cp assets/previews/*.svg _site/assets/previews/
           touch _site/.nojekyll
