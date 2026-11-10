@@ -46,7 +46,7 @@
 - Dedicated daily activity gauge with safe spacing.
 - An informational GitHub Pages website for ranks, guides and project roadmap.
 - Three included themes: `midnight`, `graphite`, `aurora`.
-- Python standard library only — no image hosting or `pip install` required.
+- Python SVG engine uses the standard library; the raster PNG composer installs Pillow and CairoSVG inside the Action.
 - Privacy-oriented: OAuth token goes only to the **official WakaTime API**.
 - XML validation before output; malformed stats do not replace previously committed cards.
 - Every custom score is clearly labeled as such; an unavailable official rank is never invented.
@@ -66,9 +66,10 @@ A static, responsive documentation website is included in [`site/`](site/). Once
 Example README embedding after workflow output is available:
 
 ```md
-![AXR Stats lifetime](assets/axr-stats/lifetime.svg)
+![AXR Stats lifetime](assets/axr-stats/lifetime.png)
 ![AXR Stats languages](assets/axr-stats/languages.svg)
 ![AXR Stats rank](assets/axr-stats/ranking.svg)
+![AXR Stats emblem](assets/axr-stats/emblem.png)
 ![AXR Stats activity](assets/axr-stats/heatmap.svg)
 ```
 
