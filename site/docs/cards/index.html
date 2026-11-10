@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR" data-base="../../">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f8faff"><meta name="description" content="AXR Stats — Entenda o período de cada gráfico, a origem de seus números e o que é oficial ou personalizado.">
+<title>Cards e métricas — AXR Stats Docs</title>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../docs.css">
+<script defer src="../docs.js"></script></head>
+<body class="docs-body">
+<a href="#main-content" class="skip">Ir para o conteúdo</a>
+<header class="site-header"><div class="wrap header-inner">
+<a class="brand" href="../../" aria-label="AXR Stats — homepage"><span class="brand-symbol" aria-hidden="true"><span></span></span><span>AXR<span class="brand-soft">STATS</span></span></a>
+<nav aria-label="Navegação do site" style="display:flex;align-items:center;gap:20px;font-size:12px;font-weight:750;color:#72809a"><a href="../../">Início</a><a href="../../docs/" aria-current="page">Documentação</a></nav>
+<a class="header-github" href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+</div></header>
+<div class="docs-layout">
+<button class="docs-mobile-nav" type="button" aria-expanded="false" aria-controls="docs-sidebar">Explorar documentação <span aria-hidden="true">☰</span></button>
+<aside class="docs-sidebar" id="docs-sidebar" aria-label="Capítulos da documentação">
+<div class="docs-searchbox"><label class="sr-only" for="docs-search">Pesquisar documentação</label><input type="search" id="docs-search" autocomplete="off" placeholder="Pesquisar páginas..." aria-controls="docs-results"><div class="docs-search-results" id="docs-results" aria-live="polite"></div></div>
+<section class="docs-sidebar-group"><h2>Introdução</h2><a href="../../docs/" >Visão geral</a><a href="../../docs/installation/" >Instalação</a></section><section class="docs-sidebar-group"><h2>Personalização</h2><a href="../../docs/configuration/" >Configuração</a><a href="../../docs/cards/" aria-current="page">Cards e métricas</a><a href="../../docs/ranks/" >Ranks e progressão</a></section><section class="docs-sidebar-group"><h2>Referência</h2><a href="../../docs/security/" >Segurança</a><a href="../../docs/faq/" >Perguntas frequentes</a></section><section class="docs-sidebar-group"><h2>Projeto</h2><a href="../../docs/roadmap/" >Roadmap</a></section>
+</aside>
+<main class="docs-main" id="main-content">
+<div class="docs-breadcrumb"><a href="../../">AXR Stats</a><span>›</span><a href="../../docs/">Docs</a><span>›</span><span>Cards e métricas</span></div>
+<p class="docs-kicker">FUNCIONALIDADES</p><h1>Cards e métricas</h1><p class="docs-lead">Entenda o período de cada gráfico, a origem de seus números e o que é oficial ou personalizado.</p>
+<article class="docs-content">
+<h2 id="catalogo">Catálogo de cards</h2>
+<table class="docs-table"><thead><tr><th>Card</th><th>Fonte</th><th>Período</th></tr></thead><tbody><tr><td>Tempo total</td><td>WakaTime all_time_since_today</td><td>Histórico da conta</td></tr><tr><td>Linguagens</td><td>WakaTime stats/all_time</td><td>Histórico por linguagem</td></tr><tr><td>Atividade</td><td>WakaTime summaries</td><td>Dia atual e média recente</td></tr><tr><td>Ranking semanal</td><td>WakaTime public leaders</td><td>Posição pública quando disponível</td></tr><tr><td>Heatmap</td><td>WakaTime summaries</td><td>Últimos 30 dias</td></tr><tr><td>Emblema</td><td>Cálculo AXR Stats</td><td>Horas históricas</td></tr></tbody></table>
+<h2 id="linguagens">Histórico de linguagens</h2>
+<p>As linguagens são classificadas a partir da estatística histórica autorizada pelo WakaTime. A soma das linguagens pode diferir do contador geral dependendo de categorias e processamento da API. Nenhum gráfico deve ser rotulado como “histórico” quando só foram consultados 30 dias.</p>
+<h2 id="ranking">Ranking oficial × rank personalizado</h2>
+<p>A posição no leaderboard do WakaTime só aparece quando o serviço fornece um número verificável. Já o rank do AXR Stats é uma progressão fictícia inspirada em conquistas, baseada nas horas históricas — <strong>não é uma classificação mundial</strong>.</p>
+<h2 id="demonstracao">Exemplos de cartões</h2>
+<p>As imagens abaixo representam <strong>dados fictícios</strong>, usados apenas para ilustrar os componentes.</p>
+<img src="../../assets/previews/languages.svg" alt="Dados fictícios de linguagens" style="width:100%;height:auto;display:block;max-width:700px">
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><img src="../../assets/previews/activity.svg" alt="Exemplo de atividade" style="width:min(100%,350px)"><img src="../../assets/previews/ranking.svg" alt="Exemplo de ranking" style="width:min(100%,350px)"></div>
+<h2 id="publicacao">Publicação</h2>
+<p>Todos os SVGs devem ser validados antes do commit. As imagens geradas são públicas no README. Caso um endpoint falhe, mantenha os gráficos anteriores e não publique cartões de erro.</p></article>
+<div class="docs-pagination">
+<a href="../../docs/configuration/"><small>← Página anterior</small><strong>Configuração</strong></a>
+<a href="../../docs/ranks/"><small>Próxima página →</small><strong>Ranks e progressão</strong></a>
+</div>
+<p class="docs-footer-note">AXR Stats é um projeto independente em desenvolvimento. <a href="https://github.com/axrobert/axr-stats/issues">Sugerir melhoria na documentação ↗</a></p>
+</main>
+<aside class="docs-toc" aria-label="Nesta página"><h2>Nesta página</h2><a href="#catalogo">Catálogo de cards</a><a href="#linguagens">Histórico de linguagens</a><a href="#ranking">Ranking oficial × rank personalizado</a><a href="#demonstracao">Exemplos de cartões</a><a href="#publicacao">Publicação</a></aside>
+</div>
+</body></html>

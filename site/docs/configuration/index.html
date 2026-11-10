@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR" data-base="../../">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f8faff"><meta name="description" content="AXR Stats — Altere tema, fuso horário e destino dos arquivos sem editar o núcleo do gerador.">
+<title>Configuração — AXR Stats Docs</title>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../docs.css">
+<script defer src="../docs.js"></script></head>
+<body class="docs-body">
+<a href="#main-content" class="skip">Ir para o conteúdo</a>
+<header class="site-header"><div class="wrap header-inner">
+<a class="brand" href="../../" aria-label="AXR Stats — homepage"><span class="brand-symbol" aria-hidden="true"><span></span></span><span>AXR<span class="brand-soft">STATS</span></span></a>
+<nav aria-label="Navegação do site" style="display:flex;align-items:center;gap:20px;font-size:12px;font-weight:750;color:#72809a"><a href="../../">Início</a><a href="../../docs/" aria-current="page">Documentação</a></nav>
+<a class="header-github" href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+</div></header>
+<div class="docs-layout">
+<button class="docs-mobile-nav" type="button" aria-expanded="false" aria-controls="docs-sidebar">Explorar documentação <span aria-hidden="true">☰</span></button>
+<aside class="docs-sidebar" id="docs-sidebar" aria-label="Capítulos da documentação">
+<div class="docs-searchbox"><label class="sr-only" for="docs-search">Pesquisar documentação</label><input type="search" id="docs-search" autocomplete="off" placeholder="Pesquisar páginas..." aria-controls="docs-results"><div class="docs-search-results" id="docs-results" aria-live="polite"></div></div>
+<section class="docs-sidebar-group"><h2>Introdução</h2><a href="../../docs/" >Visão geral</a><a href="../../docs/installation/" >Instalação</a></section><section class="docs-sidebar-group"><h2>Personalização</h2><a href="../../docs/configuration/" aria-current="page">Configuração</a><a href="../../docs/cards/" >Cards e métricas</a><a href="../../docs/ranks/" >Ranks e progressão</a></section><section class="docs-sidebar-group"><h2>Referência</h2><a href="../../docs/security/" >Segurança</a><a href="../../docs/faq/" >Perguntas frequentes</a></section><section class="docs-sidebar-group"><h2>Projeto</h2><a href="../../docs/roadmap/" >Roadmap</a></section>
+</aside>
+<main class="docs-main" id="main-content">
+<div class="docs-breadcrumb"><a href="../../">AXR Stats</a><span>›</span><a href="../../docs/">Docs</a><span>›</span><span>Configuração</span></div>
+<p class="docs-kicker">PERSONALIZAÇÃO</p><h1>Configuração</h1><p class="docs-lead">Altere tema, fuso horário e destino dos arquivos sem editar o núcleo do gerador.</p>
+<article class="docs-content">
+<h2 id="parametros">Parâmetros</h2>
+<table class="docs-table"><thead><tr><th>Parâmetro</th><th>Opções</th><th>Padrão</th></tr></thead><tbody><tr><td><code>--theme</code></td><td>midnight, graphite, aurora</td><td>midnight</td></tr><tr><td><code>--timezone</code></td><td>Nome IANA, como America/Maceio</td><td>UTC</td></tr><tr><td><code>--output</code></td><td>Pasta de saída</td><td>dist</td></tr></tbody></table>
+<h2 id="exemplo">Exemplo</h2>
+<div class="code-frame"><button type="button" class="copy-code" aria-label="Copiar bloco de código">Copiar</button><pre><code>python src/axr_stats.py --theme aurora --timezone America/Maceio --output dist</code></pre></div>
+<p>O código da Action expõe as entradas <code>theme</code>, <code>timezone</code> e <code>output</code>. Seus nomes devem corresponder aos da versão que você estiver utilizando.</p>
+<h2 id="temas">Temas disponíveis</h2>
+<p><strong>Midnight</strong> — fundo azul-escuro com ciano; <strong>Graphite</strong> — grafite neutro com lilás; <strong>Aurora</strong> — verde-azulado com tons suaves. Esses temas se aplicam aos gráficos. O site possui visual editorial claro próprio.</p>
+<h2 id="artes">Substituir um emblema</h2>
+<p>Os emblemas estão em <code>assets/badges/</code> com nomes por tier: <code>01-novice.png</code> até <code>07-legend.png</code>. Para inserir novos assets, use PNG transparente com margens equivalentes, dimensões padronizadas e o mesmo mapeamento por nível.</p>
+<aside class="docs-callout "><p><strong>Preparado para as novas artes.</strong> Os atuais PNGs são provisórios. A arquitetura não exige redesenhar os cards quando as novas medalhas forem substituídas.</p></aside>
+<h2 id="secrets">Credenciais</h2>
+<p>O token só deve ser fornecido via ambiente protegido do GitHub Actions. Nunca adicione autenticação ao JavaScript do GitHub Pages. <a href="../../docs/security/">Leia a política de segurança</a>.</p></article>
+<div class="docs-pagination">
+<a href="../../docs/installation/"><small>← Página anterior</small><strong>Instalação</strong></a>
+<a href="../../docs/cards/"><small>Próxima página →</small><strong>Cards e métricas</strong></a>
+</div>
+<p class="docs-footer-note">AXR Stats é um projeto independente em desenvolvimento. <a href="https://github.com/axrobert/axr-stats/issues">Sugerir melhoria na documentação ↗</a></p>
+</main>
+<aside class="docs-toc" aria-label="Nesta página"><h2>Nesta página</h2><a href="#parametros">Parâmetros</a><a href="#exemplo">Exemplo</a><a href="#temas">Temas disponíveis</a><a href="#artes">Substituir um emblema</a><a href="#secrets">Credenciais</a></aside>
+</div>
+</body></html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR" data-base="../">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f8faff"><meta name="description" content="AXR Stats — Tudo para configurar seus cards, compreender os dados e personalizar a evolução no GitHub — com controle sobre o que é publicado.">
+<title>Documentação — AXR Stats Docs</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="docs.css">
+<script defer src="docs.js"></script></head>
+<body class="docs-body">
+<a href="#main-content" class="skip">Ir para o conteúdo</a>
+<header class="site-header"><div class="wrap header-inner">
+<a class="brand" href="../" aria-label="AXR Stats — homepage"><span class="brand-symbol" aria-hidden="true"><span></span></span><span>AXR<span class="brand-soft">STATS</span></span></a>
+<nav aria-label="Navegação do site" style="display:flex;align-items:center;gap:20px;font-size:12px;font-weight:750;color:#72809a"><a href="../">Início</a><a href="../docs/" aria-current="page">Documentação</a></nav>
+<a class="header-github" href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+</div></header>
+<div class="docs-layout">
+<button class="docs-mobile-nav" type="button" aria-expanded="false" aria-controls="docs-sidebar">Explorar documentação <span aria-hidden="true">☰</span></button>
+<aside class="docs-sidebar" id="docs-sidebar" aria-label="Capítulos da documentação">
+<div class="docs-searchbox"><label class="sr-only" for="docs-search">Pesquisar documentação</label><input type="search" id="docs-search" autocomplete="off" placeholder="Pesquisar páginas..." aria-controls="docs-results"><div class="docs-search-results" id="docs-results" aria-live="polite"></div></div>
+<section class="docs-sidebar-group"><h2>Introdução</h2><a href="../docs/" aria-current="page">Visão geral</a><a href="../docs/installation/" >Instalação</a></section><section class="docs-sidebar-group"><h2>Personalização</h2><a href="../docs/configuration/" >Configuração</a><a href="../docs/cards/" >Cards e métricas</a><a href="../docs/ranks/" >Ranks e progressão</a></section><section class="docs-sidebar-group"><h2>Referência</h2><a href="../docs/security/" >Segurança</a><a href="../docs/faq/" >Perguntas frequentes</a></section><section class="docs-sidebar-group"><h2>Projeto</h2><a href="../docs/roadmap/" >Roadmap</a></section>
+</aside>
+<main class="docs-main" id="main-content">
+<div class="docs-breadcrumb"><a href="../">AXR Stats</a><span>›</span><a href="../docs/">Docs</a></div>
+<p class="docs-kicker">COMECE POR AQUI</p><h1>Documentação</h1><p class="docs-lead">Tudo para configurar seus cards, compreender os dados e personalizar a evolução no GitHub — com controle sobre o que é publicado.</p>
+<article class="docs-content">
+<aside class="docs-callout "><p><strong>Estado atual: prévia pública.</strong> Os cards já funcionam no perfil de referência, mas a Action reutilizável ainda não possui release estável. Não existe uma tag <code>v1</code> publicada.</p></aside>
+<h2 id="visao">O que é o AXR Stats?</h2>
+<p>Um gerador de cards que lê estatísticas autorizadas do <strong>WakaTime</strong> e exporta SVGs para o README do seu perfil GitHub. A evolução por rank é uma funcionalidade <strong>própria do AXR Stats</strong>, calculada com horas registradas.</p>
+<p>O WakaTime informa atividade real; o AXR Stats organiza os dados e os apresenta em cartões. Nenhum ranking oficial é inventado.</p>
+<div class="docs-tile-grid"><a class="docs-tile" href="../docs/installation/"><span class="docs-tile-symbol" aria-hidden="true">↗</span><strong>Instalação</strong><p>Prepare sua integração com OAuth e GitHub Actions.</p></a><a class="docs-tile" href="../docs/configuration/"><span class="docs-tile-symbol" aria-hidden="true">◈</span><strong>Configuração</strong><p>Escolha temas, fuso horário e saída dos cards.</p></a><a class="docs-tile" href="../docs/cards/"><span class="docs-tile-symbol" aria-hidden="true">▥</span><strong>Cards e métricas</strong><p>Entenda os períodos e o significado de cada número.</p></a><a class="docs-tile" href="../docs/ranks/"><span class="docs-tile-symbol" aria-hidden="true">✦</span><strong>Ranks</strong><p>Veja requisitos e as ilustrações personalizáveis.</p></a></div>
+<h2 id="fluxo">Como funciona</h2>
+<ol><li>Seu editor registra atividade no WakaTime.</li><li>O GitHub Actions executa o gerador com um token OAuth guardado em <em>Secrets</em>.</li><li>A API oficial fornece métricas conforme as permissões concedidas.</li><li>O gerador valida e escreve imagens no seu próprio repositório.</li><li>Seu README incorpora essas imagens por caminhos relativos.</li></ol>
+<h2 id="requisitos">Requisitos</h2>
+<table class="docs-table"><thead><tr><th>Item</th><th>Detalhes</th></tr></thead><tbody><tr><td>Conta</td><td>GitHub e WakaTime</td></tr><tr><td>Credencial</td><td>Token OAuth com acesso de leitura às estatísticas</td></tr><tr><td>Execução</td><td>Python 3.11+ para desenvolvimento local</td></tr><tr><td>Arte raster</td><td>Pillow e CairoSVG para compor os PNGs</td></tr></tbody></table>
+<h2 id="privacidade">Privacidade por padrão</h2>
+<p>Este site não pede login nem token. Os gráficos publicados no GitHub são públicos: você controla quais deles deseja exibir. Veja o <a href="../docs/security/">guia de segurança</a>.</p></article>
+<div class="docs-pagination">
+
+<a href="../docs/installation/"><small>Próxima página →</small><strong>Instalação</strong></a>
+</div>
+<p class="docs-footer-note">AXR Stats é um projeto independente em desenvolvimento. <a href="https://github.com/axrobert/axr-stats/issues">Sugerir melhoria na documentação ↗</a></p>
+</main>
+<aside class="docs-toc" aria-label="Nesta página"><h2>Nesta página</h2><a href="#visao">O que é o AXR Stats?</a><a href="#fluxo">Como funciona</a><a href="#requisitos">Requisitos</a><a href="#privacidade">Privacidade por padrão</a></aside>
+</div>
+</body></html>
