@@ -60,7 +60,6 @@ class TestAXRStats(unittest.TestCase):
             self.assertEqual(len(list(Path(tmp).glob('*.svg'))),6)
             self.assertIn('Artisan',(Path(tmp)/'lifetime.svg').read_text(encoding='utf-8'))
 
-if __name__=='__main__': unittest.main()
 
     def test_all_time_language_stats_are_not_30_day_stats(self):
         historical={'data':{'total_seconds':3600*121,'languages':[{'name':'Rust','total_seconds':3600*110}]}}
@@ -86,3 +85,5 @@ if __name__=='__main__': unittest.main()
         self.assertIn('Logged today',card)
         self.assertIn('M81 206',card)
         ET.fromstring(card)
+
+if __name__=='__main__': unittest.main()
