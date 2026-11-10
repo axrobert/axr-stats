@@ -45,7 +45,7 @@ class PagesRedesignTests(unittest.TestCase):
         for path in self.dom.images:
             self.assertTrue((ROOT / path if path.startswith("assets/") else SITE / path).exists(), path)
         images = re.findall(r'image:\s*"(0[1-7]-[a-z]+\.png)"', self.js)
-        self.assertEqual(len(images), 7)
+        self.assertEqual(len(set(images)), 7)
         for name in images: self.assertTrue((ROOT / "assets/badges" / name).exists(), name)
 
     def test_accessibility_and_interaction_wiring(self):
