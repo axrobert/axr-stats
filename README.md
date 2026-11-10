@@ -5,7 +5,7 @@
 
   **Developer activity, rendered with identity.**
 
-  Minimal, customizable SVG stats, original rank emblems, and a portable GitHub Action for developer profiles.
+  Minimal, customizable SVG stats, seven original rank sigils, and a portable GitHub Action for developer profiles.
 
   ![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white)
   ![GitHub Actions](https://img.shields.io/badge/GitHub-Actions-24292F?style=flat-square&logo=githubactions)
@@ -33,17 +33,24 @@
 | Cards | What they show | Source |
 | --- | --- | --- |
 | Lifetime | Total logged time, level and star progress | WakaTime + custom tier rules |
-| Languages | Last-30-day language breakdown | WakaTime |
+| Languages | All-time language breakdown | WakaTime |
 | Ranking | Verified public leaderboard position, if available | WakaTime |
 | Heatmap | 30 days of activity | WakaTime |
 | Emblem | Custom shield, level and stars | AXR Stats |
 
-- **Original** vector rank iconography and editable color themes.
+- **Seven original layered rank sigils** with distinct metallic finishes, faceted gems and tier silhouettes.
+- All-time language stats via the official WakaTime `stats/all_time` endpoint; daily summaries remain 30 days.
+- Dedicated daily activity gauge with safe spacing.
+- An informational GitHub Pages website for ranks, guides and project roadmap.
 - Three included themes: `midnight`, `graphite`, `aurora`.
 - Python standard library only — no image hosting or `pip install` required.
 - Privacy-oriented: OAuth token goes only to the **official WakaTime API**.
 - XML validation before output; malformed stats do not replace previously committed cards.
 - Every custom score is clearly labeled as such; an unavailable official rank is never invented.
+
+## Site & documentation
+
+A static, responsive documentation website is included in [`site/`](site/). Once GitHub Pages is enabled using **GitHub Actions** as the deployment source, the site can deploy automatically at [axrobert.github.io/axr-stats/](https://axrobert.github.io/axr-stats/). Until then, it is source code, not a confirmed live URL. The site contains only demonstration data; OAuth tokens must never be stored in web JavaScript.
 
 ## Quick start
 
@@ -97,6 +104,7 @@ axr-stats/
 - [x] Standalone starter scaffold
 - [x] Create the separate `axrobert/axr-stats` repository
 - [ ] Cross-platform visual QA, badge export variants and GitHub Action v1 tag
+- [x] Original seven-tier rank sigils, documentation website source and lifetime languages
 - [ ] Configuration schema, color picker and hosted preview editor
 - [ ] Optional GitHub metrics and extra integrations, with clear source labels
 
