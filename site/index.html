@@ -1,21 +1,190 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0a101b">
-<meta name="description" content="AXR Stats: cards de programação, emblemas originais e ranks por horas para GitHub">
-<title>AXR Stats — Desenvolvedores com identidade</title>
-<link rel="stylesheet" href="style.css"></head>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f8fd">
+  <meta name="description" content="AXR Stats — descubra seu rank, explore medalhas e personalize estatísticas de programação no GitHub.">
+  <meta property="og:title" content="AXR Stats — sua evolução em código">
+  <meta property="og:description" content="Estatísticas reais, ranks originais e emblemas para seu perfil GitHub.">
+  <meta property="og:type" content="website">
+  <title>AXR Stats — Seu código. Sua evolução.</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
 <body>
-<header class="nav shell"><a href="#inicio" class="wordmark"><span class="mark">✦</span> AXR<span>STATS</span></a><nav aria-label="Menu"><a href="#recursos">Recursos</a><a href="#ranks">Ranks</a><a href="#guia">Instalação</a><a href="#roadmap">Roadmap</a></nav><a class="navcta" href="https://github.com/axrobert/axr-stats">GitHub <span aria-hidden="true">↗</span></a></header>
-<main id="inicio">
-<section class="hero shell">
- <div class="eyebrow"><span class="dot"></span> PRÉVIA PÚBLICA EM DESENVOLVIMENTO</div>
- <div class="hero-layout"><div><h1>Seu código.<br><em>Sua identidade.</em></h1><p>Dados reais do WakaTime, estatísticas elegantes e um sistema original de conquistas. Seu perfil GitHub, elevado a outro nível.</p><div class="actions"><a class="primary" href="#guia">Começar agora <span aria-hidden="true">↗</span></a><a class="secondary" href="#ranks">Explorar os ranks</a></div><div class="trust">API oficial · OAuth protegido · SVGs gerados no seu repositório</div></div><div class="hero-card"><div class="card-upper"><span>AXR / PROGRESSION</span><span class="live"><span class="dot"></span> EXEMPLO</span></div><img src="assets/badges/03-artisan.png" alt="Emblema Artesão ilustrativo"><h2>ARTISAN <small>03 / 07</small></h2><p>150 horas registradas · dados fictícios</p><div class="progress"><span style="width:60%"></span></div><div class="stars" aria-label="Três de cinco estrelas ilustrativas">★ ★ ★ ☆ ☆</div></div></div>
-</section>
-<section class="features shell" id="recursos"><div class="section-heading"><span>01 / O PRODUTO</span><h2>Mais do que gráficos.</h2><p>Um kit para mostrar sua evolução sem abrir mão da privacidade.</p></div>
-<div class="feature-grid"><article><div class="feature-icon">⌘</div><h3>Tempo real registrado</h3><p>Distribuição de linguagens por todo o histórico, atividade diária e informações verificadas.</p></article><article><div class="feature-icon">✧</div><h3>Emblemas exclusivos</h3><p>Sete insígnias originais, com metais, gemas e formas que evoluem com seu tempo de código.</p></article><article><div class="feature-icon">◇</div><h3>Instalação simples</h3><p>Integração GitHub Actions: configure o OAuth no Secrets e gere seus SVGs na própria conta.</p></article></div>
-</section>
-<section class="rank-section" id="ranks"><div class="shell"><div class="section-heading"><span>02 / SISTEMA DE RANKS</span><h2>A evolução tem forma.</h2><p>Níveis personalizados por horas de programação. Não representam uma classificação oficial do WakaTime.</p></div><div class="rank-grid" id="rank-grid"></div><p class="hint">Emblemas provisórios em PNG, substituíveis sem alterar a lógica de progressão.</p></div></section>
-<section class="preview-section shell"><div class="section-heading"><span>03 / CARDS</span><h2>Visual profissional.</h2><p>Cards alinhados e renderizados a partir de dados. As imagens abaixo utilizam valores fictícios.</p></div><div class="preview-grid"><figure class="preview-wide"><img loading="lazy" src="assets/previews/languages.svg" alt="Prévia fictícia do histórico de linguagens"><figcaption>Distribuição histórica de linguagens · dados fictícios</figcaption></figure><figure><img loading="lazy" src="assets/previews/activity.svg" alt="Prévia fictícia da atividade diária"><figcaption>Atividade diária · dados fictícios</figcaption></figure><figure><img loading="lazy" src="assets/previews/ranking.svg" alt="Prévia fictícia do ranking público"><figcaption>Ranking semanal · dados fictícios</figcaption></figure></div></section>
-<section class="install-section" id="guia"><div class="shell"><div class="section-heading"><span>04 / PRIMEIROS PASSOS</span><h2>Seu perfil, suas regras.</h2><p>O token OAuth nunca precisa ser compartilhado publicamente.</p></div><div class="steps"><div><b>01</b><h3>Conecte o WakaTime</h3><p>Crie um token OAuth pessoal com acesso às suas estatísticas.</p><a href="https://wakatime.com/oauth">WakaTime OAuth ↗</a></div><div><b>02</b><h3>Configure o Secret</h3><p>No repositório de perfil, adicione <code>WAKATIME_OAUTH_TOKEN</code> em GitHub Actions Secrets.</p></div><div><b>03</b><h3>Configure a Action</h3><p>Use o workflow de exemplo. Enquanto não houver tag estável, fixe um commit ou clone o código para testes.</p><a href="https://github.com/axrobert/axr-stats/blob/main/examples/consumer-workflow.yml">Workflow de exemplo ↗</a></div></div></div></section>
-<section id="roadmap" class="shell roadmap"><div class="section-heading"><span>05 / PRÓXIMOS PASSOS</span><h2>O que estamos construindo.</h2></div><div class="milestones"><span><b class="done">✓</b> Cards e dados verificados</span><span><b class="done">✓</b> Sistema de ranks original</span><span><b>03</b> Integração pública v1</span><span><b>04</b> Editor visual de temas</span><span><b>05</b> Novas conquistas e integrações</span></div></section>
-</main><footer><div class="shell foot"><strong>✦ AXR STATS</strong><span>Projeto independente feito com assistência de IA; licença ainda em definição.</span><a href="https://github.com/axrobert/axr-stats">Código e documentação ↗</a></div></footer>
-<script src="app.js" defer></script></body></html>
+  <a class="skip" href="#conteudo">Ir para o conteúdo</a>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#inicio" aria-label="AXR Stats — início">
+        <span class="brand-symbol" aria-hidden="true"><span></span></span>
+        <span>AXR<span class="brand-soft">STATS</span></span>
+        <span class="brand-version">BETA</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
+        <a href="#inicio" class="active">Início</a>
+        <a href="#explorar">Explorar</a>
+        <a href="#ranks">Ranks</a>
+        <a href="#cards">Cards</a>
+        <a href="#guia">Guia</a>
+      </nav>
+      <a class="header-github" href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .8a11.2 11.2 0 0 0-3.54 21.83c.56.1.76-.24.76-.54v-2.1c-3.1.67-3.76-1.32-3.76-1.32-.51-1.29-1.25-1.64-1.25-1.64-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.16 1.72 1.16 1.01 1.72 2.65 1.22 3.29.93.1-.73.39-1.23.71-1.52-2.48-.28-5.09-1.24-5.09-5.54 0-1.22.44-2.22 1.16-3.01-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15A10.7 10.7 0 0 1 12 6.4c.95 0 1.9.13 2.8.38 2.13-1.44 3.08-1.15 3.08-1.15.61 1.54.23 2.68.11 2.96.72.79 1.16 1.79 1.16 3.01 0 4.31-2.61 5.25-5.1 5.53.4.35.76 1.02.76 2.06v2.8c0 .3.2.65.77.54A11.2 11.2 0 0 0 12 .8Z"/></svg>
+        GitHub <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero wrap" id="inicio" aria-labelledby="hero-title">
+      <div class="hero-stage" aria-roledescription="carrossel" aria-label="Destaques do AXR Stats">
+        <div class="hero-speckles" aria-hidden="true"></div>
+        <div class="hero-orb orb-a" aria-hidden="true"></div>
+        <div class="hero-orb orb-b" aria-hidden="true"></div>
+        <div class="hero-copy" aria-live="polite" aria-atomic="true">
+          <div class="hero-label"><span class="label-flare" aria-hidden="true">✦</span> AXR STATS / EXPERIENCE</div>
+          <h1 id="hero-title">Seu código merece<br><span>reconhecimento.</span></h1>
+          <p id="hero-description">Transforme suas horas de programação em uma jornada visual com estatísticas, emblemas e níveis próprios.</p>
+          <a id="hero-action" class="hero-cta" href="#ranks">Conheça os ranks <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <span class="orbit orbit-outer"></span><span class="orbit orbit-inner"></span>
+          <span class="orbit-star star-one">✦</span><span class="orbit-star star-two">✧</span><span class="orbit-star star-three">✦</span>
+          <img id="hero-medal" class="hero-medal" src="assets/badges/06-master.png" alt="" width="260" height="270">
+          <div class="hero-mini mini-one"><img src="assets/badges/03-artisan.png" alt="" width="56" height="56"></div>
+          <div class="hero-mini mini-two"><img src="assets/badges/07-legend.png" alt="" width="56" height="56"></div>
+          <div class="hero-art-caption">LEVEL UP <span>✧</span></div>
+        </div>
+        <div class="hero-controls">
+          <span class="hero-counter" id="hero-counter">01 / 03</span>
+          <div class="slide-dots" role="group" aria-label="Selecionar destaque">
+            <button type="button" class="slide-dot selected" data-slide="0" aria-label="Destaque 1" aria-current="true"></button>
+            <button type="button" class="slide-dot" data-slide="1" aria-label="Destaque 2"></button>
+            <button type="button" class="slide-dot" data-slide="2" aria-label="Destaque 3"></button>
+          </div>
+          <div class="slide-arrows">
+            <button type="button" id="prev-slide" aria-label="Destaque anterior">←</button>
+            <button type="button" id="next-slide" aria-label="Próximo destaque">→</button>
+          </div>
+        </div>
+      </div>
+      <div class="hero-facts" aria-label="Características">
+        <span><span aria-hidden="true">◈</span> 7 ranks ilustrados</span>
+        <span><span aria-hidden="true">◷</span> Histórico de programação</span>
+        <span><span aria-hidden="true">◇</span> Privacidade por padrão</span>
+        <span class="hero-facts-tag">Projeto independente</span>
+      </div>
+    </section>
+
+    <section id="explorar" class="wrap discover" aria-labelledby="discover-title">
+      <div class="section-intro">
+        <div><p class="eyebrow">DESCUBRA O AXR STATS</p><h2 id="discover-title">Explore sua jornada<span class="accent-dot">.</span></h2></div>
+        <p>Conquistas e métricas em um só lugar. Sem inventar posições ou horas.</p>
+      </div>
+      <div class="discovery-grid">
+        <article class="discovery-column gallery-panel">
+          <div class="panel-heading"><h3>Em destaque <span aria-hidden="true">↗</span></h3><span class="panel-sub">Galeria de ranks</span></div>
+          <div class="featured-duo">
+            <a class="featured-art featured-indigo" href="#ranks" aria-label="Ver rank Especialista">
+              <span class="featured-index">TIER 04</span>
+              <img src="assets/badges/04-specialist.png" alt="Insígnia roxa do rank Especialista" loading="lazy" width="120" height="120">
+              <span class="featured-name">Especialista</span>
+            </a>
+            <a class="featured-art featured-gold" href="#ranks" aria-label="Ver rank Lenda">
+              <span class="featured-index">TIER 07</span>
+              <img src="assets/badges/07-legend.png" alt="Insígnia dourada e rosa do rank Lenda" loading="lazy" width="120" height="120">
+              <span class="featured-name">Lenda</span>
+            </a>
+          </div>
+          <a class="panel-action" href="#ranks">Ver todos os 7 ranks <span aria-hidden="true">↗</span></a>
+        </article>
+
+        <article class="discovery-column calculator-panel" aria-labelledby="calculator-title">
+          <div class="panel-heading"><h3 id="calculator-title">Seu próximo rank</h3><span class="panel-sub">Simulador interativo</span></div>
+          <label class="hours-label" for="hours-input">Quantas horas você tem registradas?</label>
+          <div class="hours-input-group"><input id="hours-input" type="number" min="0" max="100000" step="1" value="152" inputmode="numeric" aria-describedby="hours-help"><span>horas</span></div>
+          <p id="hours-help" class="quiet">Experimente um valor; os dados não são enviados a nenhum servidor.</p>
+          <div class="computed-rank" aria-live="polite" aria-atomic="true">
+            <img src="assets/badges/03-artisan.png" alt="" id="sim-rank-image" width="74" height="74">
+            <div><span class="computed-eyebrow">RANK SIMULADO</span><strong id="sim-rank-name">Artesão</strong><span id="sim-next">Próximo: Especialista · 250h</span></div>
+          </div>
+          <div class="meter-label"><span id="sim-progress-label">Progresso até o próximo rank</span><strong id="sim-percent">35%</strong></div>
+          <div class="meter" role="progressbar" id="sim-progress" aria-label="Progresso do rank" aria-valuemin="0" aria-valuemax="100" aria-valuenow="35"><span id="sim-bar" style="width:35%"></span></div>
+        </article>
+
+        <article class="discovery-column quick-panel">
+          <div class="panel-heading"><h3>Comece por aqui</h3><span class="panel-sub">Guias rápidos</span></div>
+          <a href="#guia" class="quick-link"><span class="quick-icon blue" aria-hidden="true">01</span><span><strong>Como instalar</strong><small>OAuth, segurança e workflow</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
+          <a href="#cards" class="quick-link"><span class="quick-icon lavender" aria-hidden="true">02</span><span><strong>Cards e estatísticas</strong><small>Prévia com dados fictícios</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
+          <a href="https://github.com/axrobert/axr-stats/blob/main/docs/ROADMAP.md" class="quick-link" target="_blank" rel="noopener noreferrer"><span class="quick-icon mint" aria-hidden="true">03</span><span><strong>Roadmap público</strong><small>O que estamos construindo</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="ranks-section" id="ranks" aria-labelledby="ranks-title">
+      <div class="wrap">
+        <div class="section-intro">
+          <div><p class="eyebrow">PROGRESSÃO / 07 TIERS</p><h2 id="ranks-title">Cada conquista tem sua forma<span class="accent-dot">.</span></h2></div>
+          <p>Sete níveis por horas acumuladas. Ilustrações provisórias, prontas para serem substituídas pelos emblemas definitivos.</p>
+        </div>
+        <div class="rank-toolbar">
+          <div class="rank-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.7"/><path d="m16 16 5 5"/></svg><label class="sr-only" for="rank-search">Pesquisar ranks</label><input id="rank-search" type="search" placeholder="Buscar por nome do rank…" autocomplete="off"></div>
+          <span class="rank-count" id="rank-count" aria-live="polite">7 ranks disponíveis</span>
+        </div>
+        <div class="rank-grid" id="rank-grid"></div>
+        <p class="rank-disclaimer">Ranks criados pelo AXR Stats. Não representam classificação oficial de GitHub ou WakaTime. Os PNGs são provisórios.</p>
+      </div>
+    </section>
+
+    <section class="wrap cards-section" id="cards" aria-labelledby="cards-title">
+      <div class="section-intro">
+        <div><p class="eyebrow">MÉTRICAS COM IDENTIDADE</p><h2 id="cards-title">Dados reais. Visual próprio<span class="accent-dot">.</span></h2></div>
+        <p>Os gráficos abaixo usam números de demonstração. Seus cards são gerados com as informações da sua conta conectada.</p>
+      </div>
+      <div class="stats-showcase">
+        <figure class="stats-large"><div class="stat-topline"><span>01 / HISTÓRICO</span><span class="demo-label">DADOS FICTÍCIOS</span></div><img src="assets/previews/languages.svg" alt="Gráfico demonstrativo de linguagens registradas" loading="lazy"><figcaption>Linguagens ao longo do histórico</figcaption></figure>
+        <figure><div class="stat-topline"><span>02 / ATIVIDADE</span><span class="demo-label">DEMO</span></div><img src="assets/previews/activity.svg" alt="Card demonstrativo de atividade diária" loading="lazy"><figcaption>Atividade registrada</figcaption></figure>
+        <figure><div class="stat-topline"><span>03 / RANKING</span><span class="demo-label">DEMO</span></div><img src="assets/previews/ranking.svg" alt="Card demonstrativo de ranking oficial, com posição fictícia" loading="lazy"><figcaption>Ranking público, quando disponível</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="guide-band" id="guia" aria-labelledby="guide-title">
+      <div class="wrap">
+        <div class="section-intro">
+          <div><p class="eyebrow">GUIA DE INSTALAÇÃO</p><h2 id="guide-title">Tudo começa com seu código<span class="accent-dot">.</span></h2></div>
+          <p>Sem autenticação no nosso site. Suas credenciais ficam nos secrets do seu próprio GitHub.</p>
+        </div>
+        <div class="steps-grid">
+          <article><span class="step-index">01 / CONECTAR</span><div class="step-symbol" aria-hidden="true">◇</div><h3>Autorize o WakaTime</h3><p>Obtenha um token OAuth pessoal com permissão para ler suas estatísticas.</p><a href="https://wakatime.com/oauth" target="_blank" rel="noopener noreferrer">Abrir WakaTime OAuth ↗</a></article>
+          <article><span class="step-index">02 / PROTEGER</span><div class="step-symbol" aria-hidden="true">✳</div><h3>Guarde o token</h3><p>Cadastre <code>WAKATIME_OAUTH_TOKEN</code> no GitHub Actions Secrets do seu repositório.</p><a href="https://github.com/axrobert/axr-stats/blob/main/docs/SECURITY.md" target="_blank" rel="noopener noreferrer">Ver guia de segurança ↗</a></article>
+          <article><span class="step-index">03 / GERAR</span><div class="step-symbol" aria-hidden="true">↗</div><h3>Configure os cards</h3><p>A integração reutilizável ainda é uma prévia: revise o workflow de exemplo e fixe uma versão de código testada.</p><a href="https://github.com/axrobert/axr-stats/blob/main/examples/consumer-workflow.yml" target="_blank" rel="noopener noreferrer">Ver workflow de exemplo ↗</a></article>
+        </div>
+        <div class="install-note"><span aria-hidden="true">ⓘ</span><p><strong>Prévia de desenvolvimento.</strong> Ainda não publicamos uma versão estável <code>v1</code>. Não use a referência <code>@v1</code> do exemplo sem uma release válida.</p></div>
+      </div>
+    </section>
+
+    <section class="wrap final-cta">
+      <div><span class="eyebrow">SEU PERFIL, SUA HISTÓRIA</span><h2>Pronto para exibir sua evolução?</h2><p>Explore o código, participe das melhorias e ajude a construir a próxima geração de perfis GitHub.</p></div>
+      <a href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer" class="dark-cta">Explorar no GitHub <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="wrap footer-inner"><div><strong><span aria-hidden="true">✦</span> AXR STATS</strong><p>Projeto independente construído com assistência de IA.</p></div><div class="footer-links"><a href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">Código</a><a href="https://github.com/axrobert/axr-stats/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contribuir</a><a href="https://github.com/axrobert/axr-stats/blob/main/docs/SECURITY.md" target="_blank" rel="noopener noreferrer">Privacidade</a></div></div></footer>
+
+  <dialog id="rank-dialog" class="rank-dialog" aria-labelledby="dialog-title">
+    <button type="button" class="dialog-close" id="close-dialog" aria-label="Fechar detalhes">×</button>
+    <span class="dialog-eyebrow" id="dialog-tier">TIER 01</span>
+    <img id="dialog-art" src="assets/badges/01-novice.png" alt="" width="190" height="190">
+    <h2 id="dialog-title">Novato</h2>
+    <p id="dialog-details">Disponível a partir de 0 horas acumuladas.</p>
+    <a href="#guia" id="dialog-link" class="dialog-cta">Como usar este sistema ↗</a>
+  </dialog>
+</body>
+</html>
