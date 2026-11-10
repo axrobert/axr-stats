@@ -22,6 +22,7 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from zoneinfo import ZoneInfo
+from rank_art import rank_svg
 
 BASE = 'https://api.wakatime.com/api/v1'
 THEMES = {
@@ -91,11 +92,8 @@ def star(cx,cy,outer=10,inner=4.5):
     return ' '.join(coords)
 
 def shield(t,level,x,y,scale=1):
-    return (f'<g transform="translate({x} {y}) scale({scale})">'
-            f'<path d="M60 5 L110 23 L107 90 Q93 120 60 136 Q27 120 13 90 L10 23 Z" fill="{t["surface"]}" stroke="{t["accent"]}" stroke-width="3"/>'
-            f'<path d="M60 20 L95 33 L94 84 Q84 105 60 119 Q36 105 26 84 L25 33 Z" fill="{t["background"]}" stroke="{t["outline"]}" stroke-width="1"/>'
-            f'<polygon points="{star(60,52,22,10)}" fill="{t["accent"]}"/>'
-            + label(60,100,str(level+1).zfill(2),t,19,700,anchor='middle')+'</g>')
+    # Embed an original, layered rank sigil instead of the generic numbered shield.
+    return rank_svg(level,x,y,float(scale)*0.72)
 
 def lifetime_card(lifetime,month,week,t):
     data=lifetime.get('data')
@@ -133,8 +131,24 @@ def languages_card(stats,t):
         body+=f'<rect x="220" y="{y-13}" width="280" height="15" rx="5" fill="{t["surface"]}"/>'
         body+=f'<rect x="220" y="{y-13}" width="{w:.2f}" height="15" rx="5" fill="{t["accent"]}"/>'
         body+=label(510,y,f'{percent:.1f}%',t,11,color='muted')+label(668,y,duration(secs),t,12,600,anchor='end')
-    if not items: body+=label(32,200,'No language activity in this period.',t,color='muted')
-    return shell(700,480,'Languages','Last 30 days · verified WakaTime records',body,t)
+    if not items: body+=label(32,200,'No languages recorded in the available all-time data.',t,color='muted')
+    return shell(700,480,'Languages','All-time coding languages · verified WakaTime records',body,t)
+
+def activity_card(today_seconds,avg_seconds,t):
+    # Inner text has a 42px safety margin from the arc and a separate footer.
+    frac=min(1,max(0,float(today_seconds or 0)/(8*3600)))
+    start=-math.pi
+    end=-math.pi+frac*math.pi
+    x,y=165+84*math.cos(end),206+84*math.sin(end)
+    arc=(f'<path d="M81 206 A84 84 0 0 1 249 206" fill="none" stroke="{t["outline"]}" stroke-width="12" stroke-linecap="round"/>')
+    if frac>0:
+        arc+=f'<path d="M81 206 A84 84 0 {1 if frac>.5 else 0} 1 {x:.2f} {y:.2f}" fill="none" stroke="{t["success"]}" stroke-width="12" stroke-linecap="round"/>'
+    body=arc+label(165,172,duration(today_seconds),t,24,700,anchor='middle')
+    body+=label(165,195,'Logged today',t,12,color='muted',anchor='middle')
+    body+=f'<path d="M28 238 H302" stroke="{t["outline"]}"/>'
+    body+=label(29,266,'Daily average (7 days)',t,11,color='muted')
+    body+=label(302,266,duration(avg_seconds),t,12,700,anchor='end')
+    return shell(330,293,'Activity','Today · visual 8h target',body,t)
 
 def rank_card(week,leaders,t):
     current=(leaders or {}).get('current_user') or {}
@@ -185,14 +199,15 @@ def badge_card(lifetime,t):
     body+=''.join(f'<polygon points="{star(53+i*22,244,7,3)}" fill="{t["accent"] if i<filled else t["outline"]}"/>' for i in range(5))
     return shell(192,269,'Emblem','Hours-based tier',body,t)
 
-def cards(lifetime,month,week,summaries,leaders,today,theme='midnight'):
+def cards(lifetime,month,week,summaries,leaders,today,theme='midnight',all_langs=None):
     if theme not in THEMES: raise RuntimeError('Unknown theme')
     t=THEMES[theme]
     a,b=month.get('data'),week.get('data')
     c=summaries.get('data')
     if not isinstance(a,dict) or not isinstance(b,dict) or not isinstance(c,list):
         raise RuntimeError('Invalid WakaTime stats data')
-    out={'lifetime.svg':lifetime_card(lifetime,a,b,t),'languages.svg':languages_card(a,t),
+    out={'lifetime.svg':lifetime_card(lifetime,a,b,t),'languages.svg':languages_card((all_langs or month).get('data') if all_langs else a,t),
+         'activity.svg':activity_card(0,b.get('daily_average',0),t),
          'ranking.svg':rank_card(b,leaders,t),'heatmap.svg':heatmap_card(c,today,t),
          'emblem.svg':badge_card(lifetime,t)}
     for name,svg in out.items():
@@ -226,11 +241,14 @@ def main(argv=None):
     today=dt.datetime.now(tz).date()
     lifetime=api('users/current/all_time_since_today',token)
     month=api('users/current/stats/last_30_days',token)
+    all_langs=api('users/current/stats/all_time',token)
     week=api('users/current/stats/last_7_days',token)
     summaries=api('users/current/summaries',token,{'start':(today-dt.timedelta(days=29)).isoformat(),'end':today.isoformat(),'timezone':opts.timezone})
     try: leaders=api('leaders',token)
     except RuntimeError: leaders={}
-    result=cards(lifetime,month,week,summaries,leaders,today,opts.theme)
+    result=cards(lifetime,month,week,summaries,leaders,today,opts.theme,all_langs)
+    daily={str((x.get('range') or {}).get('date')):float((x.get('grand_total') or {}).get('total_seconds') or 0) for x in summaries.get('data',[])}
+    result['activity.svg']=activity_card(daily.get(today.isoformat(),0),week.get('data',{}).get('daily_average',0),THEMES[opts.theme])
     write_cards(result,opts.output)
     print(f'AXR Stats: generated {len(result)} validated SVGs in {opts.output}')
 
