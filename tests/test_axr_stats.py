@@ -83,7 +83,7 @@ class TestAXRStats(unittest.TestCase):
     def test_activity_text_is_separated_from_gauge(self):
         card=axr.activity_card(3600,1800,axr.THEMES['midnight'])
         self.assertIn('Logged today',card)
-        self.assertIn('M81 206',card)
+        self.assertIn('M91 218',card)
         ET.fromstring(card)
 
 
@@ -107,5 +107,20 @@ class TestAXRStats(unittest.TestCase):
                 with Image.open(ROOT/'assets/badges'/(stem+'.png')) as image:
                     self.assertEqual(image.size,(192,192))
                     self.assertIn(image.mode,('P','RGBA'))
+
+
+    def test_paired_cards_have_same_anchors_and_dimensions(self):
+        example = axr.cards(self.lifetime, self.month, self.week,
+                            self.summaries, {'current_user': {'rank': 8937}},
+                            self.today)
+        for name in ('activity.svg', 'ranking.svg'):
+            content = example[name]
+            root = ET.fromstring(content)
+            self.assertEqual(root.get('viewBox'), '0 0 350 300')
+            self.assertEqual(root.get('width'), '350')
+            self.assertEqual(root.get('height'), '300')
+            self.assertIn('M28 251 H322', content)
+            self.assertIn('y="280"', content)
+        self.assertIn('#8937', example['ranking.svg'])
 
 if __name__=='__main__': unittest.main()
