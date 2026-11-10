@@ -1,7 +1,7 @@
 # AXR Stats — visual system
 
 ## Identity
-Minimal, deliberate, precise: deep navy surfaces, thin bright accents, soft cyan/teal, original seven-tier shield geometry and sparse stars. Use one type hierarchy and generous card padding; never clutter a card to mimic a game loot screen.
+Minimal, deliberate, precise: deep navy surfaces, thin bright accents, soft cyan/teal, seven original layered rank sigils with faceted gemstones, metallic gradients, varied wing/crest silhouettes and restrained highlights. Use one type hierarchy and generous card padding; never clutter a card to mimic a game loot screen.
 
 ## Included themes
 | Theme | Background | Accent | Highlight |
@@ -21,7 +21,7 @@ Minimal, deliberate, precise: deep navy surfaces, thin bright accents, soft cyan
 | 6 | 1000 | Master |
 | 7 | 2500 | Legend |
 
-Five small stars represent **progress within a tier**, not an official GitHub/WakaTime endorsement. The main emblem is an original vector shield: shield silhouette → inset outline → single star → level number.
+Five small stars represent **progress within a tier**, not an official GitHub/WakaTime endorsement. Each tier has its own original SVG artwork in `assets/badges/`, from a simple bronze coin through a radiant winged crest. Rank artwork is embedded into generated profile cards from `src/rank_art.py` and contains no external image requests.
 
 ## File naming
 Static art lives in `assets/brand`, `assets/icons`, `assets/badges`; demonstration samples in `assets/previews`. Generated user-specific cards belong in the *consuming* repository under `assets/axr-stats` by default. Don't commit OAuth tokens or user-identifying telemetry into this central project.
