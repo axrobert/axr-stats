@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-label="AXR Stats visual identity">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a1320"/><stop offset="1" stop-color="#102538"/></linearGradient><linearGradient id="c" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5caeff"/><stop offset="1" stop-color="#54d2a0"/></linearGradient></defs>
+<rect width="1200" height="320" rx="24" fill="url(#bg)"/>
+<path d="M0 270 C250 185 365 358 660 255 C887 174 991 225 1200 144" stroke="#254f65" stroke-width="2" fill="none" opacity=".6"/>
+<path d="M5 292 C310 180 380 338 660 283 C925 223 984 262 1200 184" stroke="#2b4e6a" stroke-width="1.4" fill="none" opacity=".6"/>
+<g transform="translate(96 86) scale(.95)"><path d="M70 0 L132 25 L126 108 Q112 147 70 165 Q28 147 14 108 L8 25Z" fill="#121f30" stroke="url(#c)" stroke-width="5"/><path d="M70 21 L113 39 L110 103 Q100 126 70 144 Q40 126 30 103 L27 39Z" fill="#0a1726" stroke="#315166" stroke-width="2"/><path d="M70 40 L79 60 L101 63 L85 79 L89 103 L70 91 L51 103 L55 79 L39 63 L61 60Z" fill="url(#c)"/></g>
+<text x="292" y="153" fill="#f0f8ff" font-family="Arial,sans-serif" font-size="70" font-weight="750" letter-spacing="3">AXR STATS</text>
+<rect x="298" y="176" width="66" height="5" rx="2.5" fill="#54d2a0"/>
+<text x="296" y="222" fill="#b4c7d8" font-family="Arial,sans-serif" font-size="25" letter-spacing=".6">Build your developer identity.</text>
+<text x="1048" y="287" fill="#6fa3bb" font-family="Arial,sans-serif" font-size="15" letter-spacing="2">EARLY PREVIEW</text>
+</svg>

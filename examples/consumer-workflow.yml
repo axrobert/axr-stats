@@ -1,0 +1,35 @@
+# Place this file at .github/workflows/axr-stats.yml in your profile repository.
+# The external `uses:` reference is not usable until the AXR Stats repo has been published.
+name: Update AXR Stats
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: axr-stats-update
+  cancel-in-progress: false
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: axrobert/axr-stats@v1  # TODO: publish repo and tag v1 (ideally pin SHA)
+        with:
+          wakatime-oauth-token: ${{ secrets.WAKATIME_OAUTH_TOKEN }}
+          theme: midnight
+          timezone: America/Maceio
+          output: assets/axr-stats
+      - name: Commit validated SVGs
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- assets/axr-stats/*.svg
+          git diff --cached --quiet && exit 0
+          git commit -m 'chore: refresh AXR Stats cards'
+          git push

@@ -1,0 +1,30 @@
+name: 'AXR Stats — custom profile cards'
+description: 'Generate original SVG cards and rank emblems using official WakaTime activity'
+author: 'AXR Stats contributors'
+inputs:
+  wakatime-oauth-token:
+    description: 'Personal WakaTime OAuth access token (stored as a GitHub Actions secret)'
+    required: true
+  theme:
+    description: 'Theme: midnight, graphite, aurora'
+    required: false
+    default: 'midnight'
+  timezone:
+    description: 'IANA timezone (for summaries and day boundaries)'
+    required: false
+    default: 'UTC'
+  output:
+    description: 'Destination folder in the consuming repository'
+    required: false
+    default: 'assets/axr-stats'
+runs:
+  using: composite
+  steps:
+    - name: Generate and validate SVGs
+      shell: bash
+      env:
+        WAKATIME_OAUTH_TOKEN: ${{ inputs.wakatime-oauth-token }}
+        AXR_THEME: ${{ inputs.theme }}
+        AXR_TIMEZONE: ${{ inputs.timezone }}
+        AXR_OUTPUT: ${{ inputs.output }}
+      run: python3 "${{ github.action_path }}/src/axr_stats.py" --output "$AXR_OUTPUT" --timezone "$AXR_TIMEZONE" --theme "$AXR_THEME"

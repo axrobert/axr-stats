@@ -1,0 +1,241 @@
+#!/usr/bin/env python3
+"""AXR Stats — portable GitHub README cards. Python standard library only.
+
+The action is client-side: OAuth tokens go only to the official WakaTime API.
+No real stats are generated in demo mode.
+"""
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import html
+import json
+import math
+import os
+from pathlib import Path
+import re
+import sys
+import tempfile
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+import xml.etree.ElementTree as ET
+from zoneinfo import ZoneInfo
+
+BASE = 'https://api.wakatime.com/api/v1'
+THEMES = {
+    'midnight': {'background':'#0c1220','surface':'#141e2c','outline':'#2b3a4f','text':'#edf3ff','muted':'#a7b6cc','accent':'#5caeff','success':'#54d2a0'},
+    'graphite': {'background':'#111317','surface':'#1b2027','outline':'#353d48','text':'#f1f5f9','muted':'#a3adb9','accent':'#c3a7ff','success':'#58d7b0'},
+    'aurora': {'background':'#0a171b','surface':'#10262b','outline':'#275056','text':'#eafffb','muted':'#a8cccb','accent':'#5de2c5','success':'#c3ef8e'},
+}
+LEVELS = [(0,'Novice'),(25,'Explorer'),(100,'Artisan'),(250,'Specialist'),(500,'Veteran'),(1000,'Master'),(2500,'Legend')]
+
+
+def api(path, token, params=None):
+    url = BASE + '/' + path + (('?' + urllib.parse.urlencode(params)) if params else '')
+    request = urllib.request.Request(url, headers={'Authorization':'Bearer '+token, 'Accept':'application/json', 'User-Agent':'AXR-Stats/0.1'})
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(request, timeout=25) as response:
+                data = json.load(response)
+                status = response.status
+        except urllib.error.HTTPError as exc:
+            raise RuntimeError(f'WakaTime returned HTTP {exc.code} for {path}') from None
+        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+            raise RuntimeError(f'WakaTime connectivity/JSON error for {path}: {type(exc).__name__}') from None
+        if isinstance(data, dict) and ('error' in data or 'errors' in data):
+            raise RuntimeError('WakaTime reported an API error for '+path)
+        if status == 202 or (isinstance(data.get('data'),dict) and data['data'].get('is_up_to_date') is False):
+            if attempt < 3:
+                time.sleep(4 * (attempt+1))
+                continue
+            raise RuntimeError('WakaTime stats are still processing for '+path)
+        if not isinstance(data,dict) or 'data' not in data:
+            raise RuntimeError('Invalid WakaTime response for '+path)
+        return data
+    raise RuntimeError('WakaTime unavailable')
+
+
+def esc(v): return html.escape(str(v), quote=True)
+def duration(seconds):
+    h, m = divmod(max(0,round(float(seconds or 0)/60)),60)
+    return f'{h:,}h {m:02d}m'
+
+def label(x,y,value,theme,size=14,weight=400,color='text',anchor=None):
+    a=f' text-anchor="{anchor}"' if anchor else ''
+    return f'<text x="{x}" y="{y}" font-family="Arial,sans-serif" font-size="{size}" font-weight="{weight}" fill="{theme[color]}"{a}>{esc(value)}</text>'
+
+def shell(w,h,title,subtitle,body,t):
+    svg = f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img" aria-label="{esc(title)}">'
+    svg += f'<rect x="1" y="1" width="{w-2}" height="{h-2}" rx="18" fill="{t["background"]}" stroke="{t["outline"]}" stroke-width="2"/>'
+    svg += f'<rect x="28" y="26" width="4" height="23" rx="2" fill="{t["accent"]}"/>'
+    svg += label(45,45,title,t,21,700) + label(28,70,subtitle,t,12,color='muted')
+    svg += body+'</svg>\n'
+    ET.fromstring(svg)
+    return svg
+
+def level_for(hours):
+    level=max(i for i,(minimum,_) in enumerate(LEVELS) if hours>=minimum)
+    current,name=LEVELS[level]
+    next_level=LEVELS[level+1][0] if level+1<len(LEVELS) else None
+    ratio=min(1,max(0,(hours-current)/(next_level-current))) if next_level else 1
+    return level,name,next_level,ratio
+
+def star(cx,cy,outer=10,inner=4.5):
+    coords=[]
+    for i in range(10):
+        angle=math.pi*(-0.5+i/5)
+        r=outer if i%2==0 else inner
+        coords.append(f'{cx+math.cos(angle)*r:.2f},{cy+math.sin(angle)*r:.2f}')
+    return ' '.join(coords)
+
+def shield(t,level,x,y,scale=1):
+    return (f'<g transform="translate({x} {y}) scale({scale})">'
+            f'<path d="M60 5 L110 23 L107 90 Q93 120 60 136 Q27 120 13 90 L10 23 Z" fill="{t["surface"]}" stroke="{t["accent"]}" stroke-width="3"/>'
+            f'<path d="M60 20 L95 33 L94 84 Q84 105 60 119 Q36 105 26 84 L25 33 Z" fill="{t["background"]}" stroke="{t["outline"]}" stroke-width="1"/>'
+            f'<polygon points="{star(60,52,22,10)}" fill="{t["accent"]}"/>'
+            + label(60,100,str(level+1).zfill(2),t,19,700,anchor='middle')+'</g>')
+
+def lifetime_card(lifetime,month,week,t):
+    data=lifetime.get('data')
+    if not isinstance(data,dict) or not isinstance(data.get('total_seconds'),(int,float)):
+        raise RuntimeError('WakaTime all-time stats are unavailable or invalid')
+    seconds=max(0,float(data['total_seconds']))
+    level,name,nxt,progress=level_for(seconds/3600)
+    filled=5 if nxt is None else min(5,int(progress*5))
+    marks=''.join(f'<polygon points="{star(210+i*27,184,10,4.5)}" fill="{t["accent"] if i<filled else t["outline"]}"/>' for i in range(5))
+    bar=f'<rect x="193" y="275" width="234" height="9" rx="4" fill="{t["outline"]}"/><rect x="193" y="275" width="{234*progress:.1f}" height="9" rx="4" fill="{t["success"]}"/>'
+    body=shield(t,level,29,97,1.04)+label(193,115,'CUSTOM LEVEL SYSTEM · HOURS',t,11,700,color='muted')
+    body+=label(193,155,name,t,30,700,color='accent')+marks
+    body+=label(193,227,'All-time coding activity',t,12,color='muted')+label(193,259,duration(seconds),t,31,700)+bar
+    body+=label(193,304,('Next tier: '+str(nxt)+'h') if nxt else 'Maximum tier',t,12,color='muted')
+    body+=f'<path d="M456 99 V309" stroke="{t["outline"]}"/>'
+    body+=label(480,127,'LAST 30 DAYS',t,11,700,color='muted')+label(480,166,duration(month.get('total_seconds')),t,23,700)
+    body+=label(480,225,'LAST 7 DAYS',t,11,700,color='muted')+label(480,263,duration(week.get('total_seconds')),t,23,700)
+    return shell(700,340,'Lifetime & progression','Original tiers; not the WakaTime leaderboard',body,t)
+
+def languages_card(stats,t):
+    items=sorted(stats.get('languages') or [],key=lambda x:float(x.get('total_seconds') or 0),reverse=True)[:10]
+    maximum=max([float(i.get('total_seconds') or 0) for i in items] or [0])
+    total=float(stats.get('total_seconds') or 0)
+    body=label(32,109,'LANGUAGE DISTRIBUTION',t,11,700,color='muted')
+    body+=label(669,109,duration(total),t,14,700,anchor='end')
+    body+=f'<path d="M30 125 H670" stroke="{t["outline"]}"/>'
+    for index,item in enumerate(items):
+        y=160+index*29
+        name=str(item.get('name') or 'Other')
+        if len(name)>20: name=name[:19]+'…'
+        secs=max(0,float(item.get('total_seconds') or 0))
+        w=280*secs/maximum if maximum else 0
+        percent=100*secs/total if total else 0
+        body+=label(32,y,name,t,13,600)
+        body+=f'<rect x="220" y="{y-13}" width="280" height="15" rx="5" fill="{t["surface"]}"/>'
+        body+=f'<rect x="220" y="{y-13}" width="{w:.2f}" height="15" rx="5" fill="{t["accent"]}"/>'
+        body+=label(510,y,f'{percent:.1f}%',t,11,color='muted')+label(668,y,duration(secs),t,12,600,anchor='end')
+    if not items: body+=label(32,200,'No language activity in this period.',t,color='muted')
+    return shell(700,480,'Languages','Last 30 days · verified WakaTime records',body,t)
+
+def rank_card(week,leaders,t):
+    current=(leaders or {}).get('current_user') or {}
+    rank=current.get('rank')
+    valid=isinstance(rank,int) and not isinstance(rank,bool) and rank>0
+    body=label(30,118,'PUBLIC LEADERBOARD',t,11,700,color='muted')
+    body+=label(30,177,'#'+str(rank) if valid else '—',t,47,700,color='success' if valid else 'muted')
+    body+=label(30,200,'Official WakaTime position' if valid else 'Position not confirmed',t,13,color='muted')
+    body+=f'<path d="M30 218 H330" stroke="{t["outline"]}"/>'
+    body+=label(30,246,'Last 7 days',t,12,color='muted')+label(329,246,duration(week.get('total_seconds')),t,14,700,anchor='end')
+    return shell(360,270,'Weekly ranking','WakaTime public leaderboard',body,t)
+
+def heatmap_card(summaries,today,t):
+    by_date={}
+    for row in summaries:
+        d=(row.get('range') or {}).get('date')
+        if d: by_date[d]=max(0,float((row.get('grand_total') or {}).get('total_seconds') or 0))
+    start=today-dt.timedelta(days=29)
+    start_mon=start-dt.timedelta(days=start.weekday())
+    total=active=0
+    palette=[t['surface'],'#125c59','#178481','#3dbba6',t['success']]
+    body=''
+    for n in range(30):
+        day=start+dt.timedelta(days=n)
+        seconds=by_date.get(day.isoformat(),0)
+        total+=seconds
+        active+=seconds>0
+        intensity=0 if seconds<=0 else min(4,max(1,math.ceil(seconds/7200)))
+        diff=(day-start_mon).days
+        x,y=62+(diff//7)*29,98+(diff%7)*25
+        body+=f'<rect x="{x}" y="{y}" width="20" height="20" rx="4" fill="{palette[intensity]}"><title>{day.isoformat()}: {esc(duration(seconds))}</title></rect>'
+    body+=label(300,139,duration(total),t,31,700)+label(300,163,'Last 30 days',t,13,color='muted')
+    body+=label(300,217,f'{active}/30',t,27,700,color='success')+label(300,240,'Active days',t,13,color='muted')
+    body+=f'<path d="M30 285 H670" stroke="{t["outline"]}"/>'
+    body+=label(48,314,'Less',t,11,color='muted')
+    body+=''.join(f'<rect x="{94+i*25}" y="301" width="18" height="18" rx="4" fill="{c}"/>' for i,c in enumerate(palette))
+    body+=label(230,314,'More',t,11,color='muted')
+    return shell(700,342,'Activity heatmap','Last 30 days · day boundaries in your timezone',body,t)
+
+def badge_card(lifetime,t):
+    data=lifetime.get('data')
+    if not isinstance(data,dict) or not isinstance(data.get('total_seconds'),(int,float)):
+        raise RuntimeError('Lifetime stats unavailable for badge')
+    level,name,nxt,progress=level_for(max(0,float(data['total_seconds']))/3600)
+    filled=5 if nxt is None else int(progress*5)
+    body=shield(t,level,38,82,.88)
+    body+=label(96,220,name,t,16,700,color='accent',anchor='middle')
+    body+=''.join(f'<polygon points="{star(53+i*22,244,7,3)}" fill="{t["accent"] if i<filled else t["outline"]}"/>' for i in range(5))
+    return shell(192,269,'Emblem','Hours-based tier',body,t)
+
+def cards(lifetime,month,week,summaries,leaders,today,theme='midnight'):
+    if theme not in THEMES: raise RuntimeError('Unknown theme')
+    t=THEMES[theme]
+    a,b=month.get('data'),week.get('data')
+    c=summaries.get('data')
+    if not isinstance(a,dict) or not isinstance(b,dict) or not isinstance(c,list):
+        raise RuntimeError('Invalid WakaTime stats data')
+    out={'lifetime.svg':lifetime_card(lifetime,a,b,t),'languages.svg':languages_card(a,t),
+         'ranking.svg':rank_card(b,leaders,t),'heatmap.svg':heatmap_card(c,today,t),
+         'emblem.svg':badge_card(lifetime,t)}
+    for name,svg in out.items():
+        ET.fromstring(svg)
+        if re.search(r'(Card Error|Heatmap Error|WakaTime API error)',svg):
+            raise RuntimeError('Unexpected error text in '+name)
+    return out
+
+def write_cards(rendered,target):
+    target=Path(target)
+    target.mkdir(parents=True,exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='.axr-',dir=str(target)) as tmp:
+        for filename,contents in rendered.items():
+            (Path(tmp)/filename).write_text(contents,encoding='utf-8')
+        for filename in rendered:
+            os.replace(Path(tmp)/filename,target/filename)
+
+def main(argv=None):
+    p=argparse.ArgumentParser(description='AXR Stats — WakaTime SVG cards for README.md')
+    p.add_argument('--output',default='dist')
+    p.add_argument('--theme',choices=THEMES,default='midnight')
+    p.add_argument('--timezone',default='UTC',help='IANA timezone, e.g. America/Maceio')
+    opts=p.parse_args(argv)
+    token=os.environ.get('WAKATIME_OAUTH_TOKEN','').strip()
+    if not token:
+        raise RuntimeError('Set WAKATIME_OAUTH_TOKEN in GitHub Actions secrets; do not use plugin API keys')
+    try:
+        tz=ZoneInfo(opts.timezone)
+    except Exception:
+        raise RuntimeError('Unknown IANA timezone') from None
+    today=dt.datetime.now(tz).date()
+    lifetime=api('users/current/all_time_since_today',token)
+    month=api('users/current/stats/last_30_days',token)
+    week=api('users/current/stats/last_7_days',token)
+    summaries=api('users/current/summaries',token,{'start':(today-dt.timedelta(days=29)).isoformat(),'end':today.isoformat(),'timezone':opts.timezone})
+    try: leaders=api('leaders',token)
+    except RuntimeError: leaders={}
+    result=cards(lifetime,month,week,summaries,leaders,today,opts.theme)
+    write_cards(result,opts.output)
+    print(f'AXR Stats: generated {len(result)} validated SVGs in {opts.output}')
+
+if __name__=='__main__':
+    try: main()
+    except RuntimeError as e:
+        print('AXR Stats error: '+str(e),file=sys.stderr)
+        sys.exit(1)
