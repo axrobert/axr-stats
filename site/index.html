@@ -33,7 +33,7 @@
         <a href="#explorar">Explorar</a>
         <a href="#ranks">Ranks</a>
         <a href="#cards">Cards</a>
-        <a href="#guia">Guia</a>
+        <a href="docs/">Documentação</a>
       </nav>
       <a class="header-github" href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .8a11.2 11.2 0 0 0-3.54 21.83c.56.1.76-.24.76-.54v-2.1c-3.1.67-3.76-1.32-3.76-1.32-.51-1.29-1.25-1.64-1.25-1.64-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.16 1.72 1.16 1.01 1.72 2.65 1.22 3.29.93.1-.73.39-1.23.71-1.52-2.48-.28-5.09-1.24-5.09-5.54 0-1.22.44-2.22 1.16-3.01-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15A10.7 10.7 0 0 1 12 6.4c.95 0 1.9.13 2.8.38 2.13-1.44 3.08-1.15 3.08-1.15.61 1.54.23 2.68.11 2.96.72.79 1.16 1.79 1.16 3.01 0 4.31-2.61 5.25-5.1 5.53.4.35.76 1.02.76 2.06v2.8c0 .3.2.65.77.54A11.2 11.2 0 0 0 12 .8Z"/></svg>
@@ -121,9 +121,9 @@
 
         <article class="discovery-column quick-panel">
           <div class="panel-heading"><h3>Comece por aqui</h3><span class="panel-sub">Guias rápidos</span></div>
-          <a href="#guia" class="quick-link"><span class="quick-icon blue" aria-hidden="true">01</span><span><strong>Como instalar</strong><small>OAuth, segurança e workflow</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
-          <a href="#cards" class="quick-link"><span class="quick-icon lavender" aria-hidden="true">02</span><span><strong>Cards e estatísticas</strong><small>Prévia com dados fictícios</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
-          <a href="https://github.com/axrobert/axr-stats/blob/main/docs/ROADMAP.md" class="quick-link" target="_blank" rel="noopener noreferrer"><span class="quick-icon mint" aria-hidden="true">03</span><span><strong>Roadmap público</strong><small>O que estamos construindo</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
+          <a href="docs/installation/" class="quick-link"><span class="quick-icon blue" aria-hidden="true">01</span><span><strong>Como instalar</strong><small>OAuth, segurança e workflow</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
+          <a href="docs/cards/" class="quick-link"><span class="quick-icon lavender" aria-hidden="true">02</span><span><strong>Cards e estatísticas</strong><small>Prévia com dados fictícios</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
+          <a href="docs/roadmap/" class="quick-link"><span class="quick-icon mint" aria-hidden="true">03</span><span><strong>Roadmap público</strong><small>O que estamos construindo</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
         </article>
       </div>
     </section>
@@ -163,8 +163,8 @@
         </div>
         <div class="steps-grid">
           <article><span class="step-index">01 / CONECTAR</span><div class="step-symbol" aria-hidden="true">◇</div><h3>Autorize o WakaTime</h3><p>Obtenha um token OAuth pessoal com permissão para ler suas estatísticas.</p><a href="https://wakatime.com/oauth" target="_blank" rel="noopener noreferrer">Abrir WakaTime OAuth ↗</a></article>
-          <article><span class="step-index">02 / PROTEGER</span><div class="step-symbol" aria-hidden="true">✳</div><h3>Guarde o token</h3><p>Cadastre <code>WAKATIME_OAUTH_TOKEN</code> no GitHub Actions Secrets do seu repositório.</p><a href="https://github.com/axrobert/axr-stats/blob/main/docs/SECURITY.md" target="_blank" rel="noopener noreferrer">Ver guia de segurança ↗</a></article>
-          <article><span class="step-index">03 / GERAR</span><div class="step-symbol" aria-hidden="true">↗</div><h3>Configure os cards</h3><p>A integração reutilizável ainda é uma prévia: revise o workflow de exemplo e fixe uma versão de código testada.</p><a href="https://github.com/axrobert/axr-stats/blob/main/examples/consumer-workflow.yml" target="_blank" rel="noopener noreferrer">Ver workflow de exemplo ↗</a></article>
+          <article><span class="step-index">02 / PROTEGER</span><div class="step-symbol" aria-hidden="true">✳</div><h3>Guarde o token</h3><p>Cadastre <code>WAKATIME_OAUTH_TOKEN</code> no GitHub Actions Secrets do seu repositório.</p><a href="docs/security/">Ver guia de segurança ↗</a></article>
+          <article><span class="step-index">03 / GERAR</span><div class="step-symbol" aria-hidden="true">↗</div><h3>Configure os cards</h3><p>A Action ainda está em prévia. Siga a documentação antes de instalar ou publicar os cards.</p><a href="docs/installation/">Ver guia completo ↗</a></article>
         </div>
         <div class="install-note"><span aria-hidden="true">ⓘ</span><p><strong>Prévia de desenvolvimento.</strong> Ainda não publicamos uma versão estável <code>v1</code>. Não use a referência <code>@v1</code> do exemplo sem uma release válida.</p></div>
       </div>
@@ -172,11 +172,11 @@
 
     <section class="wrap final-cta">
       <div><span class="eyebrow">SEU PERFIL, SUA HISTÓRIA</span><h2>Pronto para exibir sua evolução?</h2><p>Explore o código, participe das melhorias e ajude a construir a próxima geração de perfis GitHub.</p></div>
-      <a href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer" class="dark-cta">Explorar no GitHub <span aria-hidden="true">↗</span></a>
+      <a href="docs/" class="dark-cta">Explorar documentação <span aria-hidden="true">↗</span></a>
     </section>
   </main>
 
-  <footer class="footer"><div class="wrap footer-inner"><div><strong><span aria-hidden="true">✦</span> AXR STATS</strong><p>Projeto independente construído com assistência de IA.</p></div><div class="footer-links"><a href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">Código</a><a href="https://github.com/axrobert/axr-stats/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contribuir</a><a href="https://github.com/axrobert/axr-stats/blob/main/docs/SECURITY.md" target="_blank" rel="noopener noreferrer">Privacidade</a></div></div></footer>
+  <footer class="footer"><div class="wrap footer-inner"><div><strong><span aria-hidden="true">✦</span> AXR STATS</strong><p>Projeto independente construído com assistência de IA.</p></div><div class="footer-links"><a href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">Código</a><a href="docs/">Documentação</a><a href="https://github.com/axrobert/axr-stats/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contribuir</a><a href="docs/security/">Privacidade</a></div></div></footer>
 
   <dialog id="rank-dialog" class="rank-dialog" aria-labelledby="dialog-title">
     <button type="button" class="dialog-close" id="close-dialog" aria-label="Fechar detalhes">×</button>
@@ -184,7 +184,7 @@
     <img id="dialog-art" src="assets/badges/01-novice.png" alt="" width="190" height="190">
     <h2 id="dialog-title">Novato</h2>
     <p id="dialog-details">Disponível a partir de 0 horas acumuladas.</p>
-    <a href="#guia" id="dialog-link" class="dialog-cta">Como usar este sistema ↗</a>
+    <a href="docs/ranks/" id="dialog-link" class="dialog-cta">Entender os ranks ↗</a>
   </dialog>
 </body>
 </html>

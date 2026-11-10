@@ -12,7 +12,7 @@ Cards de programação, evolução por horas e medalhas personalizadas para perf
 ![GitHub Actions](https://img.shields.io/badge/GitHub-Actions-2088FF?style=flat-square&logo=githubactions)
 ![Preview](https://img.shields.io/badge/Status-Development%20Preview-F59E0B?style=flat-square)
 
-[**Website**](https://axrobert.github.io/axr-stats/) · [Installation](#quick-start) · [Ranks](#rank-progression) · [Roadmap](docs/ROADMAP.md) · [Português](docs/pt-BR.md)
+[**Website**](https://axrobert.github.io/axr-stats/) · [**Documentação**](https://axrobert.github.io/axr-stats/docs/) · [Instalação](https://axrobert.github.io/axr-stats/docs/installation/) · [Ranks](https://axrobert.github.io/axr-stats/docs/ranks/) · [Roadmap](https://axrobert.github.io/axr-stats/docs/roadmap/)
 
 </div>
 

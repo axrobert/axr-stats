@@ -152,7 +152,7 @@ const slides = [
     headline: ["Um perfil único.", "Do seu jeito."],
     description: "Projeto aberto para aprender, experimentar, colaborar e construir uma identidade visual para desenvolvedores.",
     action: "Ver o guia",
-    target: "#guia",
+    target: "docs/installation/",
     image: "07-legend.png"
   },
 ];

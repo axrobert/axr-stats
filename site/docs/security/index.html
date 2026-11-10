@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR" data-base="../../">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f8faff"><meta name="description" content="AXR Stats — O site de documentação não acessa sua conta, não lê seus arquivos privados e não recebe tokens. A automação roda no seu repositório.">
+<title>Segurança e privacidade — AXR Stats Docs</title>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../docs.css">
+<script defer src="../docs.js"></script></head>
+<body class="docs-body">
+<a href="#main-content" class="skip">Ir para o conteúdo</a>
+<header class="site-header"><div class="wrap header-inner">
+<a class="brand" href="../../" aria-label="AXR Stats — homepage"><span class="brand-symbol" aria-hidden="true"><span></span></span><span>AXR<span class="brand-soft">STATS</span></span></a>
+<nav aria-label="Navegação do site" style="display:flex;align-items:center;gap:20px;font-size:12px;font-weight:750;color:#72809a"><a href="../../">Início</a><a href="../../docs/" aria-current="page">Documentação</a></nav>
+<a class="header-github" href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+</div></header>
+<div class="docs-layout">
+<button class="docs-mobile-nav" type="button" aria-expanded="false" aria-controls="docs-sidebar">Explorar documentação <span aria-hidden="true">☰</span></button>
+<aside class="docs-sidebar" id="docs-sidebar" aria-label="Capítulos da documentação">
+<div class="docs-searchbox"><label class="sr-only" for="docs-search">Pesquisar documentação</label><input type="search" id="docs-search" autocomplete="off" placeholder="Pesquisar páginas..." aria-controls="docs-results"><div class="docs-search-results" id="docs-results" aria-live="polite"></div></div>
+<section class="docs-sidebar-group"><h2>Introdução</h2><a href="../../docs/" >Visão geral</a><a href="../../docs/installation/" >Instalação</a></section><section class="docs-sidebar-group"><h2>Personalização</h2><a href="../../docs/configuration/" >Configuração</a><a href="../../docs/cards/" >Cards e métricas</a><a href="../../docs/ranks/" >Ranks e progressão</a></section><section class="docs-sidebar-group"><h2>Referência</h2><a href="../../docs/security/" aria-current="page">Segurança</a><a href="../../docs/faq/" >Perguntas frequentes</a></section><section class="docs-sidebar-group"><h2>Projeto</h2><a href="../../docs/roadmap/" >Roadmap</a></section>
+</aside>
+<main class="docs-main" id="main-content">
+<div class="docs-breadcrumb"><a href="../../">AXR Stats</a><span>›</span><a href="../../docs/">Docs</a><span>›</span><span>Segurança e privacidade</span></div>
+<p class="docs-kicker">REFERÊNCIA</p><h1>Segurança e privacidade</h1><p class="docs-lead">O site de documentação não acessa sua conta, não lê seus arquivos privados e não recebe tokens. A automação roda no seu repositório.</p>
+<article class="docs-content">
+<h2 id="oauth">Autenticação OAuth</h2>
+<p>O acesso à API oficial do WakaTime ocorre com um token pessoal OAuth fornecido ao GitHub Actions por meio de Secrets. API Keys de plugins de editor são usadas para registrar eventos, não como alternativa para ler estes dados.</p>
+<aside class="docs-callout docs-warning"><p><strong>Nunca publique o token.</strong> Não copie credenciais para README, arquivos versionados, parâmetros de URL, snippets, imagens ou código client-side.</p></aside>
+<h2 id="dominio">Domínios e escopo</h2>
+<p>O gerador deve enviar o cabeçalho <code>Authorization: Bearer</code> apenas à API oficial do WakaTime. A documentação do GitHub Pages é estática e não contém infraestrutura de autenticação.</p>
+<h2 id="dados-publicos">Dados expostos nos cards</h2>
+<p>Quando você publica os cards em um README, as métricas escolhidas ficam visíveis a qualquer pessoa: tempo total, linguagens, dias de atividade e eventual posição oficial. Antes de ativar a publicação, decida o que deseja mostrar.</p>
+<h2 id="falhas">Comportamento em falhas</h2>
+<p>O workflow deve interromper a geração se a API retornar dados inválidos ou incompletos, preservando imagens previamente aprovadas. Não registre tokens em mensagens de erro.</p>
+<h2 id="rotacao">Revogação</h2>
+<p>Se suspeitar de vazamento, revogue e gere outro token OAuth no WakaTime e atualize o segredo no GitHub Actions. Confira também os logs e commits públicos.</p>
+<p>Mais detalhes técnicos no <a href="https://github.com/axrobert/axr-stats/blob/main/docs/SECURITY.md">arquivo de segurança do repositório</a>.</p></article>
+<div class="docs-pagination">
+<a href="../../docs/ranks/"><small>← Página anterior</small><strong>Ranks e progressão</strong></a>
+<a href="../../docs/faq/"><small>Próxima página →</small><strong>Perguntas frequentes</strong></a>
+</div>
+<p class="docs-footer-note">AXR Stats é um projeto independente em desenvolvimento. <a href="https://github.com/axrobert/axr-stats/issues">Sugerir melhoria na documentação ↗</a></p>
+</main>
+<aside class="docs-toc" aria-label="Nesta página"><h2>Nesta página</h2><a href="#oauth">Autenticação OAuth</a><a href="#dominio">Domínios e escopo</a><a href="#dados-publicos">Dados expostos nos cards</a><a href="#falhas">Comportamento em falhas</a><a href="#rotacao">Revogação</a></aside>
+</div>
+</body></html>
