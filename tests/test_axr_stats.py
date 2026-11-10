@@ -86,4 +86,26 @@ class TestAXRStats(unittest.TestCase):
         self.assertIn('M81 206',card)
         ET.fromstring(card)
 
+
+    def test_raster_badge_assets_and_composited_card(self):
+        from PIL import Image
+        from render_rank_png import render
+        result=axr.cards(self.lifetime,self.month,self.week,self.summaries,{},self.today)
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            svg=root/'lifetime.svg'
+            svg.write_text(result['lifetime.svg'],encoding='utf-8')
+            target=root/'lifetime.png'
+            emblem=root/'emblem.png'
+            render(svg,2,ROOT/'assets/badges',target,emblem)
+            with Image.open(target) as card:
+                self.assertEqual(card.size,(1400,680))
+            with Image.open(emblem) as badge:
+                self.assertEqual(badge.size,(320,320))
+            for stem in ('01-novice','02-explorer','03-artisan',
+                         '04-specialist','05-veteran','06-master','07-legend'):
+                with Image.open(ROOT/'assets/badges'/(stem+'.png')) as image:
+                    self.assertEqual(image.size,(192,192))
+                    self.assertIn(image.mode,('P','RGBA'))
+
 if __name__=='__main__': unittest.main()
