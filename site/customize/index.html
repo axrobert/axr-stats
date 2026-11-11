@@ -7,7 +7,7 @@
 <title>Personalizar temas — AXR Stats</title>
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../style.css">
-<script defer src="../ui.js"></script><script defer src="customize.js"></script>
+<script defer src="../ui.js"></script><script defer src="customize.js"></script><script defer src="preview.js"></script>
 </head>
 <body class="customize-page">
 <a class="skip" href="#conteudo">Ir para o conteúdo</a>
@@ -18,7 +18,7 @@
 <a class="header-github" href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
 </div></header>
 <main id="conteudo" class="wrap theme-main">
-<div class="theme-intro"><p class="eyebrow">PERSONALIZAÇÃO / FASE 2 · PRÉVIA</p><h1>Uma paleta. Seu estilo.</h1><p>Experimente as cores dos cards e exporte um <code>axr-stats.json</code> para usar com a Action. Esta ferramenta altera a aparência, não os dados nem os emblemas.</p></div>
+<div class="theme-intro"><p class="eyebrow">PERSONALIZAÇÃO / FASE 2 · PRÉVIA</p><h1>Uma paleta. Seu estilo.</h1><p>Experimente as cores nos seis cards gerados pelo AXR Stats e exporte um <code>axr-stats.json</code> para usar com a Action. As métricas exibidas são fictícias; os emblemas preservam suas artes.</p></div>
 <div class="theme-workbench">
 <section class="theme-editor" aria-labelledby="theme-editor-heading">
 <div class="theme-panel-heading"><span class="theme-index">01</span><div><h2 id="theme-editor-heading">Configurar cores</h2><p>Escolha um ponto de partida e ajuste os tokens.</p></div></div>
@@ -39,15 +39,23 @@
 <p class="theme-help">Somente cores <code>#RRGGBB</code>. Nenhuma informação é enviada a servidores.</p>
 </section>
 <section class="theme-preview-section" aria-labelledby="theme-preview-heading">
-<div class="theme-panel-heading"><span class="theme-index">02</span><div><h2 id="theme-preview-heading">Prévia de aparência</h2><p>Estrutura ilustrativa, sem estatísticas de conta.</p></div></div>
-<div class="theme-canvas" id="theme-canvas">
-<div class="theme-card" id="theme-card">
-<div class="theme-card-top"><span class="theme-card-accent"></span><span>AXR STATS / CARD</span><small>PRÉVIA</small></div>
-<div class="theme-card-main"><div class="theme-card-seal"><span>AXR</span></div><div><small>DESIGN DO CARD</small><strong>Seu tema</strong><span>Sem dados de programação</span></div></div>
-<div class="theme-card-bars" aria-hidden="true"><i></i><i></i><i></i></div>
-<div class="theme-card-bottom"><span>Prévia de cores</span><span>Sem conexão com WakaTime</span></div>
+<div class="theme-panel-heading"><span class="theme-index">02</span><div><h2 id="theme-preview-heading">Prévia dos cards</h2><p>Os seis SVGs do gerador Python, com dados fictícios.</p></div></div>
+<div class="theme-card-selector" role="group" aria-label="Selecionar card para prévia">
+<button type="button" data-preview-card="lifetime" class="is-selected" aria-pressed="true">Tempo total</button>
+<button type="button" data-preview-card="languages" aria-pressed="false">Linguagens</button>
+<button type="button" data-preview-card="activity" aria-pressed="false">Atividade</button>
+<button type="button" data-preview-card="ranking" aria-pressed="false">Ranking</button>
+<button type="button" data-preview-card="heatmap" aria-pressed="false">Calendário</button>
+<button type="button" data-preview-card="emblem" aria-pressed="false">Emblema</button>
 </div>
+<figure class="theme-real-preview">
+<div class="theme-canvas theme-real-canvas" id="theme-canvas">
+<img id="theme-preview-image" alt="Carregando prévia do card" width="700" height="340" aria-busy="true">
 </div>
+<figcaption><strong id="theme-preview-name">Tempo total e evolução</strong><span id="theme-preview-note">Horários e rank de demonstração, não dados de uma conta.</span></figcaption>
+</figure>
+<p class="theme-preview-status" id="theme-preview-message" role="status" aria-live="polite">Carregando prévias geradas pelo Python...</p>
+<button type="button" id="download-preview" class="theme-secondary" disabled>Baixar prévia SVG fictícia</button>
 <div class="theme-export">
 <div><h3>Exportar configuração</h3><p>Use o JSON abaixo no seu repositório. Não inclua secrets.</p></div>
 <pre><code id="theme-json" aria-label="Arquivo JSON da paleta">{"theme":"midnight"}</code></pre>

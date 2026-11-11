@@ -25,6 +25,7 @@
     }
     const cfg = { theme, colors: {...palette} };
     output.textContent = JSON.stringify(cfg, null, 2);
+    window.dispatchEvent(new CustomEvent("axr:theme-update", {detail:{theme, colors:{...palette}}}));
   }
 
   document.querySelectorAll("[data-theme]").forEach(button => button.addEventListener("click", () => {
