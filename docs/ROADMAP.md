@@ -21,10 +21,11 @@
 - Perform real visual QA on mobile and desktop before claiming complete.
 - Twelve illustrated ranks (corrected PNG/SVG supplied by maintainer, including `Elite_CORRIGIDO`) imported and linked to the site and generators.
 
-## Phase 2 — Personalization
+## Phase 2 — Personalization (started; preview)
 - User-defined color tokens, typography, layouts and size presets.
 - Additional rank styles and transparent standalone insignias.
-- Config file plus a fast preview CLI.
+- JSON configuration file for theme, timezone, output and validated hex color tokens (initial preview implemented).
+- Preset themes and CLI usage documented; visual editor, layout selection and live preview CLI remain planned.
 
 ## Phase 3 — Public product
 - Browser-based card builder with live preview.
