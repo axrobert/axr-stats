@@ -1263,3 +1263,25 @@ body{overflow-x:hidden}
   .rm-map--ready.rm-map--visible .rm-map-line { animation:none; }
   .rm-map-stage a:hover .rm-map-marker { transform:none; }
 }
+
+
+/* Compact navigation for intermediate tablet widths (including 768px).
+   The extra Roadmap link must not push GitHub CTA outside the viewport. */
+@media (min-width:761px) and (max-width:940px) {
+  body:not(.docs-body) .site-header .header-inner { height:72px; gap:14px; }
+  body:not(.docs-body) .site-header .main-nav {
+    display:none; position:absolute; top:72px; left:0; right:0;
+    height:auto; background:#fff; padding:13px 28px 21px;
+    box-shadow:0 15px 20px #25345c15;
+    flex-direction:column;align-items:stretch;gap:0;
+  }
+  body:not(.docs-body) .site-header .main-nav.open { display:flex; }
+  body:not(.docs-body) .site-header .main-nav a { padding:11px 0; }
+  body:not(.docs-body) .site-header .menu-toggle {
+    margin-left:auto;width:42px;height:42px;border:1px solid #dfe4ef;
+    border-radius:9px;background:#fff;display:grid;place-content:center;gap:5px;
+  }
+  body:not(.docs-body) .site-header .menu-toggle span {
+    display:block;width:19px;height:2px;background:#51617d;border-radius:5px;
+  }
+}
