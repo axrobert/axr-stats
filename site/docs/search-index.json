@@ -63,8 +63,13 @@
     {
       "title": "Configuração",
       "href": "docs/configuration/",
-      "description": "Configuração de cabeçalhos, tipografia, densidade, cores, emblemas e layouts do README.",
+      "description": "Importação segura de JSON, configuração básica e avançada, cores, caminhos e personalização de SVGs.",
       "sections": [
+        {
+          "id": "primeiros-passos",
+          "title": "Importar configuração e ajustes avançados",
+          "text": "Importar configuração e ajustes avançados Para começar, escolha o tema e os cards. Cores e opções técnicas ficam em painéis expansíveis, sem poluir a página. Se já tiver um axr-stats.json , importe-o localmente: o navegador valida os campos antes de atualizar os controles. O arquivo não é enviado à rede. Não inclua credenciais no JSON. Você também pode escolher a pasta de saída e o fuso horário antes de exportar."
+        },
         {
           "id": "parametros",
           "title": "Parâmetros",
