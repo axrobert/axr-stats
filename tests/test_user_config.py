@@ -75,6 +75,58 @@ class ConfigTests(unittest.TestCase):
                         config.read_config(path)
             self.assertEqual(config.read_config(self.config_path(folder,{})),{})
 
+    def test_selection_and_layout_schema(self):
+        with tempfile.TemporaryDirectory() as folder:
+            good = self.config_path(folder, {"cards":["languages","emblem"],"layout":"paired","size":"compact"})
+            self.assertEqual(config.read_config(good)["cards"],["languages","emblem"])
+            for invalid in (
+                {"cards":[]}, {"cards":"lifetime"}, {"cards":["lifetime","lifetime"]},
+                {"cards":["unknown"]}, {"cards":[3]}, {"layout":"grid"},
+                {"layout":12}, {"size":"enormous"}, {"size":None}
+            ):
+                with self.subTest(invalid=invalid):
+                    with self.assertRaises(RuntimeError):
+                        config.read_config(self.config_path(folder,invalid))
+
+    def test_selective_consumer_publication_and_readme(self):
+        with tempfile.TemporaryDirectory() as folder:
+            directory=Path(folder)
+            destination=directory/"consumer"
+            destination.mkdir()
+            (destination/"personal.txt").write_text("preserve user content")
+            config_file=self.config_path(folder,{"cards":["emblem","languages"],"layout":"paired","size":"compact"})
+            with mock.patch.object(axr_stats,"api",side_effect=fixture), mock.patch.dict(os.environ,{"WAKATIME_OAUTH_TOKEN":"test-token-only"}):
+                run_action.run(destination,"midnight","UTC",ROOT/"assets/badges/current",config=config_file)
+            self.assertEqual(set(x.name for x in destination.iterdir()),
+                {"personal.txt","languages.svg","emblem.svg","emblem.png","README-snippet.md"})
+            self.assertIn('<table>',(destination/"README-snippet.md").read_text())
+            self.assertIn('width="250"',(destination/"README-snippet.md").read_text())
+            self.assertNotIn('lifetime.svg',(destination/"README-snippet.md").read_text())
+            self.assertEqual((destination/"personal.txt").read_text(),"preserve user content")
+            for name in ("emblem.svg","languages.svg"):
+                import xml.etree.ElementTree as ET
+                ET.parse(destination/name)
+            full_config=self.config_path(folder,{"cards":["lifetime","activity"],"layout":"stacked","size":"large"})
+            with mock.patch.object(axr_stats,"api",side_effect=fixture),mock.patch.dict(os.environ,{"WAKATIME_OAUTH_TOKEN":"test-token-only"}):
+                run_action.run(destination,"midnight","UTC",ROOT/"assets/badges/current",config=full_config)
+            self.assertEqual(set(x.name for x in destination.iterdir()),
+                {"personal.txt","lifetime.svg","lifetime.png","activity.svg","README-snippet.md"})
+            self.assertIn('width="850"',(destination/"README-snippet.md").read_text())
+            self.assertIn("475h",(destination/"lifetime.svg").read_text())
+            self.assertEqual((destination/"personal.txt").read_text(),"preserve user content")
+
+    def test_selective_generation_error_keeps_published_files(self):
+        with tempfile.TemporaryDirectory() as folder:
+            directory=Path(folder)
+            destination=directory/"consumer"
+            destination.mkdir()
+            (destination/"emblem.svg").write_text("old valid")
+            path=self.config_path(folder,{"cards":["emblem"],"layout":"stacked","size":"compact"})
+            with mock.patch.object(axr_stats,"api",side_effect=RuntimeError("fixture failed")),mock.patch.dict(os.environ,{"WAKATIME_OAUTH_TOKEN":"test-token-only"}):
+                with self.assertRaises(RuntimeError):
+                    run_action.run(destination,"midnight","UTC",ROOT/"assets/badges/current",config=path)
+            self.assertEqual((destination/"emblem.svg").read_text(),"old valid")
+
     def test_cli_precedence_over_config(self):
         config_obj={"theme":"aurora","timezone":"America/Maceio","output":"badges/"}
         self.assertEqual(config.choose("midnight",config_obj,"theme","graphite"),"midnight")

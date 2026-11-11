@@ -24,7 +24,7 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from zoneinfo import ZoneInfo
-from config import read_config, choose
+from config import read_config, choose, CARD_IDS
 
 BASE = 'https://api.wakatime.com/api/v1'
 THEMES = {
@@ -306,7 +306,13 @@ def main(argv=None):
     result=cards(lifetime,month,week,summaries,leaders,today,opts.theme,all_langs)
     daily={str((x.get('range') or {}).get('date')):float((x.get('grand_total') or {}).get('total_seconds') or 0) for x in summaries.get('data',[])}
     result['activity.svg']=activity_card(daily.get(today.isoformat(),0),week.get('data',{}).get('daily_average',0),THEMES[opts.theme])
-    write_cards(result,opts.output)
+    selected = configuration.get('cards', CARD_IDS)
+    # Emblem PNG compositing needs lifetime.svg as an internal input.
+    internal = set(selected)
+    if 'emblem' in internal:
+        internal.add('lifetime')
+    write_cards({key: value for key, value in result.items()
+                 if key.removesuffix('.svg') in internal}, opts.output)
     lifetime_seconds=float(lifetime['data']['total_seconds'])
     tier_index=level_for(lifetime_seconds/3600)[0]
     (Path(opts.output)/'.rank-level').write_text(str(tier_index), encoding='ascii')

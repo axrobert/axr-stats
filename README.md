@@ -104,13 +104,15 @@ A página [Roadmap](https://axrobert.github.io/axr-stats/roadmap/) agora usa cin
 
 [**Experimentar os seis cards no site**](https://axrobert.github.io/axr-stats/customize/) · Visualização dos SVGs renderizados pelo mesmo Python usado na Action, com **dados fictícios**. O navegador modifica apenas tokens válidos de cor. Sem OAuth, telemetria ou chamadas à API do WakaTime.
 
-Você pode manter os temas padrão ou fornecer um arquivo [`axr-stats.json`](examples/axr-stats.json) para selecionar tema, fuso, diretório de saída e ajustar cores dos cards via tokens `#RRGGBB`, **sem editar o código**.
+Você pode manter os temas padrão ou fornecer um arquivo [`axr-stats.json`](examples/axr-stats.json) para selecionar tema, fuso, diretório de saída, cards publicados, organização do README, largura de exibição e ajustar cores dos cards via tokens `#RRGGBB`, **sem editar o código**.
 
 ```bash
 python src/run_action.py --config examples/axr-stats.json
 ```
 
-Veja os campos aceitos em [Configuração de temas](docs/THEME_CONFIG.md). O arquivo não deve conter tokens ou credenciais. A configuração por JSON e a prévia dos seis SVGs com exportação local estão disponíveis. Seleção de cards para geração, layouts customizados e edição de tipografia continuam planejados.
+Se o JSON contiver `layout` ou `size`, o gerador também publica um `README-snippet.md` com imagens relativas à pasta de saída. Copie esse trecho para seu perfil depois de executar a Action. Sem configuração, o comportamento antigo (seis SVGs e dois PNGs) é mantido.
+
+Veja os campos aceitos em [Configuração de temas](docs/THEME_CONFIG.md). O arquivo não deve conter tokens ou credenciais. A configuração por JSON e a prévia dos seis SVGs com exportação local estão disponíveis. Seleção de cards publicados, layouts de README vertical ou duas colunas, e largura compacta/padrão/ampla já estão disponíveis. Os SVGs preservam a geometria original; tipografia e layouts internos de cards continuam planejados.
 
 ## Quick start
 

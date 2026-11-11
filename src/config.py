@@ -10,7 +10,10 @@ import re
 
 THEME_NAMES = frozenset(("midnight", "graphite", "aurora"))
 COLOR_KEYS = frozenset(("background", "surface", "outline", "text", "muted", "accent", "success"))
-ROOT_KEYS = frozenset(("theme", "timezone", "output", "colors"))
+CARD_IDS = ("lifetime", "languages", "activity", "ranking", "heatmap", "emblem")
+LAYOUTS = frozenset(("stacked", "paired"))
+SIZES = frozenset(("compact", "standard", "large"))
+ROOT_KEYS = frozenset(("theme", "timezone", "output", "colors", "cards", "layout", "size"))
 HEX = re.compile(r"#[0-9a-fA-F]{6}\Z")
 
 
@@ -53,6 +56,17 @@ def read_config(path: Path | None) -> dict:
     for name, value in colors.items():
         if not isinstance(value, str) or not HEX.fullmatch(value):
             raise RuntimeError(f"AXR color '{name}' must use #RRGGBB")
+    selected = data.get("cards")
+    if selected is not None:
+        if (not isinstance(selected, list) or not selected or
+                len(selected) > len(CARD_IDS) or
+                any(not isinstance(item, str) or item not in CARD_IDS for item in selected) or
+                len(selected) != len(set(selected))):
+            raise RuntimeError("Cards must be a non-empty, unique list of supported card names")
+    if "layout" in data and (not isinstance(data["layout"], str) or data["layout"] not in LAYOUTS):
+        raise RuntimeError("Layout must be stacked or paired")
+    if "size" in data and (not isinstance(data["size"], str) or data["size"] not in SIZES):
+        raise RuntimeError("Size must be compact, standard or large")
     return data
 
 

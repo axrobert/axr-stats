@@ -36,6 +36,23 @@
 <div class="theme-field"><label for="token-accent">Destaque <code>accent</code></label><div><input id="token-accent" type="color" data-color="accent" value="#5caeff"><input type="text" data-hex="accent" value="#5CAEFF" maxlength="7" pattern="#[0-9a-fA-F]{6}" spellcheck="false" aria-label="Destaque hexadecimal"></div></div>
 <div class="theme-field"><label for="token-success">Progresso <code>success</code></label><div><input id="token-success" type="color" data-color="success" value="#54d2a0"><input type="text" data-hex="success" value="#54D2A0" maxlength="7" pattern="#[0-9a-fA-F]{6}" spellcheck="false" aria-label="Progresso hexadecimal"></div></div>
 </div>
+<section class="theme-output-controls" aria-labelledby="theme-output-title">
+<h3 id="theme-output-title">Seleção e apresentação</h3>
+<p>Selecione quais cards a Action publica e a disposição do snippet para o README. O desenho dos SVGs não é redimensionado internamente.</p>
+<fieldset class="theme-card-choices"><legend>Cards para publicar</legend>
+<label><input type="checkbox" data-include-card="lifetime" checked> Tempo total</label>
+<label><input type="checkbox" data-include-card="languages" checked> Linguagens</label>
+<label><input type="checkbox" data-include-card="activity" checked> Atividade</label>
+<label><input type="checkbox" data-include-card="ranking" checked> Ranking</label>
+<label><input type="checkbox" data-include-card="heatmap" checked> Calendário</label>
+<label><input type="checkbox" data-include-card="emblem" checked> Emblema</label>
+</fieldset>
+<div class="theme-layout-options">
+<label for="theme-layout">Organização do README<select id="theme-layout"><option value="stacked">Vertical</option><option value="paired">Duas colunas</option></select></label>
+<label for="theme-size">Largura de exibição<select id="theme-size"><option value="compact">Compacto</option><option value="standard" selected>Padrão</option><option value="large">Amplo</option></select></label>
+</div>
+<p class="theme-selection-feedback" id="theme-selection-feedback" role="status" aria-live="polite"></p>
+</section>
 <p class="theme-help">Somente cores <code>#RRGGBB</code>. Nenhuma informação é enviada a servidores.</p>
 </section>
 <section class="theme-preview-section" aria-labelledby="theme-preview-heading">
@@ -57,10 +74,14 @@
 <p class="theme-preview-status" id="theme-preview-message" role="status" aria-live="polite">Carregando prévias geradas pelo Python...</p>
 <button type="button" id="download-preview" class="theme-secondary" disabled>Baixar prévia SVG fictícia</button>
 <div class="theme-export">
-<div><h3>Exportar configuração</h3><p>Use o JSON abaixo no seu repositório. Não inclua secrets.</p></div>
+<div><h3>Exportar configuração</h3><p>Inclui cards selecionados, organização do README e tamanho. Nunca inclua secrets.</p></div>
 <pre><code id="theme-json" aria-label="Arquivo JSON da paleta">{"theme":"midnight"}</code></pre>
 <div class="theme-actions"><button type="button" id="copy-theme" class="theme-primary">Copiar JSON</button><button type="button" id="download-theme" class="theme-secondary">Baixar JSON</button></div>
 <p id="theme-feedback" role="status" aria-live="polite" class="theme-feedback"></p>
+<div class="theme-readme-output"><h3>Prévia do README</h3><p>Copie este trecho para o README do seu perfil após executar a Action. Caminhos relativos consideram <code>assets/axr-stats</code>.</p><div id="theme-readme-preview" class="theme-readme-preview" aria-label="Composição dos cards selecionados"></div>
+<pre><code id="theme-readme-code" aria-label="Snippet para README"></code></pre>
+<button id="copy-readme" class="theme-secondary" type="button">Copiar snippet</button>
+<p class="theme-help">A prévia usa dados fictícios. Os cards publicados pela Action usarão suas métricas verificadas.</p></div>
 </div>
 </section>
 </div>

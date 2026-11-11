@@ -99,6 +99,18 @@ async function exerciseRoute(context, route, width) {
     await page.waitForFunction(() => document.querySelector("#theme-preview-image")?.complete);
     const lifetimeSvg = await page.locator("#theme-preview-image").evaluate(async img => (await fetch(img.src)).text());
     if (!lifetimeSvg.includes("data:image/png;base64,")) errors.push("real rank art not embedded in preview");
+    if(await page.locator('[data-include-card]').count()!==6) errors.push("selection must have 6 cards");
+    await page.locator('[data-include-card="ranking"]').uncheck();
+    await page.locator('#theme-layout').selectOption('paired');
+    await page.locator('#theme-size').selectOption('compact');
+    const selectedJson=JSON.parse(await page.locator('#theme-json').textContent());
+    if(selectedJson.cards.includes('ranking') || selectedJson.layout!=='paired' || selectedJson.size!=='compact') errors.push("selected cards/layout/size not exported");
+    if(await page.locator('#theme-readme-preview figure').count()!==5) errors.push("readme preview does not match selected cards");
+    if(!(await page.locator("#theme-readme-code").textContent()).includes('width="250"')) errors.push("paired README snippet has incorrect width");
+    if((await page.locator("#theme-readme-code").textContent()).includes("ranking.svg")) errors.push("deselected ranking still in README");
+    await page.locator('[data-include-card="ranking"]').check();
+    await page.locator('#theme-layout').selectOption('stacked');
+    await page.locator('#theme-size').selectOption('standard');
     const initial = await page.locator("#theme-json").textContent();
     if (!initial.includes('"theme": "midnight"')) errors.push("customize initial preset wrong");
     await page.locator('[data-theme="aurora"]').click();

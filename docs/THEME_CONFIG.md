@@ -22,6 +22,9 @@ Arquivo de exemplo: [`examples/axr-stats.json`](../examples/axr-stats.json).
 - `theme`: `midnight`, `graphite` ou `aurora`.
 - `timezone`: fuso IANA (por exemplo, `America/Maceio`).
 - `output`: pasta relativa de saída.
+- `cards`: lista não vazia dos cards a publicar: `lifetime`, `languages`, `activity`, `ranking`, `heatmap` e `emblem`. Omitir publica todos. A seleção remove apenas saídas gerenciadas pela ferramenta que não foram selecionadas.
+- `layout`: `stacked` (vertical) ou `paired` (duas colunas). Afeta apenas o snippet do README, não as dimensões nativas do SVG.
+- `size`: `compact`, `standard`, `large`. Define as larguras HTML do snippet (não faz upscale da imagem).
 - `colors`: objeto opcional com os tokens `background`, `surface`, `outline`, `text`, `muted`, `accent` e `success`, sempre no formato `#RRGGBB`.
 
 Valores informados por CLI/`with` prevalecem sobre o JSON. Os demais vêm do JSON e, na ausência deste, dos padrões anteriores. A paleta customizada altera os cards SVG e, por consequência, o card rasterizado; **não recolore os 12 emblemas artísticos**.
@@ -38,4 +41,18 @@ Para gerar as prévias localmente:
 python scripts/generate_preview_cards.py --output site/customize/previews
 ```
 
-Esses SVGs são artefatos do build, não registros reais da conta. A imagem de rank embutida é mantida sem recoloração. Seleção individual de cards **para publicação**, escolhas de layout e editor completo ainda estão planejados; nenhuma release estável foi publicada.
+Esses SVGs são artefatos do build, não registros reais da conta. A imagem de rank embutida é mantida sem recoloração. A **seleção individual de cards para publicação** já está disponível, junto com layouts de README vertical/duas colunas e larguras compacta/padrão/ampla. O arquivo `README-snippet.md` é criado quando `layout` ou `size` está presente no JSON. O SVG mantém sua geometria e desenho originais. A opção `cards` pode ser usada isoladamente sem gerar snippet. Nenhuma release estável foi publicada.
+
+## Exemplo de publicação seletiva
+
+```json
+{
+  "theme": "midnight",
+  "output": "assets/axr-stats",
+  "cards": ["lifetime", "languages", "activity", "emblem"],
+  "layout": "paired",
+  "size": "standard"
+}
+```
+
+A Action gera somente os SVGs selecionados e os PNGs correspondentes quando aplicável. O snippet gerado contém apenas links relativos aos cards publicados. O layout é voltado para a apresentação no README do GitHub e não altera a renderização interna dos SVGs. Outros arquivos pessoais no diretório de destino são preservados.
