@@ -26,7 +26,7 @@ class TestAXRStats(unittest.TestCase):
             for name,svg in result.items():
                 self.assertEqual(ET.fromstring(svg).tag,'{http://www.w3.org/2000/svg}svg',name)
                 self.assertNotIn('Card Error',svg)
-            self.assertIn('Estudante',result['lifetime.svg'])
+            self.assertIn('Apprentice',result['lifetime.svg'])
             self.assertIn('Position not confirmed',result['ranking.svg'])
 
     def test_official_rank_only_when_numeric(self):
