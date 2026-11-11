@@ -63,7 +63,7 @@
     {
       "title": "Configuração",
       "href": "docs/configuration/",
-      "description": "Personalize cores, escolha cards e gere um snippet do README com layouts e tamanhos configuráveis.",
+      "description": "Personalize cores, escolha cards, densidade de linguagens e layouts de README com prévia correspondente.",
       "sections": [
         {
           "id": "parametros",
@@ -84,6 +84,11 @@
           "id": "selecionar-cards",
           "title": "Publicação e layout do README",
           "text": "Publicação e layout do README No personalizador , escolha os cards que deseja publicar. O JSON exportado inclui cards (lista de nomes), layout ( stacked ou paired ) e size ( compact , standard ou large ). Quando há layout ou tamanho, a Action gera README-snippet.md com caminhos relativos aos cards publicados. Os SVGs mantêm sua geometria original e as credenciais ficam exclusivamente no GitHub Actions Secret."
+        },
+        {
+          "id": "densidade-linguagens",
+          "title": "Densidade do card de Linguagens",
+          "text": "Densidade do card de Linguagens Na Fase 2.3.1, o campo language_rows controla quantas linguagens são exibidas: 5 , 8 ou 10 (padrão). Isso altera o número de linhas e a altura do SVG, mas não modifica horas nem ranking. Experimente no personalizador ."
         },
         {
           "id": "temas",

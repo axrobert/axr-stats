@@ -175,8 +175,11 @@ def lifetime_card(lifetime,month,week,t):
     body+=label(480,225,'LAST 7 DAYS',t,11,700,color='muted')+label(480,263,duration(week.get('total_seconds')),t,23,700)
     return shell(700,340,'Lifetime & progression','Original tiers; not the WakaTime leaderboard',body,t)
 
-def languages_card(stats,t,historical=False):
-    items=sorted(stats.get('languages') or [],key=lambda x:float(x.get('total_seconds') or 0),reverse=True)[:10]
+def languages_card(stats,t,historical=False,max_rows=10):
+    """Control language card information density; default keeps legacy size."""
+    if type(max_rows) is not int or max_rows not in (5, 8, 10):
+        raise RuntimeError("Language rows must be 5, 8 or 10")
+    items=sorted(stats.get('languages') or [],key=lambda x:float(x.get('total_seconds') or 0),reverse=True)[:max_rows]
     maximum=max([float(i.get('total_seconds') or 0) for i in items] or [0])
     total=float(stats.get('total_seconds') or 0)
     body=label(32,109,'LANGUAGE DISTRIBUTION',t,11,700,color='muted')
@@ -194,7 +197,7 @@ def languages_card(stats,t,historical=False):
         body+=f'<rect x="220" y="{y-13}" width="{w:.2f}" height="15" rx="5" fill="{t["accent"]}"/>'
         body+=label(510,y,f'{percent:.1f}%',t,11,color='muted')+label(668,y,duration(secs),t,12,600,anchor='end')
     if not items: body+=label(32,200,'No languages recorded in the available all-time data.',t,color='muted')
-    return shell(700,480,'Languages','All-time coding languages · verified WakaTime records' if historical else 'Last 30 days · verified WakaTime records',body,t)
+    return shell(700,190+max_rows*29,'Languages','All-time coding languages · verified WakaTime records' if historical else 'Last 30 days · verified WakaTime records',body,t)
 
 def activity_card(today_seconds, avg_seconds, t):
     """Same canvas, header and footer geometry as the weekly ranking card."""
@@ -282,14 +285,14 @@ def badge_card(lifetime,t):
     body+=''.join(f'<polygon points="{star(53+i*22,244,7,3)}" fill="{t["accent"] if i<filled else t["outline"]}"/>' for i in range(5))
     return shell(192,269,'Emblem','Hours-based tier',body,t)
 
-def cards(lifetime,month,week,summaries,leaders,today,theme='midnight',all_langs=None):
+def cards(lifetime,month,week,summaries,leaders,today,theme='midnight',all_langs=None,language_rows=10):
     if theme not in THEMES: raise RuntimeError('Unknown theme')
     t=THEMES[theme]
     a,b=month.get('data'),week.get('data')
     c=summaries.get('data')
     if not isinstance(a,dict) or not isinstance(b,dict) or not isinstance(c,list):
         raise RuntimeError('Invalid WakaTime stats data')
-    out={'lifetime.svg':lifetime_card(lifetime,a,b,t),'languages.svg':languages_card(all_langs['data'],t,True) if all_langs is not None else languages_card(a,t),
+    out={'lifetime.svg':lifetime_card(lifetime,a,b,t),'languages.svg':languages_card(all_langs['data'],t,True,language_rows) if all_langs is not None else languages_card(a,t,max_rows=language_rows),
          'activity.svg':activity_card(0,b.get('daily_average',0),t),
          'ranking.svg':rank_card(b,leaders,t),'heatmap.svg':heatmap_card(c,today,t),
          'emblem.svg':badge_card(lifetime,t)}
@@ -337,7 +340,7 @@ def main(argv=None):
     summaries=api('users/current/summaries',token,{'start':(today-dt.timedelta(days=29)).isoformat(),'end':today.isoformat(),'timezone':opts.timezone})
     try: leaders=api('leaders',token)
     except RuntimeError: leaders={}
-    result=cards(lifetime,month,week,summaries,leaders,today,opts.theme,all_langs)
+    result=cards(lifetime,month,week,summaries,leaders,today,opts.theme,all_langs,language_rows=configuration.get('language_rows',10))
     daily={str((x.get('range') or {}).get('date')):float((x.get('grand_total') or {}).get('total_seconds') or 0) for x in summaries.get('data',[])}
     result['activity.svg']=activity_card(daily.get(today.isoformat(),0),week.get('data',{}).get('daily_average',0),THEMES[opts.theme])
     selected = configuration.get('cards', CARD_IDS)

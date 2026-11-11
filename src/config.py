@@ -13,7 +13,7 @@ COLOR_KEYS = frozenset(("background", "surface", "outline", "text", "muted", "ac
 CARD_IDS = ("lifetime", "languages", "activity", "ranking", "heatmap", "emblem")
 LAYOUTS = frozenset(("stacked", "paired"))
 SIZES = frozenset(("compact", "standard", "large"))
-ROOT_KEYS = frozenset(("theme", "timezone", "output", "colors", "cards", "layout", "size"))
+ROOT_KEYS = frozenset(("theme", "timezone", "output", "colors", "cards", "layout", "size", "language_rows"))
 HEX = re.compile(r"#[0-9a-fA-F]{6}\Z")
 
 
@@ -70,6 +70,10 @@ def read_config(path: Path | None) -> dict:
         raise RuntimeError("Layout must be stacked or paired")
     if "size" in data and (not isinstance(data["size"], str) or data["size"] not in SIZES):
         raise RuntimeError("Size must be compact, standard or large")
+    if "language_rows" in data:
+        value = data["language_rows"]
+        if type(value) is not int or value not in (5, 8, 10):
+            raise RuntimeError("language_rows must be 5, 8 or 10")
     return data
 
 

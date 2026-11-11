@@ -111,6 +111,20 @@ async function exerciseRoute(context, route, width) {
     await page.locator('[data-include-card="ranking"]').check();
     await page.locator('#theme-layout').selectOption('stacked');
     await page.locator('#theme-size').selectOption('standard');
+    await page.locator('[data-preview-card="languages"]').click();
+    await page.locator("#theme-language-rows").selectOption("5");
+    await page.waitForFunction(async () => {
+      const img=document.querySelector("#theme-preview-image");
+      if (!img?.src.startsWith("blob:")) return false;
+      try {return (await (await fetch(img.src)).text()).includes('viewBox="0 0 700 335"');}
+      catch {return false;}
+    },null,{timeout:10000});
+    if(JSON.parse(await page.locator("#theme-json").textContent()).language_rows!==5)
+      errors.push("density selection was not exported");
+    if(!(await page.locator('#theme-readme-preview img[src$="languages-5.svg"]').count()))
+      errors.push("README preview did not use compact languages fixture");
+    await page.locator("#theme-language-rows").selectOption("10");
+    await page.locator('[data-preview-card="lifetime"]').click();
     const initial = await page.locator("#theme-json").textContent();
     if (!initial.includes('"theme": "midnight"')) errors.push("customize initial preset wrong");
     await page.locator('[data-theme="aurora"]').click();

@@ -19,6 +19,9 @@
   const pairWidths = {compact:250,standard:350,large:420};
   const checkbox = id => document.querySelector('[data-include-card="' + id + '"]');
   const currentCards = () => cardIds.filter(id => checkbox(id)?.checked);
+  const languageRows = () => Number($("#theme-language-rows").value);
+  const previewFile = card => card === "languages" && languageRows() !== 10
+    ? "languages-" + languageRows() + ".svg" : card + ".svg";
   const selectionFeedback = $("#theme-selection-feedback");
   const readmeCode = $("#theme-readme-code");
   const readmePreview = $("#theme-readme-preview");
@@ -52,7 +55,7 @@
     cards.forEach(card=>{
       const figure=document.createElement("figure");
       const picture=document.createElement("img");
-      picture.src="previews/"+card+".svg";
+      picture.src="previews/"+previewFile(card);
       picture.alt=cardNames[card]+" — demonstração fictícia";
       picture.loading="lazy";
       picture.style.maxWidth=(layout==="paired"?pairWidths[size]:widths[size])+"px";
@@ -85,10 +88,10 @@
     const selected = selectedState();
     const layout = $("#theme-layout").value;
     const size = $("#theme-size").value;
-    const cfg = { theme, colors: {...palette}, cards:selected, layout, size };
+    const cfg = { theme, colors: {...palette}, cards:selected, layout, size, language_rows:languageRows() };
     redrawReadme(selected,layout,size);
     output.textContent = JSON.stringify(cfg, null, 2);
-    window.dispatchEvent(new CustomEvent("axr:theme-update", {detail:{theme, colors:{...palette}}}));
+    window.dispatchEvent(new CustomEvent("axr:theme-update", {detail:{theme, colors:{...palette}, language_rows:languageRows()}}));
   }
 
   document.querySelectorAll("[data-theme]").forEach(button => button.addEventListener("click", () => {
@@ -120,6 +123,7 @@
   document.querySelectorAll("[data-include-card]").forEach(input => input.addEventListener("change", redraw));
   $("#theme-layout").addEventListener("change", redraw);
   $("#theme-size").addEventListener("change", redraw);
+  $("#theme-language-rows").addEventListener("change", redraw);
   $("#copy-readme").addEventListener("click", async () => {
     try { await navigator.clipboard.writeText(lastReadme); status.textContent="Snippet do README copiado."; }
     catch { status.textContent="Cópia indisponível. Selecione o snippet acima."; }

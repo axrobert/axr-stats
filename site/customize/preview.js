@@ -19,6 +19,7 @@
   const controls = [...document.querySelectorAll("[data-preview-card]")];
   if (!image || !controls.length) return;
   let selected = "lifetime";
+  let languageRows = 10;
   let currentUrl = null;
   let generated = null;
   let frame = 0;
@@ -75,8 +76,10 @@
   }
 
   function paint() {
-    if (!files.has(selected)) return;
-    const text = themeSvg(files.get(selected), palette);
+    const key = selected === "languages" && languageRows !== 10
+      ? "languages-" + languageRows : selected;
+    if (!files.has(key)) return;
+    const text = themeSvg(files.get(key), palette);
     generated = text;
     const url = URL.createObjectURL(new Blob([text], {type:"image/svg+xml"}));
     const old = currentUrl;
@@ -102,6 +105,9 @@
     const colors = event.detail?.colors;
     if (!colors || !tokens.every(key => isHex(colors[key]))) return;
     palette = {...colors};
+    if ([5,8,10].includes(event.detail?.language_rows)) {
+      languageRows = event.detail.language_rows;
+    }
     cancelAnimationFrame(frame);
     frame = requestAnimationFrame(paint);
   });
@@ -119,7 +125,8 @@
   });
 
   palette = currentPalette();
-  Promise.all(cardTypes.map(async name => {
+  const templates = [...cardTypes,"languages-5","languages-8"];
+  Promise.all(templates.map(async name => {
     const response = await fetch("previews/" + name + ".svg", {cache:"no-cache"});
     if (!response.ok) throw new Error(name + ": HTTP " + response.status);
     const svg = await response.text();
@@ -131,7 +138,7 @@
     }
     files.set(name, svg);
   })).then(() => {
-    message.textContent = "Seis SVGs carregados. Dados demonstrativos.";
+    message.textContent = "Seis cards e duas variações de densidade carregados. Dados demonstrativos.";
     activate(selected);
   }).catch(error => {
     // Don't expose raw error details in the UI; local dev without generated

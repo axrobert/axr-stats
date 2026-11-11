@@ -15,7 +15,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from axr_stats import THEMES, activity_card, cards
+from axr_stats import THEMES, activity_card, cards, languages_card
 
 FILES = ("lifetime.svg", "languages.svg", "activity.svg",
          "ranking.svg", "heatmap.svg", "emblem.svg")
@@ -61,6 +61,11 @@ def build(output: Path) -> list[Path]:
         path = output / filename
         path.write_text(svg, encoding="utf-8")
         result.append(path)
+    for rows in (5, 8):
+        path = output / f"languages-{rows}.svg"
+        svg = languages_card(all_langs["data"], THEMES["midnight"], historical=True, max_rows=rows)
+        ET.fromstring(svg)
+        path.write_text(svg, encoding="utf-8")
     return result
 
 def main():
