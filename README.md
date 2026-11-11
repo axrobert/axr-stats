@@ -12,7 +12,7 @@ Cards de programação, evolução por horas e medalhas personalizadas para perf
 ![GitHub Actions](https://img.shields.io/badge/GitHub-Actions-2088FF?style=flat-square&logo=githubactions)
 ![Preview](https://img.shields.io/badge/Status-Development%20Preview-F59E0B?style=flat-square)
 
-[**Website**](https://axrobert.github.io/axr-stats/) · [**Documentação**](https://axrobert.github.io/axr-stats/docs/) · [Instalação](https://axrobert.github.io/axr-stats/docs/installation/) · [Ranks](https://axrobert.github.io/axr-stats/docs/ranks/) · [Roadmap](https://axrobert.github.io/axr-stats/docs/roadmap/)
+[**Website**](https://axrobert.github.io/axr-stats/) · [**Documentação**](https://axrobert.github.io/axr-stats/docs/) · [Instalação](https://axrobert.github.io/axr-stats/docs/installation/) · [Ranks](https://axrobert.github.io/axr-stats/docs/ranks/) · [Roadmap](https://axrobert.github.io/axr-stats/roadmap/)
 
 </div>
 
@@ -23,7 +23,7 @@ Cards de programação, evolução por horas e medalhas personalizadas para perf
 <table>
 <tr>
 <td align="center" width="30%" valign="middle">
-  <img src="assets/badges/current/03-estudante.png" alt="Example Artisan rank artwork" width="180">
+  <img src="assets/badges/current/03-estudante.png" alt="Estudante rank artwork" width="180">
   <p><strong>ESTUDANTE · TIER 03</strong></p>
   <sub>150+ cumulative hours</sub>
 </td>
@@ -87,9 +87,14 @@ Three themes are available: **Midnight**, **Graphite**, and **Aurora**. The Acti
 | 11 | Lendário | 5,000 | 8,000 |
 | 12 | Soberano | 8,000 | ∞ |
 
-The **12-level system** is original to AXR Stats and uses tracked programming hours, not an official WakaTime or GitHub rank. All 12 images are the original supplied **512 × 512 transparent PNGs**. SVG wrappers with embedded raster pixels are available under [assets/badges/current/](assets/badges/current/); they are not editable vector paths.
+The **12-level system** is original to AXR Stats and uses tracked programming hours, not an official WakaTime or GitHub rank. The current 12 images come from the maintainer's **corrected November 2026 ZIP** (rank 07 uses `Elite_CORRIGIDO`). Web-ready PNGs are 384 × 384 pixels with transparency; originals are not silently overwritten outside the current asset directory. SVG wrappers with embedded raster pixels are available under [assets/badges/current/](assets/badges/current/); they are not editable vector paths.
 
 The rank catalog is maintained in [ranks.json](assets/badges/current/ranks.json). Earlier provisional graphics remain in the legacy directory for reference.
+
+
+### Arte atualizada — coleção de 12 ranks
+
+Todos os emblemas da coleção foram substituídos pelos arquivos corrigidos fornecidos pelo mantenedor. Os nomes e os limites de horas permanecem os mesmos. Os `*.svg` desta coleção contêm PNG incorporado (não são vetores editáveis). Confira os ícones na [galeria do site](https://axrobert.github.io/axr-stats/#ranks) e o [roadmap visual](https://axrobert.github.io/axr-stats/roadmap/).
 
 ## Quick start
 

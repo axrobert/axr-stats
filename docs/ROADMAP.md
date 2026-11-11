@@ -19,7 +19,7 @@
 - Clean up excessive borders, pill buttons and repeated rounded cards.
 - Refine homepage, Docs, rank gallery, responsiveness and keyboard states.
 - Perform real visual QA on mobile and desktop before claiming complete.
-- Twelve illustrated ranks (original PNG/SVG supplied by maintainer) imported and linked to the site and generators.
+- Twelve illustrated ranks (corrected PNG/SVG supplied by maintainer, including `Elite_CORRIGIDO`) imported and linked to the site and generators.
 
 ## Phase 2 — Personalization
 - User-defined color tokens, typography, layouts and size presets.
