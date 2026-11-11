@@ -29,7 +29,8 @@
 - Deterministic preview builder uses the Python renderer during Pages/Visual QA builds and never contacts external services.
 - Preset themes and CLI usage documented; preview layout matches production SVGs for all six types.
 - Pre-2.3 quality gate: OAuth redirect/response hardening, safer output paths, selected-file staging, offline security regressions, and beginner onboarding (in validation).
-- Phase 2.3 (next): internal card typography, data density and rendering options, with previews synchronized to the Python renderer.
+- Phase 2.3.1 (in validation): internal density for Languages SVG with `language_rows` presets (5/8/10), matched static previews and strict validation. Default 10 preserves previous behavior.
+- Phase 2.3 next: additional card typography, geometry and optional sections with Python/preview parity.
 - Phase 2.2: validated `cards` selection, README `layout` (`stacked` / `paired`), `size` (`compact` / `standard` / `large`), live composition preview, and generated README snippet. Internal SVG geometry and typography controls remain planned.
 
 ## Phase 3 — Public product

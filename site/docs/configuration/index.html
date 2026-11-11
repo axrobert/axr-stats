@@ -34,6 +34,8 @@
 <p>Abra o <a href="../../customize/">Theme Workbench</a> para visualizar os seis SVGs gerados pelo Python com números fictícios. Ele recolore os sete tokens aceitos pelo JSON, sem alterar emblemas ou consultar o WakaTime. Você pode baixar um SVG de demonstração, mas não usá-lo como suas estatísticas pessoais.</p>
 <h2 id="selecionar-cards">Publicação e layout do README</h2>
 <p>No <a href="../../customize/">personalizador</a>, escolha os cards que deseja publicar. O JSON exportado inclui <code>cards</code> (lista de nomes), <code>layout</code> (<code>stacked</code> ou <code>paired</code>) e <code>size</code> (<code>compact</code>, <code>standard</code> ou <code>large</code>). Quando há layout ou tamanho, a Action gera <code>README-snippet.md</code> com caminhos relativos aos cards publicados. Os SVGs mantêm sua geometria original e as credenciais ficam exclusivamente no GitHub Actions Secret.</p>
+<h2 id="densidade-linguagens">Densidade do card de Linguagens</h2>
+<p>Na Fase 2.3.1, o campo <code>language_rows</code> controla quantas linguagens são exibidas: <code>5</code>, <code>8</code> ou <code>10</code> (padrão). Isso altera o número de linhas e a altura do SVG, mas não modifica horas nem ranking. <a href="../../customize/">Experimente no personalizador</a>.</p>
 <h2 id="temas">Temas disponíveis</h2>
 <p><strong>Midnight</strong> — fundo azul-escuro com ciano; <strong>Graphite</strong> — grafite neutro com lilás; <strong>Aurora</strong> — verde-azulado com tons suaves. Esses temas se aplicam aos gráficos. O site possui visual editorial claro próprio.</p>
 <h2 id="artes">Substituir um emblema</h2>
@@ -47,7 +49,7 @@
 </div>
 <p class="docs-footer-note">AXR Stats é um projeto independente em desenvolvimento. <a href="https://github.com/axrobert/axr-stats/issues">Sugerir melhoria na documentação ↗</a></p>
 </main>
-<aside class="docs-toc" aria-label="Nesta página"><h2>Nesta página</h2><a href="#parametros">Parâmetros</a><a href="#exemplo">Exemplo</a><a href="#previsualizacao">Prévia dos cards</a><a href="#selecionar-cards">Cards e layouts</a><a href="#temas">Temas disponíveis</a><a href="#artes">Substituir um emblema</a><a href="#secrets">Credenciais</a></aside>
+<aside class="docs-toc" aria-label="Nesta página"><h2>Nesta página</h2><a href="#parametros">Parâmetros</a><a href="#exemplo">Exemplo</a><a href="#previsualizacao">Prévia dos cards</a><a href="#selecionar-cards">Cards e layouts</a><a href="#densidade-linguagens">Densidade das linguagens</a><a href="#temas">Temas disponíveis</a><a href="#artes">Substituir um emblema</a><a href="#secrets">Credenciais</a></aside>
 </div>
 <footer class="axr-footer" aria-label="Rodapé do AXR Stats">
   <div class="wrap axr-footer-inner">

@@ -25,6 +25,7 @@ Arquivo de exemplo: [`examples/axr-stats.json`](../examples/axr-stats.json).
 - `cards`: lista não vazia dos cards a publicar: `lifetime`, `languages`, `activity`, `ranking`, `heatmap` e `emblem`. Omitir publica todos. A seleção remove apenas saídas gerenciadas pela ferramenta que não foram selecionadas.
 - `layout`: `stacked` (vertical) ou `paired` (duas colunas). Afeta apenas o snippet do README, não as dimensões nativas do SVG.
 - `size`: `compact`, `standard`, `large`. Define as larguras HTML do snippet (não faz upscale da imagem).
+- `language_rows`: `5`, `8` ou `10` (padrão). Controla o número máximo de linguagens e a altura interna do card SVG de Linguagens, sem alterar o histórico nem seus totais.
 - `colors`: objeto opcional com os tokens `background`, `surface`, `outline`, `text`, `muted`, `accent` e `success`, sempre no formato `#RRGGBB`.
 
 Valores informados por CLI/`with` prevalecem sobre o JSON. Os demais vêm do JSON e, na ausência deste, dos padrões anteriores. A paleta customizada altera os cards SVG e, por consequência, o card rasterizado; **não recolore os 12 emblemas artísticos**.
@@ -56,3 +57,7 @@ Esses SVGs são artefatos do build, não registros reais da conta. A imagem de r
 ```
 
 A Action gera somente os SVGs selecionados e os PNGs correspondentes quando aplicável. O snippet gerado contém apenas links relativos aos cards publicados. O layout é voltado para a apresentação no README do GitHub e não altera a renderização interna dos SVGs. Outros arquivos pessoais no diretório de destino são preservados.
+
+## Fase 2.3.1 — Densidade do card de Linguagens
+
+Use `"language_rows": 5`, `8` ou `10` no `axr-stats.json`. O renderizador Python modifica o número de linhas e a altura do **SVG de Linguagens**, com prévia correspondente no [personalizador](https://axrobert.github.io/axr-stats/customize/). O valor é validado estritamente; outros números, strings ou booleanos são rejeitados. A opção não recalcula dados, não muda o ranking e não modifica os emblemas. O padrão **10** mantém a saída antiga. Outros controles de tipografia e composição interna continuarão nas próximas etapas da Fase 2.3.
