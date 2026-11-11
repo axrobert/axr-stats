@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - 'site/**'
+      - 'scripts/generate_preview_cards.py'
+      - 'src/axr_stats.py'
       - 'assets/badges/**'
       - 'assets/previews/**'
       - '.github/workflows/pages.yml'
@@ -27,6 +29,7 @@ jobs:
         run: |
           mkdir -p _site/assets/badges/current _site/assets/previews
           cp -r site/. _site/
+          python3 scripts/generate_preview_cards.py --output _site/customize/previews
           cp assets/badges/*.png _site/assets/badges/
           cp assets/badges/current/*.png _site/assets/badges/current/
           cp assets/badges/current/*.svg _site/assets/badges/current/

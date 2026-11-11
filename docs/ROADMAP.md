@@ -24,8 +24,10 @@
 ## Phase 2 — Personalization (started; preview)
 - User-defined color tokens, typography, layouts and size presets.
 - Additional rank styles and transparent standalone insignias.
-- JSON configuration file for theme, timezone, output and validated hex color tokens (initial preview implemented).\n- Local browser palette workbench at `/customize/` with live schematic card preview and JSON export (does not call WakaTime).
-- Preset themes and CLI usage documented; layout selection, precise generated-card previews and full editor remain planned.
+- JSON configuration file for theme, timezone, output and validated hex color tokens (implemented).
+- Local browser palette workbench at `/customize/` with actual production-rendered SVG templates, fictional stats, six card types, and JSON export (no browser access to WakaTime).
+- Deterministic preview builder uses the Python renderer during Pages/Visual QA builds and never contacts external services.
+- Preset themes and CLI usage documented; preview layout now matches production SVGs for all six types. Layout selection, selective card generation, typography controls and full browser editor remain planned.
 
 ## Phase 3 — Public product
 - Browser-based card builder with live preview.

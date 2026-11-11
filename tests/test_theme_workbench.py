@@ -29,7 +29,7 @@ class ThemeWorkbenchTests(unittest.TestCase):
         dom=Markup();dom.feed(html)
         self.assertEqual(set(dom.colors),set(config.COLOR_KEYS))
         self.assertEqual(set(dom.presets),set(config.THEME_NAMES))
-        for marker in ("theme-card","theme-json","copy-theme","download-theme","theme-feedback"):
+        for marker in ("theme-preview-image","theme-json","copy-theme","download-theme","theme-feedback"):
             self.assertIn(marker,dom.ids)
         self.assertIn('id="main-nav"',html)
 

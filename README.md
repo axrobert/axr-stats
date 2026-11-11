@@ -100,7 +100,9 @@ Todos os emblemas da coleção foram substituídos pelos arquivos corrigidos for
 
 A página [Roadmap](https://axrobert.github.io/axr-stats/roadmap/) agora usa cinco insígnias de criação própria em `site/roadmap/icons/`. Cada ícone tem **SVG com caminhos vetoriais nativos** e um **PNG transparente otimizado** gerado a partir dele. Os ícones são independentes dos 12 emblemas de ranking.
 
-## Personalização — Fase 2 (prévia)\n\n[**Experimentar paletas no site**](https://axrobert.github.io/axr-stats/customize/) · Configuração local, sem autenticação. A prévia é esquemática; não gera cards reais no navegador.
+## Personalização — Fase 2 (prévia)
+
+[**Experimentar os seis cards no site**](https://axrobert.github.io/axr-stats/customize/) · Visualização dos SVGs renderizados pelo mesmo Python usado na Action, com **dados fictícios**. O navegador modifica apenas tokens válidos de cor. Sem OAuth, telemetria ou chamadas à API do WakaTime.
 
 Você pode manter os temas padrão ou fornecer um arquivo [`axr-stats.json`](examples/axr-stats.json) para selecionar tema, fuso, diretório de saída e ajustar cores dos cards via tokens `#RRGGBB`, **sem editar o código**.
 
@@ -108,7 +110,7 @@ Você pode manter os temas padrão ou fornecer um arquivo [`axr-stats.json`](exa
 python src/run_action.py --config examples/axr-stats.json
 ```
 
-Veja os campos aceitos em [Configuração de temas](docs/THEME_CONFIG.md). O arquivo não deve conter tokens ou credenciais. A configuração por JSON e a prévia visual de paletas já estão disponíveis. Layouts customizados, editor completo de cards e seleção individual continuam planejados.
+Veja os campos aceitos em [Configuração de temas](docs/THEME_CONFIG.md). O arquivo não deve conter tokens ou credenciais. A configuração por JSON e a prévia dos seis SVGs com exportação local estão disponíveis. Seleção de cards para geração, layouts customizados e edição de tipografia continuam planejados.
 
 ## Quick start
 
@@ -136,6 +138,8 @@ The second command requires the WAKATIME_OAUTH_TOKEN environment variable. **Nev
 | [assets/badges/](assets/badges/) | Current 12-rank PNG/SVG collection |
 | [assets/badges/legacy/](assets/badges/legacy/) | Archived experimental SVG badges |
 | [assets/previews/](assets/previews/) | Fictional sample graphics; never real user data |
+| [scripts/generate_preview_cards.py](scripts/generate_preview_cards.py) | Deterministic fixture output from production Python renderer for GitHub Pages |
+| [site/customize/](site/customize/) | Browser preview of six SVG cards, with theme token recoloring and JSON export |
 | [assets/brand/](assets/brand/) | Branding |
 | [site/](site/) | GitHub Pages source |
 | [docs/](docs/) | Documentation and design rules |
