@@ -1412,3 +1412,25 @@ body{overflow-x:hidden}
 @media(max-width:760px){.theme-card-selector{grid-template-columns:repeat(3,minmax(0,1fr))}.theme-real-canvas{min-height:160px}}
 @media(max-width:390px){.theme-card-selector{grid-template-columns:repeat(2,minmax(0,1fr))}.theme-real-canvas{padding:8px}.theme-card-selector button{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.theme-card-selector button{transition:none}}
+
+
+/* Phase 2.2: functional card selection and GitHub README composition. */
+.theme-output-controls{margin-top:28px;border-top:1px solid #e6ebf1;padding-top:18px}
+.theme-output-controls h3,.theme-readme-output h3{font:750 16px Outfit,sans-serif;margin:0 0 8px;color:#27354b}
+.theme-output-controls>p,.theme-readme-output>p{color:#748196;font-size:11px;line-height:1.6;margin:0 0 14px}
+.theme-card-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0;padding:11px;border:1px solid #dbe3ed;border-radius:6px}
+.theme-card-choices legend{font-size:11px;font-weight:750;color:#4d6080;padding:0 5px}
+.theme-card-choices label{display:flex;align-items:center;gap:8px;min-width:0;font-size:11px;color:#43546e;cursor:pointer;padding:4px 2px}
+.theme-card-choices input{accent-color:#426baa;flex:none;width:15px;height:15px}
+.theme-layout-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+.theme-layout-options label{display:grid;gap:7px;color:#52627b;font-size:11px;font-weight:750}
+.theme-layout-options select{width:100%;min-width:0;min-height:38px;border:1px solid #ccd7e6;background:#fff;color:#344862;border-radius:5px;padding:7px;font-size:12px}
+.theme-selection-feedback{font-size:11px;color:#718198;min-height:18px;margin:12px 0 0}
+.theme-readme-output{margin-top:27px;padding-top:20px;border-top:1px solid #e4eaf2}
+.theme-readme-preview{display:grid;grid-template-columns:1fr;gap:11px;padding:13px;border:1px solid #dde5ee;border-radius:7px;background:#f1f4f8;max-height:400px;overflow:auto}
+.theme-readme-preview.is-paired{grid-template-columns:repeat(2,minmax(0,1fr))}
+.theme-readme-preview figure{min-width:0;margin:0;display:grid;gap:4px;align-content:start}
+.theme-readme-preview img{display:block;width:100%;max-width:100%;height:auto}
+.theme-readme-preview figcaption{font-size:10px;line-height:1.3;color:#53657c}
+.theme-readme-output pre{max-height:175px;overflow:auto}
+@media(max-width:390px){.theme-card-choices{grid-template-columns:1fr}.theme-layout-options{grid-template-columns:1fr}}
