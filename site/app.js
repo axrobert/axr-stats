@@ -227,11 +227,14 @@ function selectSlide(index) {
   slideIndex = (index + slides.length) % slides.length;
   const slide = slides[slideIndex];
   const title = byId("hero-title");
+  const typed=document.createElement("span");
+  typed.textContent=slide.headline[1];
   title.replaceChildren(
     document.createTextNode(slide.headline[0]),
     document.createElement("br"),
-    Object.assign(document.createElement("span"), { textContent: slide.headline[1] })
+    typed
   );
+  window.AXRUI?.typeHeadline?.(typed,slide.headline[1]);
   byId("hero-description").textContent = slide.description;
   const action = byId("hero-action");
   action.href = slide.target;
@@ -252,3 +255,9 @@ byId("next-slide")?.addEventListener("click", () => selectSlide(slideIndex + 1))
 document.querySelectorAll(".slide-dot").forEach((dot) => {
   dot.addEventListener("click", () => selectSlide(Number(dot.dataset.slide)));
 });
+
+// One deliberate typing moment on entry; the carousel keeps the same animation.
+window.addEventListener("DOMContentLoaded",()=>{
+  const span=document.querySelector("#hero-title span");
+  if(span)window.AXRUI?.typeHeadline?.(span,span.textContent);
+},{once:true});

@@ -12,6 +12,8 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="refinement.css">
+  <link rel="stylesheet" href="ui.css">
+  <script src="ui.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -44,13 +46,13 @@
   </header>
 
   <main id="conteudo">
-    <section class="hero wrap" id="inicio" aria-labelledby="hero-title">
+    <section data-reveal class="hero wrap" id="inicio" aria-labelledby="hero-title">
       <div class="hero-stage" aria-roledescription="carrossel" aria-label="Destaques do AXR Stats">
         <div class="hero-speckles" aria-hidden="true"></div>
         <div class="hero-orb orb-a" aria-hidden="true"></div>
         <div class="hero-orb orb-b" aria-hidden="true"></div>
         <div class="hero-copy" aria-live="polite" aria-atomic="true">
-          <div class="hero-label"><span class="label-flare" aria-hidden="true">✦</span> AXR STATS / PROGRESSÃO</div>
+          <div class="hero-label"><span class="label-flare" data-icon="sparkles" aria-hidden="true"></span> AXR STATS / PROGRESSÃO</div>
           <h1 id="hero-title">Sua evolução<br><span>em código.</span></h1>
           <p id="hero-description">Horas registradas, evolução por níveis e cards que fazem sentido no seu perfil. Dados reais, sem promessas inventadas.</p>
           <a id="hero-action" class="hero-cta" href="#ranks">Conheça os ranks <span aria-hidden="true">↗</span></a>
@@ -84,7 +86,7 @@
       </div>
     </section>
 
-    <section id="explorar" class="wrap discover" aria-labelledby="discover-title">
+    <section data-reveal id="explorar" class="wrap discover" aria-labelledby="discover-title">
       <div class="section-intro">
         <div><p class="eyebrow">DESCUBRA O AXR STATS</p><h2 id="discover-title">Seu percurso, em detalhe<span class="accent-dot">.</span></h2></div>
         <p>Conquistas e métricas em um só lugar. Sem inventar posições ou horas.</p>
@@ -122,17 +124,17 @@
 
         <article class="discovery-column quick-panel">
           <div class="panel-heading"><h3>Comece por aqui</h3><span class="panel-sub">Guias rápidos</span></div>
-          <a href="docs/installation/" class="quick-link"><span class="quick-icon blue" aria-hidden="true">01</span><span><strong>Como instalar</strong><small>OAuth, segurança e workflow</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
-          <a href="docs/cards/" class="quick-link"><span class="quick-icon lavender" aria-hidden="true">02</span><span><strong>Cards e estatísticas</strong><small>Prévia com dados fictícios</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
-          <a href="docs/roadmap/" class="quick-link"><span class="quick-icon mint" aria-hidden="true">03</span><span><strong>Roadmap público</strong><small>O que estamos construindo</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
+          <a href="docs/installation/" class="quick-link"><span class="quick-icon blue" data-icon="book-open" aria-hidden="true"></span><span><strong>Como instalar</strong><small>OAuth, segurança e workflow</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
+          <a href="docs/cards/" class="quick-link"><span class="quick-icon lavender" data-icon="sparkles" aria-hidden="true"></span><span><strong>Cards e estatísticas</strong><small>Prévia com dados fictícios</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
+          <a href="docs/roadmap/" class="quick-link"><span class="quick-icon mint" data-icon="route" aria-hidden="true"></span><span><strong>Roadmap público</strong><small>O que estamos construindo</small></span><span class="quick-arrow" aria-hidden="true">↗</span></a>
         </article>
       </div>
     </section>
 
-    <section class="ranks-section" id="ranks" aria-labelledby="ranks-title">
+    <section data-reveal class="ranks-section" id="ranks" aria-labelledby="ranks-title">
       <div class="wrap">
         <div class="section-intro">
-          <div><p class="eyebrow">PROGRESSÃO / 07 TIERS</p><h2 id="ranks-title">Sete estágios de evolução<span class="accent-dot">.</span></h2></div>
+          <div><p class="eyebrow">PROGRESSÃO / 12 TIERS</p><h2 id="ranks-title">Doze estágios de evolução<span class="accent-dot">.</span></h2></div>
           <p>Doze níveis por horas acumuladas. Emblemas oficiais desta coleção, importados do conjunto original de 12 ranks.</p>
         </div>
         <div class="rank-toolbar">
@@ -144,7 +146,7 @@
       </div>
     </section>
 
-    <section class="project-status wrap" aria-labelledby="status-title">
+    <section data-reveal class="project-status wrap" aria-labelledby="status-title">
       <div class="status-titlebar">
         <span class="eyebrow">STATUS DO PROJETO / FASE 1.5</span>
         <a class="status-link" href="docs/roadmap/">Acompanhar roadmap <span aria-hidden="true">↗</span></a>
@@ -163,7 +165,7 @@
       </div>
     </section>
 
-    <section class="wrap cards-section" id="cards" aria-labelledby="cards-title">
+    <section data-reveal class="wrap cards-section" id="cards" aria-labelledby="cards-title">
       <div class="section-intro">
         <div><p class="eyebrow">MÉTRICAS COM IDENTIDADE</p><h2 id="cards-title">Dados reais. Visual próprio<span class="accent-dot">.</span></h2></div>
         <p>Os gráficos abaixo usam números de demonstração. Seus cards são gerados com as informações da sua conta conectada.</p>
@@ -175,7 +177,7 @@
       </div>
     </section>
 
-    <section class="guide-band" id="guia" aria-labelledby="guide-title">
+    <section data-reveal class="guide-band" id="guia" aria-labelledby="guide-title">
       <div class="wrap">
         <div class="section-intro">
           <div><p class="eyebrow">GUIA DE INSTALAÇÃO</p><h2 id="guide-title">Tudo começa com seu código<span class="accent-dot">.</span></h2></div>
@@ -190,13 +192,35 @@
       </div>
     </section>
 
-    <section class="wrap final-cta">
+    <section data-reveal class="wrap final-cta">
       <div><span class="eyebrow">SEU PERFIL, SUA HISTÓRIA</span><h2>Pronto para exibir sua evolução?</h2><p>Explore o código, participe das melhorias e ajude a construir a próxima geração de perfis GitHub.</p></div>
       <a href="docs/" class="dark-cta">Explorar documentação <span aria-hidden="true">↗</span></a>
     </section>
   </main>
 
-  <footer class="footer"><div class="wrap footer-inner"><div><strong><span aria-hidden="true">✦</span> AXR STATS</strong><p>Projeto independente construído com assistência de IA.</p></div><div class="footer-links"><a href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">Código</a><a href="docs/">Documentação</a><a href="https://github.com/axrobert/axr-stats/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contribuir</a><a href="docs/security/">Privacidade</a></div></div></footer>
+  <footer class="axr-footer" aria-label="Rodapé do AXR Stats">
+  <div class="wrap axr-footer-inner">
+    <section class="axr-footer-about" aria-label="Sobre o AXR Stats">
+      <a href="" class="axr-footer-brand" aria-label="AXR Stats — início">AXR <span>STATS</span></a>
+      <p class="axr-footer-lead">A evolução que seu código constrói. Estatísticas reais, emblemas originais e uma experiência feita para desenvolvedores.</p>
+    </section>
+    <nav class="axr-footer-col" aria-label="Explorar"><h2>Explorar</h2>
+      <a href="#ranks">Ranks</a>
+      <a href="#cards">Estatísticas</a>
+      <a href="docs/roadmap/">Roadmap</a>
+    </nav>
+    <nav class="axr-footer-col" aria-label="Recursos"><h2>Recursos</h2>
+      <a href="docs/">Documentação</a>
+      <a href="docs/installation/">Instalação</a>
+      <a href="docs/security/">Segurança</a>
+      <a href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">Código-fonte <span data-icon="arrow-up-right" aria-hidden="true"></span></a>
+    </nav>
+  </div>
+  <div class="wrap axr-footer-bottom">
+    <span>© 2026 AXR Stats · Projeto independente, feito com assistência de IA.</span>
+    <a href="docs/roadmap/" class="axr-footer-mark"><span data-icon="route" aria-hidden="true"></span> Prévia pública · Desenvolvimento ativo</a>
+  </div>
+</footer>
 
   <dialog id="rank-dialog" class="rank-dialog" aria-labelledby="dialog-title">
     <button type="button" class="dialog-close" id="close-dialog" aria-label="Fechar detalhes">×</button>
