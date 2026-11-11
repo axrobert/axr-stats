@@ -39,6 +39,7 @@ python -m unittest discover -s tests -v</code></pre></div>
 <aside class="docs-callout "><p><strong>Não publique seu segredo.</strong> O token precisa estar definido como <code>WAKATIME_OAUTH_TOKEN</code> somente no ambiente de execução; nunca o copie para um arquivo público.</p></aside>
 <h2 id="workflow">4. Prepare a automação</h2>
 <p>O repositório tem um <a href="https://github.com/axrobert/axr-stats/blob/main/examples/consumer-workflow.yml">workflow de exemplo</a>. Use a referência <code>@main</code> apenas em testes de prévia. Em produção, fixe um commit SHA completo e revisado; a tag <code>v1</code> ainda não existe.</p>
+<p><strong>Teste externo comprovado:</strong> o repositório de perfil executou a Action com um SHA fixo e permissões <code>contents: read</code>, sem publicar os arquivos. Confira a <a href="https://github.com/axrobert/axrobert/actions/runs/42962893687">execução validada no GitHub Actions</a>. Para publicar os cards em seu próprio repositório, o workflow de exemplo requer <code>contents: write</code>.</p>
 <p>Ao concluir a geração, a automação deve publicar exclusivamente os arquivos validados. O runner gera SVGs e PNGs numa pasta temporária, valida os oito arquivos e somente então publica. Erros de API anteriores à publicação preservam os gráficos existentes.</p>
 <h2 id="readme">5. Exiba as imagens</h2>
 <div class="code-frame"><button type="button" class="copy-code" aria-label="Copiar bloco de código">Copiar</button><pre><code>&lt;p align=&quot;center&quot;&gt;

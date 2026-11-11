@@ -125,7 +125,7 @@ The second command requires the WAKATIME_OAUTH_TOKEN environment variable. **Nev
 
 ## Status, contribution & support
 
-The prototype is running on the maintainer's profile and the documentation website is published at [axrobert.github.io/axr-stats](https://axrobert.github.io/axr-stats/). Offline consumer integration tests and cross-platform visual QA are available. A real third-party GitHub repository installation with its own OAuth token and permission model still requires validation before a stable release.
+The prototype is running on the maintainer's profile and the documentation website is published at [axrobert.github.io/axr-stats](https://axrobert.github.io/axr-stats/). Offline consumer integration tests and cross-platform visual QA are available. The separate [profile repository successfully ran the pinned Action in an isolated consumer smoke test](https://github.com/axrobert/axrobert/actions/runs/42962893687), validating six SVGs and two PNGs without modifying the profile. Cross-account coverage, dependency pinning and licensing remain release gates.
 
 See [Contributing](CONTRIBUTING.md), [Design system](docs/DESIGN_SYSTEM.md) and [Roadmap](docs/ROADMAP.md). Support links will be added after the maintainer configures an official donation account.
 
