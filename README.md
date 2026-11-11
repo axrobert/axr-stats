@@ -87,7 +87,7 @@ Three themes are available: **Midnight**, **Graphite**, and **Aurora**. The Acti
 | 11 | Lendário | 5,000 | 8,000 |
 | 12 | Soberano | 8,000 | ∞ |
 
-The **12-level system** is original to AXR Stats and uses tracked programming hours, not an official WakaTime or GitHub rank. The current 12 images come from the maintainer's **corrected November 2026 ZIP** (rank 07 uses `Elite_CORRIGIDO`). Web-ready PNGs are 384 × 384 pixels with transparency; originals are not silently overwritten outside the current asset directory. SVG wrappers with embedded raster pixels are available under [assets/badges/current/](assets/badges/current/); they are not editable vector paths.
+The **12-level system** is original to AXR Stats and uses tracked programming hours, not an official WakaTime or GitHub rank. The current 12 images come from the maintainer's **corrected November 2026 ZIP** (rank 07 uses `Elite_CORRIGIDO`). Web-ready PNGs are square (320–384 px) with transparency; originals are not silently overwritten outside the current asset directory. SVG wrappers with embedded raster pixels are available under [assets/badges/current/](assets/badges/current/); they are not editable vector paths.
 
 The rank catalog is maintained in [ranks.json](assets/badges/current/ranks.json). Earlier provisional graphics remain in the legacy directory for reference.
 
