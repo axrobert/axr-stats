@@ -113,7 +113,7 @@ def api(path, token, params=None):
 def esc(v): return html.escape(str(v), quote=True)
 def duration(seconds):
     try:
-        value = float(seconds or 0)
+        value = float(0 if seconds is None else seconds)
     except (TypeError, ValueError, OverflowError):
         raise RuntimeError('WakaTime supplied an invalid duration') from None
     if not math.isfinite(value) or value < 0:

@@ -30,6 +30,8 @@ def check_output_path(destination: Path, *, require_relative: bool = False) -> P
     Only the CLI requires a relative directory. Library calls can use absolute
     temporary directories for isolated tests.
     """
+    if "\\" in str(destination) or any(ord(char) < 32 for char in str(destination)):
+        raise RuntimeError("Output path contains unsupported characters")
     destination = Path(destination)
     if (require_relative and destination.is_absolute()) or ".." in destination.parts:
         raise RuntimeError("Output must be a dedicated relative directory inside the repository")
