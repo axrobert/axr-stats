@@ -53,13 +53,17 @@ LEVELS = [(entry['min_hours'], entry['name_en']) for entry in RANKS]
 TYPOGRAPHY_SCALES = {'compact': 0.90, 'standard': 1.0, 'large': 1.08}
 
 
-def presentation_theme(theme, typography='standard', show_rank_stars=True):
+def presentation_theme(theme, typography='standard', show_rank_stars=True,
+                       header_style='standard'):
     """Validated drawing preferences. Do not mutate the shared theme palette."""
     if type(typography) is not str or typography not in TYPOGRAPHY_SCALES:
         raise RuntimeError('Unknown typography preset')
     if type(show_rank_stars) is not bool:
         raise RuntimeError('show_rank_stars must be boolean')
+    if type(header_style) is not str or header_style not in ("standard", "minimal"):
+        raise RuntimeError('Unknown card header style')
     result = dict(theme)
+    result['_header_style'] = header_style
     result['_font_scale'] = TYPOGRAPHY_SCALES[typography]
     result['_show_rank_stars'] = show_rank_stars
     return result
@@ -143,8 +147,12 @@ def label(x,y,value,theme,size=14,weight=400,color='text',anchor=None):
 def shell(w,h,title,subtitle,body,t):
     svg = f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img" aria-label="{esc(title)}">'
     svg += f'<rect x="1" y="1" width="{w-2}" height="{h-2}" rx="18" fill="{t["background"]}" stroke="{t["outline"]}" stroke-width="2"/>'
-    svg += f'<rect x="28" y="26" width="4" height="23" rx="2" fill="{t["accent"]}"/>'
-    svg += label(45,45,title,t,21,700) + label(28,70,subtitle,t,12,color='muted')
+    if t.get('_header_style', 'standard') == 'minimal':
+        svg += label(28,45,title,t,21,700)
+        svg += f'<path d="M28 66 H{w-28}" stroke="{t["outline"]}" stroke-width="1"/>'
+    else:
+        svg += f'<rect x="28" y="26" width="4" height="23" rx="2" fill="{t["accent"]}"/>'
+        svg += label(45,45,title,t,21,700) + label(28,70,subtitle,t,12,color='muted')
     svg += body+'</svg>\n'
     ET.fromstring(svg)
     return svg
@@ -302,9 +310,9 @@ def badge_card(lifetime,t):
     return shell(192,269,'Emblem','Hours-based tier',body,t)
 
 def cards(lifetime,month,week,summaries,leaders,today,theme='midnight',all_langs=None,language_rows=10,
-          typography='standard',show_rank_stars=True):
+          typography='standard',show_rank_stars=True,header_style='standard'):
     if theme not in THEMES: raise RuntimeError('Unknown theme')
-    t=presentation_theme(THEMES[theme],typography,show_rank_stars)
+    t=presentation_theme(THEMES[theme],typography,show_rank_stars,header_style)
     a,b=month.get('data'),week.get('data')
     c=summaries.get('data')
     if not isinstance(a,dict) or not isinstance(b,dict) or not isinstance(c,list):
@@ -360,13 +368,15 @@ def main(argv=None):
     result=cards(lifetime,month,week,summaries,leaders,today,opts.theme,all_langs,
                  language_rows=configuration.get('language_rows',10),
                  typography=configuration.get('typography','standard'),
-                 show_rank_stars=configuration.get('show_rank_stars',True))
+                 show_rank_stars=configuration.get('show_rank_stars',True),
+                 header_style=configuration.get('header_style','standard'))
     daily={str((x.get('range') or {}).get('date')):float((x.get('grand_total') or {}).get('total_seconds') or 0) for x in summaries.get('data',[])}
     result['activity.svg']=activity_card(
         daily.get(today.isoformat(),0),week.get('data',{}).get('daily_average',0),
         presentation_theme(THEMES[opts.theme],
                            configuration.get('typography','standard'),
-                           configuration.get('show_rank_stars',True)))
+                           configuration.get('show_rank_stars',True),
+                           configuration.get('header_style','standard')))
     selected = configuration.get('cards', CARD_IDS)
     # Emblem PNG compositing needs lifetime.svg as an internal input.
     internal = set(selected)
