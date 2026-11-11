@@ -7,6 +7,8 @@ No real stats are generated in demo mode.
 from __future__ import annotations
 
 import argparse
+import base64
+from functools import lru_cache
 import datetime as dt
 import html
 import json
@@ -22,7 +24,6 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from zoneinfo import ZoneInfo
-from rank_art import rank_svg
 
 BASE = 'https://api.wakatime.com/api/v1'
 THEMES = {
@@ -30,7 +31,16 @@ THEMES = {
     'graphite': {'background':'#111317','surface':'#1b2027','outline':'#353d48','text':'#f1f5f9','muted':'#a3adb9','accent':'#c3a7ff','success':'#58d7b0'},
     'aurora': {'background':'#0a171b','surface':'#10262b','outline':'#275056','text':'#eafffb','muted':'#a8cccb','accent':'#5de2c5','success':'#c3ef8e'},
 }
-LEVELS = [(0,'Novice'),(25,'Explorer'),(100,'Artisan'),(250,'Specialist'),(500,'Veteran'),(1000,'Master'),(2500,'Legend')]
+RANKS = json.loads((Path(__file__).resolve().parents[1] / 'assets/badges/current/ranks.json').read_text(encoding='utf-8'))
+LEVELS = [(entry['min_hours'], entry['name_en']) for entry in RANKS]
+
+@lru_cache(maxsize=12)
+def rank_image_data(level):
+    """Inline original transparent artwork so SVGs retain the real badge."""
+    if not 0 <= level < len(RANKS):
+        raise ValueError('Unknown rank index')
+    path = Path(__file__).resolve().parents[1] / 'assets/badges/current' / RANKS[level]['png']
+    return base64.b64encode(path.read_bytes()).decode('ascii')
 
 
 def api(path, token, params=None):
@@ -92,8 +102,10 @@ def star(cx,cy,outer=10,inner=4.5):
     return ' '.join(coords)
 
 def shield(t,level,x,y,scale=1):
-    # Embed an original, layered rank sigil instead of the generic numbered shield.
-    return rank_svg(level,x,y,float(scale)*0.72)
+    """Embed the real rank PNG instead of a procedural vector placeholder."""
+    size = 160 * float(scale)
+    return (f'<image x="{x}" y="{y}" width="{size:.1f}" height="{size:.1f}" '
+            f'href="data:image/png;base64,{rank_image_data(level)}"/>')
 
 def lifetime_card(lifetime,month,week,t):
     data=lifetime.get('data')

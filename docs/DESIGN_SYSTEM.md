@@ -22,16 +22,17 @@
 
 Charts use SVG so numeric values remain selectable and data-driven. The lifetime card may be composed into a PNG when it includes an illustrated badge. Two adjacent README cards must share **exact viewBox dimensions** and **equal width attributes**.
 
-## Rank artwork
+## Rank artwork — 12 levels
 
-The seven PNG illustrations in [assets/badges](../assets/badges/) are **temporary visual assets** and can be replaced one by one. Use a transparent PNG with ample transparent padding, consistent silhouette scale and centered subject.
+The current collection consists of **12 original 512 × 512 transparent PNG badges** and 12 SVG wrappers containing the exact same raster artwork.
 
-- **Current illustrations**: 01-novice.png through 07-legend.png.
-- **Legacy experiments**: assets/badges/legacy/*.svg. These are archived examples, not the visual identity we are recommending.
-- **Renderer**: src/render_rank_png.py composes illustration with dynamic card data.
-- **Demo previews**: assets/previews/*.svg contain fictional numbers and must never be confused with statistics of a real user.
+- Authoritative metadata: `assets/badges/current/ranks.json`
+- Assets: `assets/badges/current/01-iniciante.png` through `12-soberano.png`, plus `.svg`
+- 12 thresholds (hours): 0, 50, 150, 300, 500, 800, 1,200, 1,800, 2,500, 3,500, 5,000, 8,000
+- Old trials: `assets/badges/legacy/*.svg`
+- Renderer: `src/render_rank_png.py` composes the actual badge into the dynamic card.
 
-The source still contains a procedural vector fallback for compatibility. Do not present that fallback as the finalized badge art.
+The supplied SVG files embed PNG data and **are not editable vector paths**. Preserve high-resolution PNGs as the canonical artwork. Use consistent transparent padding and do not overwrite current files with interim legacy art.
 
 ## Theme palette
 
@@ -45,13 +46,18 @@ The source still contains a procedural vector fallback for compatibility. Do not
 
 | Tier | Rank | Hours |
 | ---: | --- | ---: |
-| 01 | Novice | 0 |
-| 02 | Explorer | 25 |
-| 03 | Artisan | 100 |
-| 04 | Specialist | 250 |
-| 05 | Veteran | 500 |
-| 06 | Master | 1,000 |
-| 07 | Legend | 2,500 |
+| 01 | Iniciante | 0 |
+| 02 | Aprendiz | 50 |
+| 03 | Estudante | 150 |
+| 04 | Desenvolvedor | 300 |
+| 05 | Especialista | 500 |
+| 06 | Avançado | 800 |
+| 07 | Elite | 1,200 |
+| 08 | Mestre | 1,800 |
+| 09 | Arquiteto | 2,500 |
+| 10 | Sábio | 3,500 |
+| 11 | Lendário | 5,000 |
+| 12 | Soberano | 8,000 |
 
 Star progress reflects a *custom tier calculation*, not an official GitHub/WakaTime endorsement. All artwork can be replaced without changing these rules.
 

@@ -1,16 +1,81 @@
 "use strict";
 
 const ranks = [
-  { name: "Novato", hours: 0, image: "01-novice.png", note: "O início de uma nova jornada." },
-  { name: "Explorador", hours: 25, image: "02-explorer.png", note: "Primeiras conquistas e descobertas." },
-  { name: "Artesão", hours: 100, image: "03-artisan.png", note: "Consistência para transformar ideias em código." },
-  { name: "Especialista", hours: 250, image: "04-specialist.png", note: "Experiência conquistada linha por linha." },
-  { name: "Veterano", hours: 500, image: "05-veteran.png", note: "Muitas horas de trabalho e dedicação." },
-  { name: "Mestre", hours: 1000, image: "06-master.png", note: "Uma longa jornada de aprendizado." },
-  { name: "Lenda", hours: 2500, image: "07-legend.png", note: "O ápice desta coleção de ranks." },
+  {
+    "name": "Iniciante",
+    "hours": 0,
+    "image": "01-iniciante.png",
+    "note": "O começo da jornada."
+  },
+  {
+    "name": "Aprendiz",
+    "hours": 50,
+    "image": "02-aprendiz.png",
+    "note": "Fundamentos em construção."
+  },
+  {
+    "name": "Estudante",
+    "hours": 150,
+    "image": "03-estudante.png",
+    "note": "A prática vira rotina."
+  },
+  {
+    "name": "Desenvolvedor",
+    "hours": 300,
+    "image": "04-desenvolvedor.png",
+    "note": "Projetos e soluções reais."
+  },
+  {
+    "name": "Especialista",
+    "hours": 500,
+    "image": "05-especialista.png",
+    "note": "Profundidade técnica."
+  },
+  {
+    "name": "Avançado",
+    "hours": 800,
+    "image": "06-avancado.png",
+    "note": "Domínio cada vez maior."
+  },
+  {
+    "name": "Elite",
+    "hours": 1200,
+    "image": "07-elite.png",
+    "note": "Consistência de alto nível."
+  },
+  {
+    "name": "Mestre",
+    "hours": 1800,
+    "image": "08-mestre.png",
+    "note": "Experiência e visão."
+  },
+  {
+    "name": "Arquiteto",
+    "hours": 2500,
+    "image": "09-arquiteto.png",
+    "note": "Estruturas e sistemas complexos."
+  },
+  {
+    "name": "Sábio",
+    "hours": 3500,
+    "image": "10-sabio.png",
+    "note": "Conhecimento que orienta."
+  },
+  {
+    "name": "Lendário",
+    "hours": 5000,
+    "image": "11-lendario.png",
+    "note": "Uma trajetória extraordinária."
+  },
+  {
+    "name": "Soberano",
+    "hours": 8000,
+    "image": "12-soberano.png",
+    "note": "O patamar mais alto desta coleção."
+  }
 ];
 
-const assetPath = (name) => "assets/badges/" + name;
+const assetPath = (name) => "assets/badges/current/" + name;
 const byId = (id) => document.getElementById(id);
 const rankGrid = byId("rank-grid");
 const search = byId("rank-search");
@@ -139,21 +204,21 @@ const slides = [
     description: "Transforme suas horas de programação em uma jornada visual com estatísticas, emblemas e níveis próprios.",
     action: "Conheça os ranks",
     target: "#ranks",
-    image: "06-master.png"
+    image: "08-mestre.png"
   },
   {
     headline: ["Seus dados contam", "uma história."],
     description: "Linguagens, atividade e progresso registrados pelo WakaTime, com visual personalizado e sem pontuações inventadas.",
     action: "Explorar os cards",
     target: "#cards",
-    image: "03-artisan.png"
+    image: "03-estudante.png"
   },
   {
     headline: ["Um perfil único.", "Do seu jeito."],
     description: "Projeto aberto para aprender, experimentar, colaborar e construir uma identidade visual para desenvolvedores.",
     action: "Ver o guia",
     target: "docs/installation/",
-    image: "07-legend.png"
+    image: "12-soberano.png"
   },
 ];
 let slideIndex = 0;

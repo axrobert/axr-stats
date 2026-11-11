@@ -23,9 +23,9 @@ Cards de programação, evolução por horas e medalhas personalizadas para perf
 <table>
 <tr>
 <td align="center" width="30%" valign="middle">
-  <img src="assets/badges/03-artisan.png" alt="Example Artisan rank artwork" width="180">
-  <p><strong>ARTISAN · TIER 03</strong></p>
-  <sub>100+ cumulative hours</sub>
+  <img src="assets/badges/current/03-estudante.png" alt="Example Artisan rank artwork" width="180">
+  <p><strong>ESTUDANTE · TIER 03</strong></p>
+  <sub>150+ cumulative hours</sub>
 </td>
 <td width="70%" valign="middle">
   <h3>Make progress visible.</h3>
@@ -55,29 +55,41 @@ Cards de programação, evolução por horas e medalhas personalizadas para perf
 
 Three themes are available: **Midnight**, **Graphite**, and **Aurora**. The Action reads the official WakaTime API using an OAuth token from GitHub Actions Secrets. The token is never placed in public images.
 
-## Rank progression
+## Rank progression — 12 illustrated tiers
 
 <div align="center">
-  <img src="assets/badges/01-novice.png" width="76" alt="Novice">
-  <img src="assets/badges/02-explorer.png" width="76" alt="Explorer">
-  <img src="assets/badges/03-artisan.png" width="76" alt="Artisan">
-  <img src="assets/badges/04-specialist.png" width="76" alt="Specialist">
-  <img src="assets/badges/05-veteran.png" width="76" alt="Veteran">
-  <img src="assets/badges/06-master.png" width="76" alt="Master">
-  <img src="assets/badges/07-legend.png" width="76" alt="Legend">
+  <img src="assets/badges/current/01-iniciante.png" width="82" alt="Tier 01 Iniciante">
+  <img src="assets/badges/current/02-aprendiz.png" width="82" alt="Tier 02 Aprendiz">
+  <img src="assets/badges/current/03-estudante.png" width="82" alt="Tier 03 Estudante">
+  <img src="assets/badges/current/04-desenvolvedor.png" width="82" alt="Tier 04 Desenvolvedor">
+  <img src="assets/badges/current/05-especialista.png" width="82" alt="Tier 05 Especialista">
+  <img src="assets/badges/current/06-avancado.png" width="82" alt="Tier 06 Avançado">
+  <img src="assets/badges/current/07-elite.png" width="82" alt="Tier 07 Elite">
+  <img src="assets/badges/current/08-mestre.png" width="82" alt="Tier 08 Mestre">
+  <img src="assets/badges/current/09-arquiteto.png" width="82" alt="Tier 09 Arquiteto">
+  <img src="assets/badges/current/10-sabio.png" width="82" alt="Tier 10 Sábio">
+  <img src="assets/badges/current/11-lendario.png" width="82" alt="Tier 11 Lendário">
+  <img src="assets/badges/current/12-soberano.png" width="82" alt="Tier 12 Soberano">
 </div>
 
-| Tier | Name | Cumulative hours |
-| :--: | :--- | ---: |
-| 01 | Novice | 0 |
-| 02 | Explorer | 25 |
-| 03 | Artisan | 100 |
-| 04 | Specialist | 250 |
-| 05 | Veteran | 500 |
-| 06 | Master | 1,000 |
-| 07 | Legend | 2,500 |
+| Tier | Rank | From (hours) | Until (exclusive) |
+| :--: | :--- | ---: | ---: |
+| 01 | Iniciante | 0 | 50 |
+| 02 | Aprendiz | 50 | 150 |
+| 03 | Estudante | 150 | 300 |
+| 04 | Desenvolvedor | 300 | 500 |
+| 05 | Especialista | 500 | 800 |
+| 06 | Avançado | 800 | 1,200 |
+| 07 | Elite | 1,200 | 1,800 |
+| 08 | Mestre | 1,800 | 2,500 |
+| 09 | Arquiteto | 2,500 | 3,500 |
+| 10 | Sábio | 3,500 | 5,000 |
+| 11 | Lendário | 5,000 | 8,000 |
+| 12 | Soberano | 8,000 | ∞ |
 
-These are **AXR Stats progression tiers**, not official WakaTime or GitHub ranks. The current illustrated medals are provisional and can be replaced individually without changing rank logic.
+The **12-level system** is original to AXR Stats and uses tracked programming hours, not an official WakaTime or GitHub rank. All 12 images are the original supplied **512 × 512 transparent PNGs**. SVG wrappers with embedded raster pixels are available under [assets/badges/current/](assets/badges/current/); they are not editable vector paths.
+
+The rank catalog is maintained in [ranks.json](assets/badges/current/ranks.json). Earlier provisional graphics remain in the legacy directory for reference.
 
 ## Quick start
 
@@ -100,7 +112,7 @@ The second command requires the WAKATIME_OAUTH_TOKEN environment variable. **Nev
 | Path | Contents |
 | :--- | :--- |
 | [src/](src/) | Official WakaTime API client and image renderers |
-| [assets/badges/](assets/badges/) | Current interchangeable PNG rank illustrations |
+| [assets/badges/](assets/badges/) | Current 12-rank PNG/SVG collection |
 | [assets/badges/legacy/](assets/badges/legacy/) | Archived experimental SVG badges |
 | [assets/previews/](assets/previews/) | Fictional sample graphics; never real user data |
 | [assets/brand/](assets/brand/) | Branding |

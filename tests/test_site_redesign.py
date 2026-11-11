@@ -44,9 +44,9 @@ class PagesRedesignTests(unittest.TestCase):
         ET.parse(SITE / "favicon.svg")
         for path in self.dom.images:
             self.assertTrue((ROOT / path if path.startswith("assets/") else SITE / path).exists(), path)
-        images = re.findall(r'image:\s*"(0[1-7]-[a-z]+\.png)"', self.js)
-        self.assertEqual(len(set(images)), 7)
-        for name in images: self.assertTrue((ROOT / "assets/badges" / name).exists(), name)
+        images = re.findall(r'"image":\s*"(\d{2}-[a-z]+\.png)"', self.js)
+        self.assertEqual(len(set(images)), 12)
+        for name in images: self.assertTrue((ROOT / "assets/badges/current" / name).exists(), name)
 
     def test_accessibility_and_interaction_wiring(self):
         for target in ("rank-dialog", "rank-grid", "rank-search", "hours-input",
