@@ -1434,3 +1434,7 @@ body{overflow-x:hidden}
 .theme-readme-preview figcaption{font-size:10px;line-height:1.3;color:#53657c}
 .theme-readme-output pre{max-height:175px;overflow:auto}
 @media(max-width:390px){.theme-card-choices{grid-template-columns:1fr}.theme-layout-options{grid-template-columns:1fr}}
+
+/* Phase 2.3.1: internal language-card density control, consistent with design tokens. */
+.theme-render-options{grid-template-columns:minmax(0,1fr);margin-top:17px;gap:7px}
+.theme-render-options p{font-size:11px;line-height:1.55;color:#75849b;margin:0}
