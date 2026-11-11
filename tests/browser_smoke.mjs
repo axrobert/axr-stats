@@ -123,6 +123,33 @@ async function exerciseRoute(context, route, width) {
       errors.push("density selection was not exported");
     if(!(await page.locator('#theme-readme-preview img[src$="languages-5.svg"]').count()))
       errors.push("README preview did not use compact languages fixture");
+    await page.locator('#theme-typography').selectOption("large");
+    await page.waitForFunction(async () => {
+      const img=document.querySelector("#theme-preview-image");
+      if (!img?.src.startsWith("blob:") || img.getAttribute("aria-busy")==="true") return false;
+      try {
+        const svg=await (await fetch(img.src)).text();
+        return svg.includes('viewBox="0 0 700 335"') && svg.includes('font-size="14.04"');
+      } catch { return false; }
+    },null,{timeout:10000});
+    if(JSON.parse(await page.locator("#theme-json").textContent()).typography!=="large")
+      errors.push("Typography option missing in JSON");
+    await page.locator('[data-preview-card="lifetime"]').click();
+    await page.locator('#theme-rank-stars').uncheck();
+    await page.waitForFunction(async () => {
+      const img=document.querySelector("#theme-preview-image");
+      if (!img?.src.startsWith("blob:") || img.getAttribute("aria-busy")==="true") return false;
+      try {return !(await (await fetch(img.src)).text()).includes("<polygon");}
+      catch {return false;}
+    },null,{timeout:10000});
+    const withoutStars=await page.locator("#theme-preview-image").evaluate(async img=>(await fetch(img.src)).text());
+    if(!withoutStars.includes("data:image/png;base64,")) errors.push("disabling stars removed rank artwork");
+    if(JSON.parse(await page.locator("#theme-json").textContent()).show_rank_stars!==false)
+      errors.push("Rank star option missing in JSON");
+    if(!(await page.locator('#theme-readme-preview img[src$="lifetime-type-large-no-stars.svg"]').count()))
+      errors.push("README preview not synchronized with star and typography options");
+    await page.locator('#theme-rank-stars').check();
+    await page.locator('#theme-typography').selectOption("standard");
     await page.locator("#theme-language-rows").selectOption("10");
     await page.locator('[data-preview-card="lifetime"]').click();
     const initial = await page.locator("#theme-json").textContent();
