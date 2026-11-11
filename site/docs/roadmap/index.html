@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="../../style.css">
 <link rel="stylesheet" href="../docs.css">
 <link rel="stylesheet" href="../../refinement.css">
+<link rel="stylesheet" href="../../ui.css">
+<script defer src="../../ui.js"></script>
 <script defer src="../docs.js"></script></head>
 <body class="docs-body">
 <a href="#main-content" class="skip">Ir para o conteúdo</a>
@@ -16,12 +18,12 @@
 <a class="header-github" href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
 </div></header>
 <div class="docs-layout">
-<button class="docs-mobile-nav" type="button" aria-expanded="false" aria-controls="docs-sidebar">Explorar documentação <span aria-hidden="true">☰</span></button>
+<button class="docs-mobile-nav" type="button" aria-expanded="false" aria-controls="docs-sidebar">Explorar documentação <span data-icon="menu" aria-hidden="true"></span></button>
 <aside class="docs-sidebar" id="docs-sidebar" aria-label="Capítulos da documentação">
 <div class="docs-searchbox"><label class="sr-only" for="docs-search">Pesquisar documentação</label><input type="search" id="docs-search" autocomplete="off" placeholder="Pesquisar páginas..." aria-controls="docs-results"><div class="docs-search-results" id="docs-results" aria-live="polite"></div></div>
 <section class="docs-sidebar-group"><h2>Introdução</h2><a href="../../docs/" >Visão geral</a><a href="../../docs/installation/" >Instalação</a></section><section class="docs-sidebar-group"><h2>Personalização</h2><a href="../../docs/configuration/" >Configuração</a><a href="../../docs/cards/" >Cards e métricas</a><a href="../../docs/ranks/" >Ranks e progressão</a></section><section class="docs-sidebar-group"><h2>Referência</h2><a href="../../docs/security/" >Segurança</a><a href="../../docs/faq/" >Perguntas frequentes</a></section><section class="docs-sidebar-group"><h2>Projeto</h2><a href="../../docs/roadmap/" aria-current="page">Roadmap</a></section>
 </aside>
-<main class="docs-main" id="main-content">
+<main class="docs-main" id="main-content" data-reveal>
 <div class="docs-breadcrumb"><a href="../../">AXR Stats</a><span>›</span><a href="../../docs/">Docs</a><span>›</span><span>Roadmap</span></div>
 <p class="docs-kicker">EVOLUÇÃO DO PROJETO</p><h1>Roadmap</h1><p class="docs-lead">O que está construído, o que está em validação e os próximos passos — sem prometer uma versão estável antes da hora.</p>
 <article class="docs-content">
@@ -37,4 +39,27 @@
 </main>
 <aside class="docs-toc" aria-label="Nesta página"><h2>Nesta página</h2><a href="#entregue">Concluído</a><a href="#polish">Fase 1.5 — acabamento</a><a href="#validacao">Em validação</a><a href="#proximos">Próximas etapas</a><a href="#contribuir">Contribuir</a></aside>
 </div>
+<footer class="axr-footer" aria-label="Rodapé do AXR Stats">
+  <div class="wrap axr-footer-inner">
+    <section class="axr-footer-about" aria-label="Sobre o AXR Stats">
+      <a href="../../" class="axr-footer-brand" aria-label="AXR Stats — início">AXR <span>STATS</span></a>
+      <p class="axr-footer-lead">A evolução que seu código constrói. Estatísticas reais, emblemas originais e uma experiência feita para desenvolvedores.</p>
+    </section>
+    <nav class="axr-footer-col" aria-label="Explorar"><h2>Explorar</h2>
+      <a href="../../#ranks">Ranks</a>
+      <a href="../../#cards">Estatísticas</a>
+      <a href="../../docs/roadmap/">Roadmap</a>
+    </nav>
+    <nav class="axr-footer-col" aria-label="Recursos"><h2>Recursos</h2>
+      <a href="../../docs/">Documentação</a>
+      <a href="../../docs/installation/">Instalação</a>
+      <a href="../../docs/security/">Segurança</a>
+      <a href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">Código-fonte <span data-icon="arrow-up-right" aria-hidden="true"></span></a>
+    </nav>
+  </div>
+  <div class="wrap axr-footer-bottom">
+    <span>© 2026 AXR Stats · Projeto independente, feito com assistência de IA.</span>
+    <a href="../../docs/roadmap/" class="axr-footer-mark"><span data-icon="route" aria-hidden="true"></span> Prévia pública · Desenvolvimento ativo</a>
+  </div>
+</footer>
 </body></html>

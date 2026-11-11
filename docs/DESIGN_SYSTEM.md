@@ -72,3 +72,13 @@ Star progress reflects a *custom tier calculation*, not an official GitHub/WakaT
 ## Website visual refinement
 
 The public site uses `site/refinement.css` as a deliberate editorial refinement layer over the existing light-themed layout. Maintain the quiet paper background, precise neutral strokes, restrained cobalt actions, square-ish corners (typically 5–9px), and minimal shadows. Avoid repeated cards with pill CTAs and glow, arbitrary gradients, decorative floating ornaments or over-animated interfaces. Typography and spacing must convey hierarchy before borders or decoration. Documentation shares the same refinement file. Validate desktop and mobile visually before release.
+
+## Motion, icons and footer (site V0.9)
+
+- Common scripts: `site/ui.js` and `site/ui.css`, included in the homepage and all eight documentation pages.
+- Motion: optional IntersectionObserver reveals, short carousel headline typing, passive scroll progress and active documentation table of contents.
+- Navigation: native smooth scroll with `prefers-reduced-motion` override. A back-to-top control has a visible focus state and is unavailable until useful.
+- Visual: editorial footer shared with Docs, minimal shadows, structured link groups, no layout-shifting scrolljacking.
+- Icons: local Lucide SVG symbol sprite, via `site/icons/lucide.svg`. Source license retained at `site/icons/LICENSE`. Never copy PanelUI proprietary components or require React simply to get icons.
+- No animation should block access to content; reduced-motion users see complete headlines without typing.
+- The brand may change independently from icon vendors. Icon sprites use the original open source ISC license.
