@@ -23,23 +23,16 @@ runs:
     - name: Install raster renderer
       shell: bash
       run: python3 -m pip install --disable-pip-version-check 'Pillow>=11,<13' 'CairoSVG>=2.7,<3'
-    - name: Generate and validate SVGs
+    - name: Generate, validate and publish SVGs + PNGs
       shell: bash
       env:
         WAKATIME_OAUTH_TOKEN: ${{ inputs.wakatime-oauth-token }}
         AXR_THEME: ${{ inputs.theme }}
         AXR_TIMEZONE: ${{ inputs.timezone }}
         AXR_OUTPUT: ${{ inputs.output }}
-      run: python3 "${{ github.action_path }}/src/axr_stats.py" --output "$AXR_OUTPUT" --timezone "$AXR_TIMEZONE" --theme "$AXR_THEME"
-
-    - name: Compose illustrated PNG cards
-      shell: bash
-      env:
-        AXR_OUTPUT: ${{ inputs.output }}
       run: |
-        python3 "${{ github.action_path }}/src/render_rank_png.py" \
-          --card "$AXR_OUTPUT/lifetime.svg" \
-          --tier-file "$AXR_OUTPUT/.rank-level" \
-          --assets "${{ github.action_path }}/assets/badges" \
-          --output "$AXR_OUTPUT/lifetime.png" \
-          --emblem-output "$AXR_OUTPUT/emblem.png"
+        python3 "${{ github.action_path }}/src/run_action.py" \
+          --output "$AXR_OUTPUT" \
+          --timezone "$AXR_TIMEZONE" \
+          --theme "$AXR_THEME" \
+          --assets "${{ github.action_path }}/assets/badges/current"

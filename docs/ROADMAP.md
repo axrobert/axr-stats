@@ -4,10 +4,12 @@
 - Working original SVG generator inside the `axrobert/axrobert` profile.
 - Live WakaTime OAuth, all-time activity, public leaderboard and emblems.
 
-## Phase 1 — Standalone release (current)
+## Phase 1 — Standalone release (in progress)
 - Separate repository and documentation.
 - Original brand SVG, previews, tier emblems and themes.
-- Test matrix and screenshot/render regression tests.
+- Test matrix and browser screenshot/render regression tests (done).
+- Consumer-style offline integration and batch output safety (in progress).
+- Real third-party repository installation and GitHub Actions credential/permission audit (pending).
 - Pin GitHub Action dependencies and tag v1 after QA.
 - Decide and publish the open-source license.
 

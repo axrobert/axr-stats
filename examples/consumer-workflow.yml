@@ -1,5 +1,5 @@
 # Place this file at .github/workflows/axr-stats.yml in your profile repository.
-# The external `uses:` reference is not usable until the AXR Stats repo has been published.
+# Preview mode: @main is MUTABLE. For production, pin a reviewed commit SHA after the stable release.
 name: Update AXR Stats
 on:
   workflow_dispatch:
@@ -19,13 +19,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - uses: axrobert/axr-stats@v1  # TODO: publish repo and tag v1 (ideally pin SHA)
+      - uses: axrobert/axr-stats@main  # PREVIEW ONLY; pin a full commit SHA for production
         with:
           wakatime-oauth-token: ${{ secrets.WAKATIME_OAUTH_TOKEN }}
           theme: midnight
           timezone: America/Maceio
           output: assets/axr-stats
-      - name: Commit validated SVGs
+      - name: Commit validated cards
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'

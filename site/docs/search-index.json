@@ -46,12 +46,12 @@
         {
           "id": "testar",
           "title": "3. Teste o gerador localmente",
-          "text": "3. Teste o gerador localmente Copiar git clone https://github.com/axrobert/axr-stats.git cd axr-stats python -m pip install \"Pillow>=11,<13\" \"CairoSVG>=2.7,<3\" python -m unittest discover -s tests -v Depois de definir a variável de ambiente no seu terminal, gere os cards: Copiar python src/axr_stats.py --theme midnight --timezone America/Maceio --output dist python src/render_rank_png.py --card dist/lifetime.svg --tier-file dist/.rank-level --assets assets/badges --output dist/lifetime.png --emblem-output dist/emblem.png Não publique seu segredo. O token precisa estar definido como WAKATIME_OAUTH_TOKEN somente no ambiente de execução; nunca o copie para um arquivo público."
+          "text": "3. Teste o gerador localmente Copiar git clone https://github.com/axrobert/axr-stats.git cd axr-stats python -m pip install \"Pillow>=11,<13\" \"CairoSVG>=2.7,<3\" python -m unittest discover -s tests -v Depois de definir a variável de ambiente no seu terminal, gere os cards: Copiar python src/run_action.py --theme midnight --timezone America/Maceio --output dist Não publique seu segredo. O token precisa estar definido como WAKATIME_OAUTH_TOKEN somente no ambiente de execução; nunca o copie para um arquivo público."
         },
         {
           "id": "workflow",
           "title": "4. Prepare a automação",
-          "text": "4. Prepare a automação O repositório tem um workflow de exemplo . Antes de utilizá-lo, substitua a referência de versão futura por um commit revisado quando a Action estiver pronta; não recomendamos publicar referências genéricas de branch para terceiros. Ao concluir a geração, a automação deve publicar exclusivamente os arquivos validados. Erros de API devem interromper o job sem substituir imagens válidas."
+          "text": "4. Prepare a automação O repositório tem um workflow de exemplo . Use a referência @main apenas em testes de prévia. Em produção, fixe um commit SHA completo e revisado; a tag v1 ainda não existe. Ao concluir a geração, a automação deve publicar exclusivamente os arquivos validados. O runner gera SVGs e PNGs numa pasta temporária, valida os oito arquivos e somente então publica. Erros de API anteriores à publicação preservam os gráficos existentes."
         },
         {
           "id": "readme",
@@ -238,7 +238,7 @@
         {
           "id": "validacao",
           "title": "Em validação",
-          "text": "Em validação Instalação da Action a partir de outros repositórios. Contratos de dados históricos, fontes e tratamento de falhas. Revisão visual e acessibilidade em diferentes dispositivos. Definição de licença de código e política de assets."
+          "text": "Em validação Teste de instalação da Action em um repositório externo real (pendente). Testes isolados de consumo foram adicionados à CI. Revisão de retry da API e publicação validada dos oito artefatos (em validação). Revisão visual e acessibilidade em diferentes dispositivos. Definição de licença de código e política de assets."
         },
         {
           "id": "proximos",

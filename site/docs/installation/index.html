@@ -24,7 +24,7 @@
 <div class="docs-breadcrumb"><a href="../../">AXR Stats</a><span>›</span><a href="../../docs/">Docs</a><span>›</span><span>Instalação</span></div>
 <p class="docs-kicker">PRIMEIROS PASSOS</p><h1>Instalação</h1><p class="docs-lead">Configure sua conta de forma segura e teste a geração local antes de automatizar publicações no GitHub.</p>
 <article class="docs-content">
-<aside class="docs-callout docs-warning"><p><strong>Importante: não existe release <code>@v1</code> ainda.</strong> O workflow de exemplo aponta para uma versão futura e não funcionará sem adaptação. O procedimento abaixo é apropriado para testar o código atual.</p></aside>
+<aside class="docs-callout docs-warning"><p><strong>Importante: não existe release <code>@v1</code> ainda.</strong> O workflow de exemplo usa a referência mutável <code>@main</code>, adequada apenas para testes da prévia. Para produção, fixe um commit SHA revisado. O procedimento abaixo é apropriado para testar o código atual.</p></aside>
 <h2 id="preparar">1. Prepare suas contas</h2>
 <p>Instale o plugin oficial do WakaTime no seu editor e confira se a atividade aparece no <a href="https://wakatime.com/dashboard">painel do WakaTime</a>. Para ler estatísticas, crie seu <a href="https://wakatime.com/oauth">token OAuth pessoal</a>. A API Key usada pelo plugin do editor não serve.</p>
 <h2 id="segredo">2. Guarde o OAuth</h2>
@@ -35,12 +35,11 @@ cd axr-stats
 python -m pip install &quot;Pillow&gt;=11,&lt;13&quot; &quot;CairoSVG&gt;=2.7,&lt;3&quot;
 python -m unittest discover -s tests -v</code></pre></div>
 <p>Depois de definir a variável de ambiente no seu terminal, gere os cards:</p>
-<div class="code-frame"><button type="button" class="copy-code" aria-label="Copiar bloco de código">Copiar</button><pre><code>python src/axr_stats.py --theme midnight --timezone America/Maceio --output dist
-python src/render_rank_png.py --card dist/lifetime.svg --tier-file dist/.rank-level --assets assets/badges --output dist/lifetime.png --emblem-output dist/emblem.png</code></pre></div>
+<div class="code-frame"><button type="button" class="copy-code" aria-label="Copiar bloco de código">Copiar</button><pre><code>python src/run_action.py --theme midnight --timezone America/Maceio --output dist</code></pre></div>
 <aside class="docs-callout "><p><strong>Não publique seu segredo.</strong> O token precisa estar definido como <code>WAKATIME_OAUTH_TOKEN</code> somente no ambiente de execução; nunca o copie para um arquivo público.</p></aside>
 <h2 id="workflow">4. Prepare a automação</h2>
-<p>O repositório tem um <a href="https://github.com/axrobert/axr-stats/blob/main/examples/consumer-workflow.yml">workflow de exemplo</a>. Antes de utilizá-lo, substitua a referência de versão futura por um commit revisado quando a Action estiver pronta; não recomendamos publicar referências genéricas de branch para terceiros.</p>
-<p>Ao concluir a geração, a automação deve publicar exclusivamente os arquivos validados. Erros de API devem interromper o job sem substituir imagens válidas.</p>
+<p>O repositório tem um <a href="https://github.com/axrobert/axr-stats/blob/main/examples/consumer-workflow.yml">workflow de exemplo</a>. Use a referência <code>@main</code> apenas em testes de prévia. Em produção, fixe um commit SHA completo e revisado; a tag <code>v1</code> ainda não existe.</p>
+<p>Ao concluir a geração, a automação deve publicar exclusivamente os arquivos validados. O runner gera SVGs e PNGs numa pasta temporária, valida os oito arquivos e somente então publica. Erros de API anteriores à publicação preservam os gráficos existentes.</p>
 <h2 id="readme">5. Exiba as imagens</h2>
 <div class="code-frame"><button type="button" class="copy-code" aria-label="Copiar bloco de código">Copiar</button><pre><code>&lt;p align=&quot;center&quot;&gt;
   &lt;img src=&quot;assets/axr-stats/lifetime.png&quot; width=&quot;100%&quot; alt=&quot;Evolução de programação&quot;&gt;
