@@ -53,37 +53,40 @@ def build(output: Path) -> list[Path]:
     # Build all presentation combinations offline; the browser loads only
     # whichever static SVG is currently selected, never user credentials.
     for typography in ("standard", "compact", "large"):
-        t = presentation_theme(THEMES["midnight"], typography)
-        content = cards(lifetime, month, week, summaries, leaders, today,
-                        theme="midnight", all_langs=all_langs,
-                        typography=typography)
-        content["activity.svg"] = activity_card(3 * 3600 + 15 * 60,
-                                               week["data"]["daily_average"], t)
+        for subtitles in (True, False):
+            t = presentation_theme(THEMES["midnight"], typography, show_card_subtitles=subtitles)
+            content = cards(lifetime, month, week, summaries, leaders, today,
+                            theme="midnight", all_langs=all_langs,
+                            typography=typography, show_card_subtitles=subtitles)
+            content["activity.svg"] = activity_card(3 * 3600 + 15 * 60,
+                                                   week["data"]["daily_average"], t)
 
-        def emit(card_name, value, rows=10, stars=True):
-            stem = card_name
-            if card_name == "languages" and rows != 10:
-                stem += f"-{rows}"
-            if typography != "standard":
-                stem += f"-type-{typography}"
-            if card_name in ("lifetime", "emblem") and not stars:
-                stem += "-no-stars"
-            path = output / f"{stem}.svg"
-            ET.fromstring(value)
-            path.write_text(value, encoding="utf-8")
-            return path
+            def emit(card_name, value, rows=10, stars=True):
+                stem = card_name
+                if card_name == "languages" and rows != 10:
+                    stem += f"-{rows}"
+                if typography != "standard":
+                    stem += f"-type-{typography}"
+                if card_name in ("lifetime", "emblem") and not stars:
+                    stem += "-no-stars"
+                if not subtitles:
+                    stem += "-no-subtitle"
+                path = output / f"{stem}.svg"
+                ET.fromstring(value)
+                path.write_text(value, encoding="utf-8")
+                return path
 
-        for name in FILES:
-            card_name = name.removesuffix(".svg")
-            path = emit(card_name, content[name])
-            if typography == "standard":
-                base_files.append(path)
-
-        for rows in (5, 8):
-            emit("languages", languages_card(all_langs["data"], t, historical=True, max_rows=rows), rows)
-        no_stars = presentation_theme(THEMES["midnight"], typography, show_rank_stars=False)
-        emit("lifetime", lifetime_card(lifetime, month["data"], week["data"], no_stars), stars=False)
-        emit("emblem", badge_card(lifetime, no_stars), stars=False)
+            for name in FILES:
+                card_name = name.removesuffix(".svg")
+                path = emit(card_name, content[name])
+                if typography == "standard" and subtitles:
+                    base_files.append(path)
+            for rows in (5, 8):
+                emit("languages", languages_card(all_langs["data"], t, historical=True, max_rows=rows), rows)
+            no_stars = presentation_theme(THEMES["midnight"], typography,
+                                          show_rank_stars=False, show_card_subtitles=subtitles)
+            emit("lifetime", lifetime_card(lifetime, month["data"], week["data"], no_stars), stars=False)
+            emit("emblem", badge_card(lifetime, no_stars), stars=False)
     return base_files
 
 def main():
