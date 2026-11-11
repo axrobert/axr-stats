@@ -31,7 +31,7 @@
     {
       "title": "Instalação",
       "href": "docs/installation/",
-      "description": "Configure sua conta de forma segura e teste a geração local antes de automatizar publicações no GitHub.",
+      "description": "Instalação do AXR Stats para iniciantes, WakaTime OAuth, GitHub Actions Secrets, erros comuns e cards no README.",
       "sections": [
         {
           "id": "preparar",

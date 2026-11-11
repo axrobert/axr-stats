@@ -116,12 +116,15 @@ Veja os campos aceitos em [Configuração de temas](docs/THEME_CONFIG.md). O arq
 
 ## Quick start
 
+**Novo no GitHub?** Use o [guia passo a passo para iniciantes](docs/GETTING_STARTED.md). Ele explica como criar o repositório de perfil, salvar o OAuth como Secret, executar a Action e adicionar os cards ao README.
+
+
 > [!IMPORTANT]
 > **Development preview:** The reusable Action has no stable v1 tag yet. The sample workflow uses the mutable `@main` ref for **preview testing only**, not a stable release. Pin a reviewed full commit SHA before relying on it in production.
 
 1. Generate a personal OAuth token at [WakaTime OAuth](https://wakatime.com/oauth). An editor API key is not a substitute.
 2. Add the token as the repository Actions secret **WAKATIME_OAUTH_TOKEN**.
-3. Review the [consumer workflow](examples/consumer-workflow.yml) and [security guidance](docs/SECURITY.md).
+3. Review the [consumer workflow](examples/consumer-workflow.yml), the [beginner setup guide](docs/GETTING_STARTED.md) and [security guidance](docs/SECURITY.md).
 4. For local testing, run Python unit tests and the generator:
 
     python -m unittest discover -s tests -v
