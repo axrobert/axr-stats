@@ -102,6 +102,9 @@ A página [Roadmap](https://axrobert.github.io/axr-stats/roadmap/) agora usa cin
 
 ## Personalização — Fase 2 (prévia)
 
+**Fase 2.4 (concluída; PR #25):** o personalizador separa ajustes básicos e avançados, importa `axr-stats.json` localmente com validação estrita e oferece opções de fuso/saída. O card Atividade também teve seu medidor realinhado para evitar colisão com o texto.
+
+
 [**Experimentar os seis cards no site**](https://axrobert.github.io/axr-stats/customize/) · Visualização dos SVGs renderizados pelo mesmo Python usado na Action, com **dados fictícios**. O navegador modifica apenas tokens válidos de cor. Sem OAuth, telemetria ou chamadas à API do WakaTime.
 
 Você pode manter os temas padrão ou fornecer um arquivo [`axr-stats.json`](examples/axr-stats.json) para selecionar tema, fuso, diretório de saída, cards publicados, organização do README, largura de exibição e ajustar cores dos cards via tokens `#RRGGBB`, **sem editar o código**.

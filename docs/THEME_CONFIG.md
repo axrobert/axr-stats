@@ -82,3 +82,13 @@ O editor apresenta três escalas tipográficas seguras e uma opção para oculta
 ## Fase 2.3.3 — Cabeçalhos e clareza visual
 
 A opção `"show_card_subtitles": false` oculta a descrição secundária abaixo dos títulos em todos os seis cards. O tamanho do SVG, as métricas, as legendas de dados e os emblemas permanecem os mesmos. O padrão `true` mantém exatamente o aspecto anterior. O personalizador usa SVGs offline produzidos pelo renderizador real para que a prévia corresponda à configuração exportada. Os controles avançados continuam opcionais; não são necessários para a instalação básica.
+
+## Fase 2.4 — Importação de configuração e facilidade de uso
+
+No [personalizador](https://axrobert.github.io/axr-stats/customize/), selecione o tema e os cards em modo simples. Clique em **Cores personalizadas** ou **Opções avançadas dos SVGs** apenas quando necessário.
+
+Para reutilizar um `axr-stats.json`, escolha-o no campo **Já tem um axr-stats.json?**. O arquivo é lido somente no navegador, limitado a 64 KB e validado integralmente **antes** de alterar controles. Campos desconhecidos, segredos, cores malformadas, cards duplicados, caminhos perigosos e valores incompatíveis são recusados. Importações inválidas não alteram a configuração anterior.
+
+Os campos opcionais de saída (`output`) e fuso horário (`timezone`) também são expostos no editor avançado e refletem o JSON exportado. O snippet de README usa a pasta de saída informada. **A importação não acessa o WakaTime nem envia dados ao servidor.**
+
+O card Atividade também recebeu ajuste geométrico para distanciar a barra semicircular do texto central, preservando os tempos reais e o tamanho total do SVG.

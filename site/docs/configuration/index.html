@@ -25,6 +25,8 @@
 <p class="docs-kicker">PERSONALIZAÇÃO</p><h1>Configuração</h1><p class="docs-lead">Altere tema, fuso horário e destino dos arquivos sem editar o núcleo do gerador.</p>
 <article class="docs-content">
 <div class="docs-callout"><p><strong>Novidade da Fase 2:</strong> configure tema, cores, fuso e saída num arquivo JSON opcional. Veja o <a href="https://github.com/axrobert/axr-stats/blob/main/docs/THEME_CONFIG.md">guia de configuração por arquivo</a> e o <a href="https://github.com/axrobert/axr-stats/blob/main/examples/axr-stats.json">exemplo pronto</a>. O <a href="../../customize/">personalizador</a> já mostra seis templates SVG reais com dados fictícios e permite exportar cores; seleção de cards publicados, layout do README e largura de exibição já disponíveis; a edição interna de SVGs permanece planejada.</p></div>
+<h2 id="primeiros-passos">Importar configuração e ajustes avançados</h2>
+<p>Para começar, escolha o tema e os cards. Cores e opções técnicas ficam em painéis expansíveis, sem poluir a página. Se já tiver um <code>axr-stats.json</code>, importe-o localmente: o navegador valida os campos antes de atualizar os controles. O arquivo não é enviado à rede. <strong>Não inclua credenciais no JSON.</strong> Você também pode escolher a pasta de saída e o fuso horário antes de exportar.</p>
 <h2 id="parametros">Parâmetros</h2>
 <table class="docs-table"><thead><tr><th>Parâmetro</th><th>Opções</th><th>Padrão</th></tr></thead><tbody><tr><td><code>--theme</code></td><td>midnight, graphite, aurora</td><td>midnight</td></tr><tr><td><code>--timezone</code></td><td>Nome IANA, como America/Maceio</td><td>UTC</td></tr><tr><td><code>--output</code></td><td>Pasta de saída</td><td>dist</td></tr></tbody></table>
 <h2 id="exemplo">Exemplo</h2>
@@ -53,7 +55,7 @@
 </div>
 <p class="docs-footer-note">AXR Stats é um projeto independente em desenvolvimento. <a href="https://github.com/axrobert/axr-stats/issues">Sugerir melhoria na documentação ↗</a></p>
 </main>
-<aside class="docs-toc" aria-label="Nesta página"><h2>Nesta página</h2><a href="#parametros">Parâmetros</a><a href="#exemplo">Exemplo</a><a href="#previsualizacao">Prévia dos cards</a><a href="#selecionar-cards">Cards e layouts</a><a href="#densidade-linguagens">Densidade das linguagens</a><a href="#tipografia">Tipografia e estrelas</a><a href="#cabecalhos">Cabeçalhos</a><a href="#temas">Temas disponíveis</a><a href="#artes">Substituir um emblema</a><a href="#secrets">Credenciais</a></aside>
+<aside class="docs-toc" aria-label="Nesta página"><h2>Nesta página</h2><a href="#primeiros-passos">Importar JSON</a><a href="#parametros">Parâmetros</a><a href="#exemplo">Exemplo</a><a href="#previsualizacao">Prévia dos cards</a><a href="#selecionar-cards">Cards e layouts</a><a href="#densidade-linguagens">Densidade das linguagens</a><a href="#tipografia">Tipografia e estrelas</a><a href="#cabecalhos">Cabeçalhos</a><a href="#temas">Temas disponíveis</a><a href="#artes">Substituir um emblema</a><a href="#secrets">Credenciais</a></aside>
 </div>
 <footer class="axr-footer" aria-label="Rodapé do AXR Stats">
   <div class="wrap axr-footer-inner">

@@ -222,22 +222,22 @@ def languages_card(stats,t,historical=False,max_rows=10):
 def activity_card(today_seconds, avg_seconds, t):
     """Same canvas, header and footer geometry as the weekly ranking card."""
     fraction = min(1.0, max(0.0, float(today_seconds or 0) / (8 * 3600)))
-    cx, cy, radius = 175, 218, 84
+    cx, cy, radius = 175, 198, 84
     theta = math.pi * (1 - fraction)
     x = cx + radius * math.cos(theta)
     y = cy - radius * math.sin(theta)
     body = (
-        f'<path d="M91 218 A84 84 0 0 1 259 218" fill="none" '
+        f'<path d="M91 198 A84 84 0 0 1 259 198" fill="none" '
         f'stroke="{t["outline"]}" stroke-width="12" stroke-linecap="round"/>'
     )
     if fraction > 0:
         body += (
-            f'<path d="M91 218 A84 84 0 {1 if fraction > .5 else 0} 1 '
+            f'<path d="M91 198 A84 84 0 {1 if fraction > .5 else 0} 1 '
             f'{x:.2f} {y:.2f}" fill="none" stroke="{t["success"]}" '
             'stroke-width="12" stroke-linecap="round"/>'
         )
-    body += label(cx, 179, duration(today_seconds), t, 26, 700, anchor='middle')
-    body += label(cx, 201, 'Logged today', t, 12, color='muted', anchor='middle')
+    body += label(cx, 184, duration(today_seconds), t, 26, 700, anchor='middle')
+    body += label(cx, 207, 'Logged today', t, 12, color='muted', anchor='middle')
     body += f'<path d="M28 251 H322" stroke="{t["outline"]}"/>'
     body += label(28, 280, 'Daily average (7 days)', t, 11, color='muted')
     body += label(322, 280, duration(avg_seconds), t, 12, 700, anchor='end')
