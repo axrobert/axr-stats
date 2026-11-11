@@ -70,6 +70,7 @@ class DocsRoutingTests(unittest.TestCase):
                 self.assertTrue((SITE / route / "index.html").is_file())
         self.assertTrue((SITE / "docs/docs.css").is_file())
         self.assertTrue((SITE / "docs/docs.js").is_file())
+        self.assertTrue((SITE / "refinement.css").is_file())
 
     def test_all_local_links_and_assets_resolve(self):
         documents = [SITE / "index.html"] + [SITE / r / "index.html" for r in ROUTES]

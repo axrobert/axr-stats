@@ -750,3 +750,148 @@ a, button, input {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Roadmap on home: an editorial ledger, not another row of matching cards. */
+.project-status {
+  padding: 6px 0 70px;
+}
+.status-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.status-link {
+  color: #526c9c;
+  font-size: 12px;
+  font-weight: 800;
+  text-underline-offset: 3px;
+}
+.status-link:hover {
+  text-decoration: underline;
+}
+.status-ledger {
+  border-top: 2px solid #516b9b;
+  border-bottom: 1px solid #dfe5eb;
+  background: #f1f3f5;
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: 44px;
+  padding: 32px 42px;
+}
+.status-ledger-copy {
+  position: relative;
+  padding-left: 92px;
+}
+.status-number {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #5d75a1;
+  font: 850 46px/1 Outfit, "Segoe UI", sans-serif;
+  letter-spacing: -.06em;
+}
+.status-number span {
+  font-size: 23px;
+}
+.status-ledger-copy h2 {
+  font: 750 26px/1.2 Outfit, "Segoe UI", sans-serif;
+  letter-spacing: -.03em;
+  margin: 0 0 11px;
+}
+.status-ledger-copy p {
+  color: #6c7889;
+  font-size: 13px;
+  line-height: 1.75;
+  max-width: 340px;
+  margin: 0;
+}
+.status-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.status-steps li {
+  display: grid;
+  grid-template-columns: 36px minmax(0,1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 0;
+  border-bottom: 1px solid #dfe4ea;
+}
+.status-steps li:last-child {
+  border-bottom: 0;
+}
+.status-steps li > span {
+  color: #9aa4b5;
+  font: 750 13px Outfit, sans-serif;
+}
+.status-steps strong {
+  font-size: 13px;
+  display: block;
+  font-weight: 800;
+}
+.status-steps small {
+  display: block;
+  color: #8290a3;
+  font-size: 11px;
+  margin-top: 3px;
+}
+.status-steps b {
+  font-size: 10px;
+  font-weight: 750;
+  color: #8e98a8;
+}
+.status-steps .complete > span, .status-steps .complete b {
+  color: #4a8a72;
+}
+.status-steps .current > span, .status-steps .current b {
+  color: #4b6cab;
+}
+.docs-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 12px;
+  font-weight: 750;
+  color: #65738c;
+}
+.docs-header-nav a:hover {
+  color: #4969a5;
+}
+@media(max-width:760px) {
+  .status-ledger {
+    grid-template-columns: 1fr;
+    padding: 27px 25px;
+    gap: 21px;
+  }
+  .status-ledger-copy {
+    padding-left: 73px;
+  }
+  .status-number {
+    font-size: 38px;
+  }
+  .status-steps li {
+    grid-template-columns: 30px minmax(0,1fr) auto;
+    gap: 8px;
+  }
+  .docs-header-nav {
+    gap: 10px;
+    font-size: 11px;
+  }
+}
+@media(max-width:480px) {
+  .status-titlebar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .status-ledger-copy {
+    padding-left: 0;
+  }
+  .status-number {
+    position: static;
+    display: block;
+    margin-bottom: 16px;
+  }
+}

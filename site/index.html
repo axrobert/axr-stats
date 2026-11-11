@@ -11,6 +11,7 @@
   <title>AXR Stats — Seu código. Sua evolução.</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="refinement.css">
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -49,9 +50,9 @@
         <div class="hero-orb orb-a" aria-hidden="true"></div>
         <div class="hero-orb orb-b" aria-hidden="true"></div>
         <div class="hero-copy" aria-live="polite" aria-atomic="true">
-          <div class="hero-label"><span class="label-flare" aria-hidden="true">✦</span> AXR STATS / EXPERIENCE</div>
-          <h1 id="hero-title">Seu código merece<br><span>reconhecimento.</span></h1>
-          <p id="hero-description">Transforme suas horas de programação em uma jornada visual com estatísticas, emblemas e níveis próprios.</p>
+          <div class="hero-label"><span class="label-flare" aria-hidden="true">✦</span> AXR STATS / PROGRESSÃO</div>
+          <h1 id="hero-title">Sua evolução<br><span>em código.</span></h1>
+          <p id="hero-description">Horas registradas, evolução por níveis e cards que fazem sentido no seu perfil. Dados reais, sem promessas inventadas.</p>
           <a id="hero-action" class="hero-cta" href="#ranks">Conheça os ranks <span aria-hidden="true">↗</span></a>
         </div>
         <div class="hero-art" aria-hidden="true">
@@ -85,7 +86,7 @@
 
     <section id="explorar" class="wrap discover" aria-labelledby="discover-title">
       <div class="section-intro">
-        <div><p class="eyebrow">DESCUBRA O AXR STATS</p><h2 id="discover-title">Explore sua jornada<span class="accent-dot">.</span></h2></div>
+        <div><p class="eyebrow">DESCUBRA O AXR STATS</p><h2 id="discover-title">Seu percurso, em detalhe<span class="accent-dot">.</span></h2></div>
         <p>Conquistas e métricas em um só lugar. Sem inventar posições ou horas.</p>
       </div>
       <div class="discovery-grid">
@@ -131,7 +132,7 @@
     <section class="ranks-section" id="ranks" aria-labelledby="ranks-title">
       <div class="wrap">
         <div class="section-intro">
-          <div><p class="eyebrow">PROGRESSÃO / 07 TIERS</p><h2 id="ranks-title">Cada conquista tem sua forma<span class="accent-dot">.</span></h2></div>
+          <div><p class="eyebrow">PROGRESSÃO / 07 TIERS</p><h2 id="ranks-title">Sete estágios de evolução<span class="accent-dot">.</span></h2></div>
           <p>Sete níveis por horas acumuladas. Ilustrações provisórias, prontas para serem substituídas pelos emblemas definitivos.</p>
         </div>
         <div class="rank-toolbar">
@@ -140,6 +141,25 @@
         </div>
         <div class="rank-grid" id="rank-grid"></div>
         <p class="rank-disclaimer">Ranks criados pelo AXR Stats. Não representam classificação oficial de GitHub ou WakaTime. Os PNGs são provisórios.</p>
+      </div>
+    </section>
+
+    <section class="project-status wrap" aria-labelledby="status-title">
+      <div class="status-titlebar">
+        <span class="eyebrow">STATUS DO PROJETO / FASE 1.5</span>
+        <a class="status-link" href="docs/roadmap/">Acompanhar roadmap <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="status-ledger">
+        <div class="status-ledger-copy">
+          <span class="status-number" aria-hidden="true">01<span>.5</span></span>
+          <h2 id="status-title">Em construção, com intenção.</h2>
+          <p>O protótipo funciona. Agora estamos refinando identidade, acessibilidade e a experiência antes de lançar a Action estável.</p>
+        </div>
+        <ol class="status-steps" aria-label="Etapas do projeto">
+          <li class="complete"><span>01</span><div><strong>Fundação</strong><small>Gerador, WakaTime e documentação</small></div><b>Concluído</b></li>
+          <li class="current"><span>1.5</span><div><strong>Identidade e acabamento</strong><small>Interface, componentes e QA visual</small></div><b>Em andamento</b></li>
+          <li><span>02</span><div><strong>Personalização</strong><small>Temas e novos emblemas</small></div><b>Planejado</b></li>
+        </ol>
       </div>
     </section>
 
