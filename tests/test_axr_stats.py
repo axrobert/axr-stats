@@ -26,7 +26,7 @@ class TestAXRStats(unittest.TestCase):
             for name,svg in result.items():
                 self.assertEqual(ET.fromstring(svg).tag,'{http://www.w3.org/2000/svg}svg',name)
                 self.assertNotIn('Card Error',svg)
-            self.assertIn('Artisan',result['lifetime.svg'])
+            self.assertIn('Estudante',result['lifetime.svg'])
             self.assertIn('Position not confirmed',result['ranking.svg'])
 
     def test_official_rank_only_when_numeric(self):
@@ -36,9 +36,9 @@ class TestAXRStats(unittest.TestCase):
         self.assertNotIn('#8937',invalid['ranking.svg'])
 
     def test_levels(self):
-        self.assertEqual(axr.level_for(0)[1],'Novice')
-        self.assertEqual(axr.level_for(145)[1],'Artisan')
-        self.assertEqual(axr.level_for(2600)[1],'Legend')
+        self.assertEqual(axr.level_for(0)[1],'Beginner')
+        self.assertEqual(axr.level_for(145)[1],'Apprentice')
+        self.assertEqual(axr.level_for(2600)[1],'Architect')
 
     def test_xml_escaping(self):
         self.month['data']['languages'][0]['name']='<script onload="danger">'
@@ -58,7 +58,7 @@ class TestAXRStats(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             axr.write_cards(result,tmp)
             self.assertEqual(len(list(Path(tmp).glob('*.svg'))),6)
-            self.assertIn('Artisan',(Path(tmp)/'lifetime.svg').read_text(encoding='utf-8'))
+            self.assertIn('Apprentice',(Path(tmp)/'lifetime.svg').read_text(encoding='utf-8'))
 
 
     def test_all_time_language_stats_are_not_30_day_stats(self):
@@ -78,7 +78,7 @@ class TestAXRStats(unittest.TestCase):
             self.assertIn('linearGradient',image)
             elements.append(image)
         self.assertEqual(len(set(elements)),7)
-        self.assertIn('linearGradient',axr.cards(self.lifetime,self.month,self.week,self.summaries,{},self.today)['lifetime.svg'])
+        self.assertIn('data:image/png;base64,',axr.cards(self.lifetime,self.month,self.week,self.summaries,{},self.today)['lifetime.svg'])
 
     def test_activity_text_is_separated_from_gauge(self):
         card=axr.activity_card(3600,1800,axr.THEMES['midnight'])
@@ -97,17 +97,27 @@ class TestAXRStats(unittest.TestCase):
             svg.write_text(result['lifetime.svg'],encoding='utf-8')
             target=root/'lifetime.png'
             emblem=root/'emblem.png'
-            render(svg,2,ROOT/'assets/badges',target,emblem)
+            render(svg,1,ROOT/'assets/badges/current',target,emblem)
             with Image.open(target) as card:
                 self.assertEqual(card.size,(1400,680))
             with Image.open(emblem) as badge:
                 self.assertEqual(badge.size,(320,320))
-            for stem in ('01-novice','02-explorer','03-artisan',
-                         '04-specialist','05-veteran','06-master','07-legend'):
-                with Image.open(ROOT/'assets/badges'/(stem+'.png')) as image:
-                    self.assertEqual(image.size,(192,192))
-                    self.assertIn(image.mode,('P','RGBA'))
+            for item in axr.RANKS:
+                with Image.open(ROOT/'assets/badges/current'/item['png']) as image:
+                    self.assertEqual(image.size,(512,512))
+                    self.assertEqual(image.mode,'RGBA')
 
+
+    def test_every_rank_boundary_and_svg_artwork(self):
+        import json
+        self.assertEqual(len(axr.RANKS),12)
+        for i,rank in enumerate(axr.RANKS):
+            self.assertEqual(axr.level_for(rank['min_hours'])[0],i)
+            self.assertIn('data:image/png;base64,', axr.shield(axr.THEMES['midnight'],i,30,90))
+            self.assertEqual(axr.level_for(rank['min_hours'])[1], rank['name_en'])
+            if rank['max_hours_exclusive'] is not None:
+                self.assertEqual(axr.level_for(rank['max_hours_exclusive']-0.01)[0],i)
+        self.assertEqual(axr.level_for(8000)[1], 'Sovereign')
 
     def test_paired_cards_have_same_anchors_and_dimensions(self):
         example = axr.cards(self.lifetime, self.month, self.week,
