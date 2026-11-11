@@ -122,6 +122,9 @@ async function exerciseRoute(context, route, width) {
       errors.push("imported output path was not used in README snippet");
     if(!(await page.locator("#theme-color-details").evaluate(el=>el.open)))
       errors.push("imported custom colors not revealed");
+    // Show the advanced controls before Playwright uses visible checkbox actions.
+    await page.locator("#theme-render-details").evaluate(el=>{el.open=true});
+    await page.locator("#theme-color-details").evaluate(el=>{el.open=true});
     // Restore defaults for legacy workbench regression flow below.
     await page.locator('[data-theme="midnight"]').click();
     await page.locator('[data-include-card="activity"]').check();
