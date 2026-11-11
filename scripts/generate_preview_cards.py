@@ -15,7 +15,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from axr_stats import THEMES, activity_card, cards, languages_card
+from axr_stats import THEMES, activity_card, cards, languages_card, lifetime_card, badge_card, presentation_theme
 
 FILES = ("lifetime.svg", "languages.svg", "activity.svg",
          "ranking.svg", "heatmap.svg", "emblem.svg")
@@ -48,25 +48,43 @@ def build(output: Path) -> list[Path]:
         for i in range(30)
     ]}
     leaders = {"current_user": {"rank": 2841}}  # FICTIONAL example, never official.
-    content = cards(lifetime, month, week, summaries, leaders, today,
-                    theme="midnight", all_langs=all_langs)
-    content["activity.svg"] = activity_card(3 * 3600 + 15 * 60,
-                                            week["data"]["daily_average"],
-                                            THEMES["midnight"])
     output.mkdir(parents=True, exist_ok=True)
-    result = []
-    for filename in FILES:
-        svg = content[filename]
-        ET.fromstring(svg)
-        path = output / filename
-        path.write_text(svg, encoding="utf-8")
-        result.append(path)
-    for rows in (5, 8):
-        path = output / f"languages-{rows}.svg"
-        svg = languages_card(all_langs["data"], THEMES["midnight"], historical=True, max_rows=rows)
-        ET.fromstring(svg)
-        path.write_text(svg, encoding="utf-8")
-    return result
+    base_files = []
+    # Build all presentation combinations offline; the browser loads only
+    # whichever static SVG is currently selected, never user credentials.
+    for typography in ("standard", "compact", "large"):
+        t = presentation_theme(THEMES["midnight"], typography)
+        content = cards(lifetime, month, week, summaries, leaders, today,
+                        theme="midnight", all_langs=all_langs,
+                        typography=typography)
+        content["activity.svg"] = activity_card(3 * 3600 + 15 * 60,
+                                               week["data"]["daily_average"], t)
+
+        def emit(card_name, value, rows=10, stars=True):
+            stem = card_name
+            if card_name == "languages" and rows != 10:
+                stem += f"-{rows}"
+            if typography != "standard":
+                stem += f"-type-{typography}"
+            if card_name in ("lifetime", "emblem") and not stars:
+                stem += "-no-stars"
+            path = output / f"{stem}.svg"
+            ET.fromstring(value)
+            path.write_text(value, encoding="utf-8")
+            return path
+
+        for name in FILES:
+            card_name = name.removesuffix(".svg")
+            path = emit(card_name, content[name])
+            if typography == "standard":
+                base_files.append(path)
+
+        for rows in (5, 8):
+            emit("languages", languages_card(all_langs["data"], t, historical=True, max_rows=rows), rows)
+        no_stars = presentation_theme(THEMES["midnight"], typography, show_rank_stars=False)
+        emit("lifetime", lifetime_card(lifetime, month["data"], week["data"], no_stars), stars=False)
+        emit("emblem", badge_card(lifetime, no_stars), stars=False)
+    return base_files
 
 def main():
     parser = argparse.ArgumentParser()

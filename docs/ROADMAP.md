@@ -28,9 +28,9 @@
 - Local browser palette workbench at `/customize/` with actual production-rendered SVG templates, fictional stats, six card types, and JSON export (no browser access to WakaTime).
 - Deterministic preview builder uses the Python renderer during Pages/Visual QA builds and never contacts external services.
 - Preset themes and CLI usage documented; preview layout matches production SVGs for all six types.
-- Pre-2.3 quality gate: OAuth redirect/response hardening, safer output paths, selected-file staging, offline security regressions, and beginner onboarding (in validation).
-- Phase 2.3.1 (in validation): internal density for Languages SVG with `language_rows` presets (5/8/10), matched static previews and strict validation. Default 10 preserves previous behavior.
-- Phase 2.3 next: additional card typography, geometry and optional sections with Python/preview parity.
+- Pre-2.3 quality gate: OAuth redirect/response hardening, safe output paths, selective staging, offline security regressions, beginner onboarding and Python dependency audit (completed; PR #20).
+- Phase 2.3.1 (completed; PR #21): Languages SVG density via `language_rows` (5/8/10), real previews and strict validation.
+- Phase 2.3.2 (implemented, validation pending): `typography` scale (90/100/108%), `show_rank_stars` toggle, six-card preview parity and offline lazy-loaded fixtures. Further internal arrangements remain planned.
 - Phase 2.2: validated `cards` selection, README `layout` (`stacked` / `paired`), `size` (`compact` / `standard` / `large`), live composition preview, and generated README snippet. Internal SVG geometry and typography controls remain planned.
 
 ## Phase 3 — Public product

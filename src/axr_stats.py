@@ -50,6 +50,19 @@ THEMES = {
 }
 RANKS = json.loads((Path(__file__).resolve().parents[1] / 'assets/badges/current/ranks.json').read_text(encoding='utf-8'))
 LEVELS = [(entry['min_hours'], entry['name_en']) for entry in RANKS]
+TYPOGRAPHY_SCALES = {'compact': 0.90, 'standard': 1.0, 'large': 1.08}
+
+
+def presentation_theme(theme, typography='standard', show_rank_stars=True):
+    """Validated drawing preferences. Do not mutate the shared theme palette."""
+    if type(typography) is not str or typography not in TYPOGRAPHY_SCALES:
+        raise RuntimeError('Unknown typography preset')
+    if type(show_rank_stars) is not bool:
+        raise RuntimeError('show_rank_stars must be boolean')
+    result = dict(theme)
+    result['_font_scale'] = TYPOGRAPHY_SCALES[typography]
+    result['_show_rank_stars'] = show_rank_stars
+    return result
 
 @lru_cache(maxsize=12)
 def rank_image_data(level):
@@ -123,7 +136,9 @@ def duration(seconds):
 
 def label(x,y,value,theme,size=14,weight=400,color='text',anchor=None):
     a=f' text-anchor="{anchor}"' if anchor else ''
-    return f'<text x="{x}" y="{y}" font-family="Arial,sans-serif" font-size="{size}" font-weight="{weight}" fill="{theme[color]}"{a}>{esc(value)}</text>'
+    factor = theme.get('_font_scale', 1.0)
+    font_size = str(size) if factor == 1 else f'{size * factor:.2f}'.rstrip('0').rstrip('.')
+    return f'<text x="{x}" y="{y}" font-family="Arial,sans-serif" font-size="{font_size}" font-weight="{weight}" fill="{theme[color]}"{a}>{esc(value)}</text>'
 
 def shell(w,h,title,subtitle,body,t):
     svg = f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img" aria-label="{esc(title)}">'
@@ -164,7 +179,7 @@ def lifetime_card(lifetime,month,week,t):
         raise RuntimeError('WakaTime lifetime total must be finite and non-negative')
     level,name,nxt,progress=level_for(seconds/3600)
     filled=5 if nxt is None else min(5,int(progress*5))
-    marks=''.join(f'<polygon points="{star(210+i*27,184,10,4.5)}" fill="{t["accent"] if i<filled else t["outline"]}"/>' for i in range(5))
+    marks=''.join(f'<polygon points="{star(210+i*27,184,10,4.5)}" fill="{t["accent"] if i<filled else t["outline"]}"/>' for i in range(5)) if t.get('_show_rank_stars', True) else ''
     bar=f'<rect x="193" y="275" width="234" height="9" rx="4" fill="{t["outline"]}"/><rect x="193" y="275" width="{234*progress:.1f}" height="9" rx="4" fill="{t["success"]}"/>'
     body=shield(t,level,29,97,1.04)+label(193,115,'CUSTOM LEVEL SYSTEM · HOURS',t,11,700,color='muted')
     body+=label(193,155,name,t,30,700,color='accent')+marks
@@ -282,12 +297,14 @@ def badge_card(lifetime,t):
     filled=5 if nxt is None else int(progress*5)
     body=shield(t,level,38,82,.88)
     body+=label(96,220,name,t,16,700,color='accent',anchor='middle')
-    body+=''.join(f'<polygon points="{star(53+i*22,244,7,3)}" fill="{t["accent"] if i<filled else t["outline"]}"/>' for i in range(5))
+    if t.get('_show_rank_stars', True):
+        body+=''.join(f'<polygon points="{star(53+i*22,244,7,3)}" fill="{t["accent"] if i<filled else t["outline"]}"/>' for i in range(5))
     return shell(192,269,'Emblem','Hours-based tier',body,t)
 
-def cards(lifetime,month,week,summaries,leaders,today,theme='midnight',all_langs=None,language_rows=10):
+def cards(lifetime,month,week,summaries,leaders,today,theme='midnight',all_langs=None,language_rows=10,
+          typography='standard',show_rank_stars=True):
     if theme not in THEMES: raise RuntimeError('Unknown theme')
-    t=THEMES[theme]
+    t=presentation_theme(THEMES[theme],typography,show_rank_stars)
     a,b=month.get('data'),week.get('data')
     c=summaries.get('data')
     if not isinstance(a,dict) or not isinstance(b,dict) or not isinstance(c,list):
@@ -340,9 +357,16 @@ def main(argv=None):
     summaries=api('users/current/summaries',token,{'start':(today-dt.timedelta(days=29)).isoformat(),'end':today.isoformat(),'timezone':opts.timezone})
     try: leaders=api('leaders',token)
     except RuntimeError: leaders={}
-    result=cards(lifetime,month,week,summaries,leaders,today,opts.theme,all_langs,language_rows=configuration.get('language_rows',10))
+    result=cards(lifetime,month,week,summaries,leaders,today,opts.theme,all_langs,
+                 language_rows=configuration.get('language_rows',10),
+                 typography=configuration.get('typography','standard'),
+                 show_rank_stars=configuration.get('show_rank_stars',True))
     daily={str((x.get('range') or {}).get('date')):float((x.get('grand_total') or {}).get('total_seconds') or 0) for x in summaries.get('data',[])}
-    result['activity.svg']=activity_card(daily.get(today.isoformat(),0),week.get('data',{}).get('daily_average',0),THEMES[opts.theme])
+    result['activity.svg']=activity_card(
+        daily.get(today.isoformat(),0),week.get('data',{}).get('daily_average',0),
+        presentation_theme(THEMES[opts.theme],
+                           configuration.get('typography','standard'),
+                           configuration.get('show_rank_stars',True)))
     selected = configuration.get('cards', CARD_IDS)
     # Emblem PNG compositing needs lifetime.svg as an internal input.
     internal = set(selected)

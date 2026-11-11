@@ -13,7 +13,7 @@ COLOR_KEYS = frozenset(("background", "surface", "outline", "text", "muted", "ac
 CARD_IDS = ("lifetime", "languages", "activity", "ranking", "heatmap", "emblem")
 LAYOUTS = frozenset(("stacked", "paired"))
 SIZES = frozenset(("compact", "standard", "large"))
-ROOT_KEYS = frozenset(("theme", "timezone", "output", "colors", "cards", "layout", "size", "language_rows"))
+ROOT_KEYS = frozenset(("theme", "timezone", "output", "colors", "cards", "layout", "size", "language_rows", "typography", "show_rank_stars"))
 HEX = re.compile(r"#[0-9a-fA-F]{6}\Z")
 
 
@@ -74,6 +74,11 @@ def read_config(path: Path | None) -> dict:
         value = data["language_rows"]
         if type(value) is not int or value not in (5, 8, 10):
             raise RuntimeError("language_rows must be 5, 8 or 10")
+    if "typography" in data and (not isinstance(data["typography"], str) or
+                                 data["typography"] not in ("compact", "standard", "large")):
+        raise RuntimeError("typography must be compact, standard or large")
+    if "show_rank_stars" in data and type(data["show_rank_stars"]) is not bool:
+        raise RuntimeError("show_rank_stars must be true or false")
     return data
 
 

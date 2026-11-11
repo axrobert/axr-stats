@@ -25,7 +25,9 @@ Arquivo de exemplo: [`examples/axr-stats.json`](../examples/axr-stats.json).
 - `cards`: lista não vazia dos cards a publicar: `lifetime`, `languages`, `activity`, `ranking`, `heatmap` e `emblem`. Omitir publica todos. A seleção remove apenas saídas gerenciadas pela ferramenta que não foram selecionadas.
 - `layout`: `stacked` (vertical) ou `paired` (duas colunas). Afeta apenas o snippet do README, não as dimensões nativas do SVG.
 - `size`: `compact`, `standard`, `large`. Define as larguras HTML do snippet (não faz upscale da imagem).
-- `language_rows`: `5`, `8` ou `10` (padrão). Controla o número máximo de linguagens e a altura interna do card SVG de Linguagens, sem alterar o histórico nem seus totais.
+- `language_rows`: `5`, `8` ou `10` (padrão). Controla o número máximo de linguagens e a altura interna do card SVG de Linguagens.
+- `typography`: `compact` (90%), `standard` (100%, padrão) ou `large` (108%). Ajusta a escala dos textos do SVG; o tamanho externo permanece igual.
+- `show_rank_stars`: `true` (padrão) ou `false`. Mostra ou oculta as estrelas de progresso dos cards Tempo total e Emblema; a insígnia original permanece.
 - `colors`: objeto opcional com os tokens `background`, `surface`, `outline`, `text`, `muted`, `accent` e `success`, sempre no formato `#RRGGBB`.
 
 Valores informados por CLI/`with` prevalecem sobre o JSON. Os demais vêm do JSON e, na ausência deste, dos padrões anteriores. A paleta customizada altera os cards SVG e, por consequência, o card rasterizado; **não recolore os 12 emblemas artísticos**.
@@ -61,3 +63,17 @@ A Action gera somente os SVGs selecionados e os PNGs correspondentes quando apli
 ## Fase 2.3.1 — Densidade do card de Linguagens
 
 Use `"language_rows": 5`, `8` ou `10` no `axr-stats.json`. O renderizador Python modifica o número de linhas e a altura do **SVG de Linguagens**, com prévia correspondente no [personalizador](https://axrobert.github.io/axr-stats/customize/). O valor é validado estritamente; outros números, strings ou booleanos são rejeitados. A opção não recalcula dados, não muda o ranking e não modifica os emblemas. O padrão **10** mantém a saída antiga. Outros controles de tipografia e composição interna continuarão nas próximas etapas da Fase 2.3.
+
+## Fase 2.3.2 — Tipografia e elementos internos
+
+```json
+{
+  "typography": "large",
+  "show_rank_stars": false,
+  "language_rows": 8
+}
+```
+
+O editor apresenta três escalas tipográficas seguras e uma opção para ocultar as estrelas dos cards de Tempo total e Emblema. O cálculo das horas e das classificações oficiais não muda. As prévias são SVGs derivados do próprio renderizador Python, com números fictícios. O navegador carrega apenas o card selecionado, sem conexão com a API do WakaTime.
+
+**Compatibilidade:** omitir `typography` e `show_rank_stars` mantém exatamente os valores anteriores: `standard` e `true`. A opção `large` pode precisar de revisão visual quando nomes de linguagens forem excepcionalmente longos; os valores são limitados para reduzir colisões.
