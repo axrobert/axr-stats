@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pt-BR" data-base="../">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Personalize cores dos cards do AXR Stats e exporte um arquivo de configuração local. Sem autenticação.">
+<meta name="theme-color" content="#f9f9f6">
+<title>Personalizar temas — AXR Stats</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+<script defer src="../ui.js"></script><script defer src="customize.js"></script>
+</head>
+<body class="customize-page">
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+<header class="site-header"><div class="wrap header-inner">
+<a href="../" class="brand" aria-label="AXR Stats — início"><span class="brand-symbol" aria-hidden="true"><span></span></span><span>AXR<span class="brand-soft">STATS</span></span></a>
+<button class="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="main-nav" aria-expanded="false"><span></span><span></span><span></span></button>
+<nav id="main-nav" class="main-nav" aria-label="Navegação principal"><a href="../">Início</a><a href="../#ranks">Ranks</a><a href="../roadmap/">Roadmap</a><a href="../docs/">Documentação</a><a href="./" class="active" aria-current="page">Personalizar</a></nav>
+<a class="header-github" href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+</div></header>
+<main id="conteudo" class="wrap theme-main">
+<div class="theme-intro"><p class="eyebrow">PERSONALIZAÇÃO / FASE 2 · PRÉVIA</p><h1>Uma paleta. Seu estilo.</h1><p>Experimente as cores dos cards e exporte um <code>axr-stats.json</code> para usar com a Action. Esta ferramenta altera a aparência, não os dados nem os emblemas.</p></div>
+<div class="theme-workbench">
+<section class="theme-editor" aria-labelledby="theme-editor-heading">
+<div class="theme-panel-heading"><span class="theme-index">01</span><div><h2 id="theme-editor-heading">Configurar cores</h2><p>Escolha um ponto de partida e ajuste os tokens.</p></div></div>
+<div class="theme-presets" role="group" aria-label="Paleta inicial">
+<button type="button" class="theme-preset is-selected" data-theme="midnight" aria-pressed="true"><span class="theme-preset-mark mark-midnight"></span>Midnight</button>
+<button type="button" class="theme-preset" data-theme="graphite" aria-pressed="false"><span class="theme-preset-mark mark-graphite"></span>Graphite</button>
+<button type="button" class="theme-preset" data-theme="aurora" aria-pressed="false"><span class="theme-preset-mark mark-aurora"></span>Aurora</button>
+</div>
+<div class="theme-colors" id="theme-colors">
+<div class="theme-field"><label for="token-background">Fundo <code>background</code></label><div><input id="token-background" type="color" data-color="background" value="#0c1220"><input type="text" data-hex="background" value="#0C1220" maxlength="7" pattern="#[0-9a-fA-F]{6}" spellcheck="false" aria-label="Fundo hexadecimal"></div></div>
+<div class="theme-field"><label for="token-surface">Superfície <code>surface</code></label><div><input id="token-surface" type="color" data-color="surface" value="#141e2c"><input type="text" data-hex="surface" value="#141E2C" maxlength="7" pattern="#[0-9a-fA-F]{6}" spellcheck="false" aria-label="Superfície hexadecimal"></div></div>
+<div class="theme-field"><label for="token-outline">Contorno <code>outline</code></label><div><input id="token-outline" type="color" data-color="outline" value="#2b3a4f"><input type="text" data-hex="outline" value="#2B3A4F" maxlength="7" pattern="#[0-9a-fA-F]{6}" spellcheck="false" aria-label="Contorno hexadecimal"></div></div>
+<div class="theme-field"><label for="token-text">Texto <code>text</code></label><div><input id="token-text" type="color" data-color="text" value="#edf3ff"><input type="text" data-hex="text" value="#EDF3FF" maxlength="7" pattern="#[0-9a-fA-F]{6}" spellcheck="false" aria-label="Texto hexadecimal"></div></div>
+<div class="theme-field"><label for="token-muted">Texto secundário <code>muted</code></label><div><input id="token-muted" type="color" data-color="muted" value="#a7b6cc"><input type="text" data-hex="muted" value="#A7B6CC" maxlength="7" pattern="#[0-9a-fA-F]{6}" spellcheck="false" aria-label="Texto secundário hexadecimal"></div></div>
+<div class="theme-field"><label for="token-accent">Destaque <code>accent</code></label><div><input id="token-accent" type="color" data-color="accent" value="#5caeff"><input type="text" data-hex="accent" value="#5CAEFF" maxlength="7" pattern="#[0-9a-fA-F]{6}" spellcheck="false" aria-label="Destaque hexadecimal"></div></div>
+<div class="theme-field"><label for="token-success">Progresso <code>success</code></label><div><input id="token-success" type="color" data-color="success" value="#54d2a0"><input type="text" data-hex="success" value="#54D2A0" maxlength="7" pattern="#[0-9a-fA-F]{6}" spellcheck="false" aria-label="Progresso hexadecimal"></div></div>
+</div>
+<p class="theme-help">Somente cores <code>#RRGGBB</code>. Nenhuma informação é enviada a servidores.</p>
+</section>
+<section class="theme-preview-section" aria-labelledby="theme-preview-heading">
+<div class="theme-panel-heading"><span class="theme-index">02</span><div><h2 id="theme-preview-heading">Prévia de aparência</h2><p>Estrutura ilustrativa, sem estatísticas de conta.</p></div></div>
+<div class="theme-canvas" id="theme-canvas">
+<div class="theme-card" id="theme-card">
+<div class="theme-card-top"><span class="theme-card-accent"></span><span>AXR STATS / CARD</span><small>PRÉVIA</small></div>
+<div class="theme-card-main"><div class="theme-card-seal"><span>AXR</span></div><div><small>DESIGN DO CARD</small><strong>Seu tema</strong><span>Sem dados de programação</span></div></div>
+<div class="theme-card-bars" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="theme-card-bottom"><span>Prévia de cores</span><span>Sem conexão com WakaTime</span></div>
+</div>
+</div>
+<div class="theme-export">
+<div><h3>Exportar configuração</h3><p>Use o JSON abaixo no seu repositório. Não inclua secrets.</p></div>
+<pre><code id="theme-json" aria-label="Arquivo JSON da paleta">{"theme":"midnight"}</code></pre>
+<div class="theme-actions"><button type="button" id="copy-theme" class="theme-primary">Copiar JSON</button><button type="button" id="download-theme" class="theme-secondary">Baixar JSON</button></div>
+<p id="theme-feedback" role="status" aria-live="polite" class="theme-feedback"></p>
+</div>
+</section>
+</div>
+<div class="theme-outro"><strong>Como usar</strong><p>Salve como <code>axr-stats.json</code> e informe <code>config-path: axr-stats.json</code> na Action, ou use <code>python src/run_action.py --config axr-stats.json</code> localmente. <a href="../docs/configuration/">Documentação completa</a>.</p></div>
+</main>
+<footer class="axr-footer" aria-label="Rodapé do AXR Stats"><div class="wrap axr-footer-inner"><section class="axr-footer-about"><a href="../" class="axr-footer-brand">AXR <span>STATS</span></a><p class="axr-footer-lead">Cards de programação com dados oficiais do WakaTime.</p></section><nav class="axr-footer-col" aria-label="Explorar"><h2>Explorar</h2><a href="../#ranks">Ranks</a><a href="../roadmap/">Roadmap</a><a href="./">Personalizar</a></nav><nav class="axr-footer-col" aria-label="Recursos"><h2>Recursos</h2><a href="../docs/">Documentação</a><a href="../docs/installation/">Instalação</a><a href="https://github.com/axrobert/axr-stats">Repositório</a></nav></div><div class="wrap axr-footer-bottom"><span>© 2026 AXR Stats · Projeto independente, feito com assistência de IA.</span><a href="../docs/roadmap/" class="axr-footer-mark">Prévia pública</a></div></footer>
+</body></html>
