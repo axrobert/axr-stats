@@ -39,11 +39,12 @@ async function exerciseRoute(context, route, width) {
       .map(image => image.getAttribute("src")),
     mainCount: document.querySelectorAll("main").length,
     footerCount: document.querySelectorAll(".axr-footer").length,
+    offenders: [...document.querySelectorAll("body *")].filter(node => { const r=node.getBoundingClientRect(); const style=getComputedStyle(node); return r.right > innerWidth+2 && style.position !== "fixed" && style.visibility !== "hidden"; }).slice(0,6).map(node=>({tag:node.tagName, className: typeof node.className === "string" ? node.className : "", width: Math.round(node.getBoundingClientRect().width), right: Math.round(node.getBoundingClientRect().right)})),
     blocked: [...document.querySelectorAll('[data-reveal]')].filter(node =>
       getComputedStyle(node).opacity === "0" && node.getBoundingClientRect().top < innerHeight
     ).length,
   }));
-  if (status.page > width + 2) errors.push(name + " " + width + ": horizontal overflow " + status.page + "px");
+  if (status.page > width + 2) errors.push(name + " " + width + ": horizontal overflow " + status.page + "px " + JSON.stringify(status.offenders));
   if (status.broken.length) errors.push(name + " " + width + ": broken images " + status.broken.join(", "));
   if (status.mainCount !== 1 || status.footerCount !== 1) errors.push(name + " " + width + ": landmarks missing");
   if (status.blocked) errors.push(name + " " + width + ": content hidden after scroll");
