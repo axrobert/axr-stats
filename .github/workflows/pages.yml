@@ -25,9 +25,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Prepare static website
         run: |
-          mkdir -p _site/assets/badges _site/assets/previews
+          mkdir -p _site/assets/badges/current _site/assets/previews
           cp -r site/. _site/
           cp assets/badges/*.png _site/assets/badges/
+          cp assets/badges/current/*.png _site/assets/badges/current/
+          cp assets/badges/current/*.svg _site/assets/badges/current/
+          cp assets/badges/current/ranks.json _site/assets/badges/current/
           cp assets/previews/*.svg _site/assets/previews/
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
