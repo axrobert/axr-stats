@@ -99,6 +99,22 @@ class DocsRoutingTests(unittest.TestCase):
                 self.assertIn('class="docs-toc"', text)
                 self.assertIn('data-base=', text)
 
+    def test_refinement_loaded_on_every_page(self):
+        documents = [SITE / "index.html"] + [SITE / r / "index.html" for r in ROUTES]
+        for file in documents:
+            html = file.read_text(encoding="utf-8")
+            with self.subTest(page=str(file.relative_to(SITE))):
+                self.assertIn("refinement.css", html)
+                self.assertNotIn('style="display:flex;align-items:center;gap:20px', html)
+
+    def test_refinement_uses_reduced_motion_and_valid_braces(self):
+        css = (SITE / "refinement.css").read_text(encoding="utf-8")
+        self.assertIn("prefers-reduced-motion", css)
+        self.assertIn(".docs-content h2", css)
+        self.assertIn(".rank-card", css)
+        self.assertIn(".status-ledger", css)
+        self.assertEqual(css.count("{"), css.count("}"))
+
     def test_search_and_code_copy_do_not_use_credentials(self):
         js = (SITE / "docs/docs.js").read_text(encoding="utf-8")
         self.assertIn("navigator.clipboard.writeText", js)
