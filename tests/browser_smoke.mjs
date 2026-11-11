@@ -91,6 +91,51 @@ async function exerciseRoute(context, route, width) {
       return img?.complete && img.naturalWidth > 0;
     }, null, {timeout:12000});
     if (await page.locator("[data-preview-card]").count() !== 6) errors.push("customize preview has not six cards");
+    if(await page.locator("#theme-color-details").evaluate(el=>el.open))
+      errors.push("advanced colors should start collapsed");
+    if(await page.locator("#theme-render-details").evaluate(el=>el.open))
+      errors.push("advanced render settings should start collapsed");
+    const beforeBadImport=await page.locator("#theme-json").textContent();
+    await page.locator("#theme-import-file").setInputFiles({
+      name:"invalid.json",mimeType:"application/json",
+      buffer:Buffer.from(JSON.stringify({theme:"midnight",output:"../bad",unknown:"secret"}))
+    });
+    if(!(await page.locator("#theme-import-status").textContent()).includes("recusada"))
+      errors.push("unsafe JSON was accepted");
+    if(await page.locator("#theme-json").textContent()!==beforeBadImport)
+      errors.push("invalid import partially changed configuration");
+    await page.locator("#theme-import-file").setInputFiles({
+      name:"axr-stats.json",mimeType:"application/json",
+      buffer:Buffer.from(JSON.stringify({
+        theme:"graphite",colors:{accent:"#cc88ff"},cards:["lifetime","languages","emblem"],
+        layout:"paired",size:"compact",language_rows:5,typography:"large",
+        show_rank_stars:false,show_card_subtitles:false,
+        output:"assets/custom-axr",timezone:"America/Maceio"
+      }))
+    });
+    const imported=JSON.parse(await page.locator("#theme-json").textContent());
+    if(imported.theme!=="graphite"||imported.output!=="assets/custom-axr"||
+       imported.timezone!=="America/Maceio"||imported.cards.length!==3||
+       imported.show_rank_stars!==false||imported.show_card_subtitles!==false)
+      errors.push("valid imported JSON was not synchronized");
+    if(!(await page.locator("#theme-readme-code").textContent()).includes("assets/custom-axr/lifetime.svg"))
+      errors.push("imported output path was not used in README snippet");
+    if(!(await page.locator("#theme-color-details").evaluate(el=>el.open)))
+      errors.push("imported custom colors not revealed");
+    // Restore defaults for legacy workbench regression flow below.
+    await page.locator('[data-theme="midnight"]').click();
+    await page.locator('[data-include-card="activity"]').check();
+    await page.locator('[data-include-card="ranking"]').check();
+    await page.locator('[data-include-card="heatmap"]').check();
+    await page.locator("#theme-card-subtitles").check();
+    await page.locator("#theme-rank-stars").check();
+    await page.locator("#theme-typography").selectOption("standard");
+    await page.locator("#theme-language-rows").selectOption("10");
+    await page.locator("#theme-layout").selectOption("stacked");
+    await page.locator("#theme-size").selectOption("standard");
+    await page.locator("#theme-output-dir").fill("assets/axr-stats");
+    await page.locator("#theme-timezone").fill("UTC");
+
     await page.locator('[data-preview-card="ranking"]').click();
     await page.waitForFunction(async () => {
       const img = document.querySelector("#theme-preview-image");
