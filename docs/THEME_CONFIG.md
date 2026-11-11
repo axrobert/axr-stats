@@ -28,6 +28,7 @@ Arquivo de exemplo: [`examples/axr-stats.json`](../examples/axr-stats.json).
 - `language_rows`: `5`, `8` ou `10` (padrão). Controla o número máximo de linguagens e a altura interna do card SVG de Linguagens.
 - `typography`: `compact` (90%), `standard` (100%, padrão) ou `large` (108%). Ajusta a escala dos textos do SVG; o tamanho externo permanece igual.
 - `show_rank_stars`: `true` (padrão) ou `false`. Mostra ou oculta as estrelas de progresso dos cards Tempo total e Emblema; a insígnia original permanece.
+- `show_card_subtitles`: `true` (padrão) ou `false`. Exibe ou oculta a linha de descrição abaixo do título em todos os SVGs, sem alterar a área dos dados nem os valores.
 - `colors`: objeto opcional com os tokens `background`, `surface`, `outline`, `text`, `muted`, `accent` e `success`, sempre no formato `#RRGGBB`.
 
 Valores informados por CLI/`with` prevalecem sobre o JSON. Os demais vêm do JSON e, na ausência deste, dos padrões anteriores. A paleta customizada altera os cards SVG e, por consequência, o card rasterizado; **não recolore os 12 emblemas artísticos**.
@@ -77,3 +78,7 @@ Use `"language_rows": 5`, `8` ou `10` no `axr-stats.json`. O renderizador Python
 O editor apresenta três escalas tipográficas seguras e uma opção para ocultar as estrelas dos cards de Tempo total e Emblema. O cálculo das horas e das classificações oficiais não muda. As prévias são SVGs derivados do próprio renderizador Python, com números fictícios. O navegador carrega apenas o card selecionado, sem conexão com a API do WakaTime.
 
 **Compatibilidade:** omitir `typography` e `show_rank_stars` mantém exatamente os valores anteriores: `standard` e `true`. A opção `large` pode precisar de revisão visual quando nomes de linguagens forem excepcionalmente longos; os valores são limitados para reduzir colisões.
+
+## Fase 2.3.3 — Cabeçalhos e clareza visual
+
+A opção `"show_card_subtitles": false` oculta a descrição secundária abaixo dos títulos em todos os seis cards. O tamanho do SVG, as métricas, as legendas de dados e os emblemas permanecem os mesmos. O padrão `true` mantém exatamente o aspecto anterior. O personalizador usa SVGs offline produzidos pelo renderizador real para que a prévia corresponda à configuração exportada. Os controles avançados continuam opcionais; não são necessários para a instalação básica.

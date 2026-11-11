@@ -22,11 +22,13 @@
   const languageRows = () => Number($("#theme-language-rows").value);
   const typography = () => $("#theme-typography").value;
   const showRankStars = () => $("#theme-rank-stars").checked;
+  const showCardSubtitles = () => $("#theme-card-subtitles").checked;
   const previewFile = card => {
     let name = card;
     if (card === "languages" && languageRows() !== 10) name += "-" + languageRows();
     if (typography() !== "standard") name += "-type-" + typography();
     if ((card === "lifetime" || card === "emblem") && !showRankStars()) name += "-no-stars";
+    if (!showCardSubtitles()) name += "-no-subtitle";
     return name + ".svg";
   };
   const selectionFeedback = $("#theme-selection-feedback");
@@ -96,11 +98,13 @@
     const layout = $("#theme-layout").value;
     const size = $("#theme-size").value;
     const cfg = { theme, colors: {...palette}, cards:selected, layout, size,
-      language_rows:languageRows(), typography:typography(), show_rank_stars:showRankStars() };
+      language_rows:languageRows(), typography:typography(), show_rank_stars:showRankStars(),
+      show_card_subtitles:showCardSubtitles() };
     redrawReadme(selected,layout,size);
     output.textContent = JSON.stringify(cfg, null, 2);
     window.dispatchEvent(new CustomEvent("axr:theme-update", {detail:{theme, colors:{...palette}, language_rows:languageRows(),
-      typography:typography(), show_rank_stars:showRankStars()}}));
+      typography:typography(), show_rank_stars:showRankStars(),
+      show_card_subtitles:showCardSubtitles()}}));
   }
 
   document.querySelectorAll("[data-theme]").forEach(button => button.addEventListener("click", () => {
@@ -135,6 +139,7 @@
   $("#theme-language-rows").addEventListener("change", redraw);
   $("#theme-typography").addEventListener("change", redraw);
   $("#theme-rank-stars").addEventListener("change", redraw);
+  $("#theme-card-subtitles").addEventListener("change", redraw);
   $("#copy-readme").addEventListener("click", async () => {
     try { await navigator.clipboard.writeText(lastReadme); status.textContent="Snippet do README copiado."; }
     catch { status.textContent="Cópia indisponível. Selecione o snippet acima."; }
