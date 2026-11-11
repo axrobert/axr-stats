@@ -30,3 +30,5 @@ The homepage and eight documentation routes share `site/style.css`. No new CSS o
 ## Roadmap experience
 
 The public visual roadmap is `site/roadmap/index.html`, served as `/roadmap/`. It shares `site/style.css` and `site/ui.js`, plus the page-scoped `site/roadmap/roadmap.js`. Interactive filters update only presentation; content and evidence links remain present and accessible without JavaScript. The path diagram has a linear responsive fallback and honors reduced-motion preferences. Keep phases, statuses and evidence synchronized with `docs/ROADMAP.md` and the release checklist. Do not claim dates or completion percentages without evidence.
+
+The five roadmap icons ship as native vector SVG and generated transparent PNG under `site/roadmap/icons/`. `scripts/build_roadmap_icons.py` deterministically exports 228×208 PNGs from the editable SVG source. The page loads PNGs; SVG sources remain available for asset editing. Do not confuse these vectors with rank badge SVG wrappers embedding raster PNG.

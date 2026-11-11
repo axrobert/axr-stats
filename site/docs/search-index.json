@@ -228,7 +228,7 @@
         {
           "id": "entregue",
           "title": "Concluído",
-          "text": "Concluído Leitura das estatísticas oficiais do WakaTime e geração de cards SVG. Sistema de 12 ranks por horas com PNGs originais fornecidos pelo mantenedor. Galeria de ranks, simulador e site responsivo. Documentação multipágina com navegação e busca local."
+          "text": "Concluído Leitura das estatísticas oficiais do WakaTime e geração de cards SVG. Sistema de 12 ranks por horas com PNGs corrigidos fornecidos pelo mantenedor. Galeria de ranks, simulador e site responsivo. Documentação multipágina com navegação e busca local."
         },
         {
           "id": "polish",
@@ -243,7 +243,7 @@
         {
           "id": "proximos",
           "title": "Próximas etapas",
-          "text": "Próximas etapas Revisar a apresentação visual da coleção de 12 ranks em todos os tamanhos. Publicar release estável e documentação completa da Action. Editor visual de temas e escolha de cards sem configuração manual. Novas conquistas, badges especiais e integrações adicionais."
+          "text": "Próximas etapas Validar a coleção corrigida de 12 ranks em todos os tamanhos. Publicar release estável e documentação completa da Action. Editor visual de temas e escolha de cards sem configuração manual. Novas conquistas, badges especiais e integrações adicionais."
         },
         {
           "id": "contribuir",
