@@ -71,7 +71,7 @@ Star progress reflects a *custom tier calculation*, not an official GitHub/WakaT
 
 ## Website visual refinement
 
-The public site uses `site/refinement.css` as a deliberate editorial refinement layer over the existing light-themed layout. Maintain the quiet paper background, precise neutral strokes, restrained cobalt actions, square-ish corners (typically 5–9px), and minimal shadows. Avoid repeated cards with pill CTAs and glow, arbitrary gradients, decorative floating ornaments or over-animated interfaces. Typography and spacing must convey hierarchy before borders or decoration. Documentation shares the same refinement file. Validate desktop and mobile visually before release.
+The public site now uses `site/style.css` as its single canonical stylesheet. The original cascade (base, docs, refinement, motion) has been preserved in one file. New component rules belong in that stylesheet, not a new override layer.
 
 ## Motion, icons and footer (site V0.9)
 
@@ -82,3 +82,7 @@ The public site uses `site/refinement.css` as a deliberate editorial refinement 
 - Icons: local Lucide SVG symbol sprite, via `site/icons/lucide.svg`. Source license retained at `site/icons/LICENSE`. Never copy PanelUI proprietary components or require React simply to get icons.
 - No animation should block access to content; reduced-motion users see complete headlines without typing.
 - The brand may change independently from icon vendors. Icon sprites use the original open source ISC license.
+
+## Styling architecture — Visual Foundation
+
+`site/style.css` is shared by the homepage and all eight docs pages. The former `site/refinement.css`, `site/ui.css`, and `site/docs/docs.css` were consolidated and removed. The existing cascade order was retained, and the progressive-cleanup policy is to edit original component rules instead of adding yet another override block.

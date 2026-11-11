@@ -1,0 +1,256 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "title": "Visão geral",
+      "href": "docs/",
+      "description": "Tudo para configurar seus cards, compreender os dados e personalizar a evolução no GitHub — com controle sobre o que é publicado.",
+      "sections": [
+        {
+          "id": "visao",
+          "title": "O que é o AXR Stats?",
+          "text": "O que é o AXR Stats? Um gerador de cards que lê estatísticas autorizadas do WakaTime e exporta SVGs para o README do seu perfil GitHub. A evolução por rank é uma funcionalidade própria do AXR Stats , calculada com horas registradas. O WakaTime informa atividade real; o AXR Stats organiza os dados e os apresenta em cartões. Nenhum ranking oficial é inventado. Instalação Prepare sua integração com OAuth e GitHub Actions. Configuração Escolha temas, fuso horário e saída dos cards. Cards e métricas Entenda os períodos e o significado de cada número. Ranks Veja requisitos e as ilustrações personalizáveis."
+        },
+        {
+          "id": "fluxo",
+          "title": "Como funciona",
+          "text": "Como funciona Seu editor registra atividade no WakaTime. O GitHub Actions executa o gerador com um token OAuth guardado em Secrets . A API oficial fornece métricas conforme as permissões concedidas. O gerador valida e escreve imagens no seu próprio repositório. Seu README incorpora essas imagens por caminhos relativos."
+        },
+        {
+          "id": "requisitos",
+          "title": "Requisitos",
+          "text": "Requisitos Item Detalhes Conta GitHub e WakaTime Credencial Token OAuth com acesso de leitura às estatísticas Execução Python 3.11+ para desenvolvimento local Arte raster Pillow e CairoSVG para compor os PNGs"
+        },
+        {
+          "id": "privacidade",
+          "title": "Privacidade por padrão",
+          "text": "Privacidade por padrão Este site não pede login nem token. Os gráficos publicados no GitHub são públicos: você controla quais deles deseja exibir. Veja o guia de segurança ."
+        }
+      ]
+    },
+    {
+      "title": "Instalação",
+      "href": "docs/installation/",
+      "description": "Configure sua conta de forma segura e teste a geração local antes de automatizar publicações no GitHub.",
+      "sections": [
+        {
+          "id": "preparar",
+          "title": "1. Prepare suas contas",
+          "text": "1. Prepare suas contas Instale o plugin oficial do WakaTime no seu editor e confira se a atividade aparece no painel do WakaTime . Para ler estatísticas, crie seu token OAuth pessoal . A API Key usada pelo plugin do editor não serve."
+        },
+        {
+          "id": "segredo",
+          "title": "2. Guarde o OAuth",
+          "text": "2. Guarde o OAuth No repositório de perfil do GitHub, acesse Settings → Secrets and variables → Actions e crie um segredo chamado WAKATIME_OAUTH_TOKEN . Não inclua esse valor em commits, logs, prints ou URLs."
+        },
+        {
+          "id": "testar",
+          "title": "3. Teste o gerador localmente",
+          "text": "3. Teste o gerador localmente Copiar git clone https://github.com/axrobert/axr-stats.git cd axr-stats python -m pip install \"Pillow>=11,<13\" \"CairoSVG>=2.7,<3\" python -m unittest discover -s tests -v Depois de definir a variável de ambiente no seu terminal, gere os cards: Copiar python src/axr_stats.py --theme midnight --timezone America/Maceio --output dist python src/render_rank_png.py --card dist/lifetime.svg --tier-file dist/.rank-level --assets assets/badges --output dist/lifetime.png --emblem-output dist/emblem.png Não publique seu segredo. O token precisa estar definido como WAKATIME_OAUTH_TOKEN somente no ambiente de execução; nunca o copie para um arquivo público."
+        },
+        {
+          "id": "workflow",
+          "title": "4. Prepare a automação",
+          "text": "4. Prepare a automação O repositório tem um workflow de exemplo . Antes de utilizá-lo, substitua a referência de versão futura por um commit revisado quando a Action estiver pronta; não recomendamos publicar referências genéricas de branch para terceiros. Ao concluir a geração, a automação deve publicar exclusivamente os arquivos validados. Erros de API devem interromper o job sem substituir imagens válidas."
+        },
+        {
+          "id": "readme",
+          "title": "5. Exiba as imagens",
+          "text": "5. Exiba as imagens Copiar <p align=\"center\"> <img src=\"assets/axr-stats/lifetime.png\" width=\"100%\" alt=\"Evolução de programação\"> </p> <p align=\"center\"> <img src=\"assets/axr-stats/languages.svg\" width=\"100%\" alt=\"Histórico de linguagens\"> </p> O caminho precisa corresponder ao diretório de saída escolhido para o workflow."
+        }
+      ]
+    },
+    {
+      "title": "Configuração",
+      "href": "docs/configuration/",
+      "description": "Altere tema, fuso horário e destino dos arquivos sem editar o núcleo do gerador.",
+      "sections": [
+        {
+          "id": "parametros",
+          "title": "Parâmetros",
+          "text": "Parâmetros Parâmetro Opções Padrão --theme midnight, graphite, aurora midnight --timezone Nome IANA, como America/Maceio UTC --output Pasta de saída dist"
+        },
+        {
+          "id": "exemplo",
+          "title": "Exemplo",
+          "text": "Exemplo Copiar python src/axr_stats.py --theme aurora --timezone America/Maceio --output dist O código da Action expõe as entradas theme , timezone e output . Seus nomes devem corresponder aos da versão que você estiver utilizando."
+        },
+        {
+          "id": "temas",
+          "title": "Temas disponíveis",
+          "text": "Temas disponíveis Midnight — fundo azul-escuro com ciano; Graphite — grafite neutro com lilás; Aurora — verde-azulado com tons suaves. Esses temas se aplicam aos gráficos. O site possui visual editorial claro próprio."
+        },
+        {
+          "id": "artes",
+          "title": "Substituir um emblema",
+          "text": "Substituir um emblema Os emblemas estão em assets/badges/current/ com nomes por tier: 01-iniciante.png até 12-soberano.png . Para inserir novos assets, use PNG transparente com margens equivalentes, dimensões padronizadas e o mesmo mapeamento por nível. Preparado para as novas artes. Os doze PNGs atuais são a coleção original fornecida pelo mantenedor. A arquitetura permite novas coleções sem redesenhar os cards."
+        },
+        {
+          "id": "secrets",
+          "title": "Credenciais",
+          "text": "Credenciais O token só deve ser fornecido via ambiente protegido do GitHub Actions. Nunca adicione autenticação ao JavaScript do GitHub Pages. Leia a política de segurança ."
+        }
+      ]
+    },
+    {
+      "title": "Cards e métricas",
+      "href": "docs/cards/",
+      "description": "Entenda o período de cada gráfico, a origem de seus números e o que é oficial ou personalizado.",
+      "sections": [
+        {
+          "id": "catalogo",
+          "title": "Catálogo de cards",
+          "text": "Catálogo de cards Card Fonte Período Tempo total WakaTime all_time_since_today Histórico da conta Linguagens WakaTime stats/all_time Histórico por linguagem Atividade WakaTime summaries Dia atual e média recente Ranking semanal WakaTime public leaders Posição pública quando disponível Heatmap WakaTime summaries Últimos 30 dias Emblema Cálculo AXR Stats Horas históricas"
+        },
+        {
+          "id": "linguagens",
+          "title": "Histórico de linguagens",
+          "text": "Histórico de linguagens As linguagens são classificadas a partir da estatística histórica autorizada pelo WakaTime. A soma das linguagens pode diferir do contador geral dependendo de categorias e processamento da API. Nenhum gráfico deve ser rotulado como “histórico” quando só foram consultados 30 dias."
+        },
+        {
+          "id": "ranking",
+          "title": "Ranking oficial × rank personalizado",
+          "text": "Ranking oficial × rank personalizado A posição no leaderboard do WakaTime só aparece quando o serviço fornece um número verificável. Já o rank do AXR Stats é uma progressão fictícia inspirada em conquistas, baseada nas horas históricas — não é uma classificação mundial ."
+        },
+        {
+          "id": "demonstracao",
+          "title": "Exemplos de cartões",
+          "text": "Exemplos de cartões As imagens abaixo representam dados fictícios , usados apenas para ilustrar os componentes."
+        },
+        {
+          "id": "publicacao",
+          "title": "Publicação",
+          "text": "Publicação Todos os SVGs devem ser validados antes do commit. As imagens geradas são públicas no README. Caso um endpoint falhe, mantenha os gráficos anteriores e não publique cartões de erro."
+        }
+      ]
+    },
+    {
+      "title": "Ranks e progressão",
+      "href": "docs/ranks/",
+      "description": "Doze níveis definidos pelas horas de programação, com a coleção de emblemas original em PNG e SVG.",
+      "sections": [
+        {
+          "id": "niveis",
+          "title": "Os doze níveis",
+          "text": "Os doze níveis Iniciante Tier 01 0 h Aprendiz Tier 02 50 h Estudante Tier 03 150 h Desenvolvedor Tier 04 300 h Especialista Tier 05 500 h Avançado Tier 06 800 h Elite Tier 07 1.200 h Mestre Tier 08 1.800 h Arquiteto Tier 09 2.500 h Sábio Tier 10 3.500 h Lendário Tier 11 5.000 h Soberano Tier 12 8.000 h +"
+        },
+        {
+          "id": "progresso",
+          "title": "Progresso e estrelas",
+          "text": "Progresso e estrelas O progresso é calculado entre a carga horária mínima do rank atual e a mínima do próximo. As estrelas mostram frações desse progresso: não representam qualidade, senioridade profissional nem classificação oficial."
+        },
+        {
+          "id": "novas-artes",
+          "title": "Novas artes de rank",
+          "text": "Novas artes de rank Os 12 PNGs transparentes (512 × 512) e SVGs equivalentes estão em assets/badges/current/ . Os SVGs embutem os pixels dos PNGs, portanto não são vetores com caminhos editáveis. O arquivo ranks.json define a progressão e os nomes dos arquivos. Coleções experimentais anteriores permanecem arquivadas."
+        }
+      ]
+    },
+    {
+      "title": "Segurança",
+      "href": "docs/security/",
+      "description": "O site de documentação não acessa sua conta, não lê seus arquivos privados e não recebe tokens. A automação roda no seu repositório.",
+      "sections": [
+        {
+          "id": "oauth",
+          "title": "Autenticação OAuth",
+          "text": "Autenticação OAuth O acesso à API oficial do WakaTime ocorre com um token pessoal OAuth fornecido ao GitHub Actions por meio de Secrets. API Keys de plugins de editor são usadas para registrar eventos, não como alternativa para ler estes dados. Nunca publique o token. Não copie credenciais para README, arquivos versionados, parâmetros de URL, snippets, imagens ou código client-side."
+        },
+        {
+          "id": "dominio",
+          "title": "Domínios e escopo",
+          "text": "Domínios e escopo O gerador deve enviar o cabeçalho Authorization: Bearer apenas à API oficial do WakaTime. A documentação do GitHub Pages é estática e não contém infraestrutura de autenticação."
+        },
+        {
+          "id": "dados-publicos",
+          "title": "Dados expostos nos cards",
+          "text": "Dados expostos nos cards Quando você publica os cards em um README, as métricas escolhidas ficam visíveis a qualquer pessoa: tempo total, linguagens, dias de atividade e eventual posição oficial. Antes de ativar a publicação, decida o que deseja mostrar."
+        },
+        {
+          "id": "falhas",
+          "title": "Comportamento em falhas",
+          "text": "Comportamento em falhas O workflow deve interromper a geração se a API retornar dados inválidos ou incompletos, preservando imagens previamente aprovadas. Não registre tokens em mensagens de erro."
+        },
+        {
+          "id": "rotacao",
+          "title": "Revogação",
+          "text": "Revogação Se suspeitar de vazamento, revogue e gere outro token OAuth no WakaTime e atualize o segredo no GitHub Actions. Confira também os logs e commits públicos. Mais detalhes técnicos no arquivo de segurança do repositório ."
+        }
+      ]
+    },
+    {
+      "title": "Perguntas frequentes",
+      "href": "docs/faq/",
+      "description": "Respostas objetivas para dúvidas de instalação, estatísticas e publicação.",
+      "sections": [
+        {
+          "id": "token",
+          "title": "Posso usar minha API Key do editor?",
+          "text": "Posso usar minha API Key do editor? Não. Para leitura de estatísticas, use um token OAuth pessoal com permissão apropriada."
+        },
+        {
+          "id": "dados",
+          "title": "Por que as horas não coincidem?",
+          "text": "Por que as horas não coincidem? O total de linguagens pode diferir do contador histórico, dependendo dos formatos reconhecidos e do processamento dos dados pelo WakaTime. Se um resultado disser “30 dias”, não o interprete como “all-time”."
+        },
+        {
+          "id": "ranking",
+          "title": "Por que meu ranking não aparece?",
+          "text": "Por que meu ranking não aparece? O serviço pode não retornar uma posição pública confirmada. Nesse caso o card deve mostrar indisponibilidade sem inventar classificação."
+        },
+        {
+          "id": "cards",
+          "title": "Posso usar meu próprio emblema?",
+          "text": "Posso usar meu próprio emblema? Sim. Os PNGs são independentes e podem ser substituídos. O restante do card continua com métricas reais."
+        },
+        {
+          "id": "github-pages",
+          "title": "O GitHub Pages aceita várias páginas?",
+          "text": "O GitHub Pages aceita várias páginas? Sim. Estas rotas são páginas estáticas reais, publicadas por arquivos index.html em diretórios individuais, sem servidor e sem roteamento de SPA."
+        },
+        {
+          "id": "versao",
+          "title": "Já existe versão pública estável?",
+          "text": "Já existe versão pública estável? Não. O projeto ainda está em prévia e não possui tag v1 estável. Consulte o roadmap antes de instalar a Action em um projeto de produção."
+        },
+        {
+          "id": "ajuda",
+          "title": "Onde relatar um problema?",
+          "text": "Onde relatar um problema? Abra uma issue no GitHub , descrevendo o comportamento e os logs sem informações confidenciais."
+        }
+      ]
+    },
+    {
+      "title": "Roadmap",
+      "href": "docs/roadmap/",
+      "description": "O que está construído, o que está em validação e os próximos passos — sem prometer uma versão estável antes da hora.",
+      "sections": [
+        {
+          "id": "entregue",
+          "title": "Concluído",
+          "text": "Concluído Leitura das estatísticas oficiais do WakaTime e geração de cards SVG. Sistema de 12 ranks por horas com PNGs originais fornecidos pelo mantenedor. Galeria de ranks, simulador e site responsivo. Documentação multipágina com navegação e busca local."
+        },
+        {
+          "id": "polish",
+          "title": "Fase 1.5 — Identidade e acabamento",
+          "text": "Fase 1.5 — Identidade e acabamento A interface está sendo lapidada para reduzir componentes genéricos: tipografia, bordas, botões, respiro, responsividade e documentação. Ainda requer avaliação visual em navegadores e aparelhos reais."
+        },
+        {
+          "id": "validacao",
+          "title": "Em validação",
+          "text": "Em validação Instalação da Action a partir de outros repositórios. Contratos de dados históricos, fontes e tratamento de falhas. Revisão visual e acessibilidade em diferentes dispositivos. Definição de licença de código e política de assets."
+        },
+        {
+          "id": "proximos",
+          "title": "Próximas etapas",
+          "text": "Próximas etapas Revisar a apresentação visual da coleção de 12 ranks em todos os tamanhos. Publicar release estável e documentação completa da Action. Editor visual de temas e escolha de cards sem configuração manual. Novas conquistas, badges especiais e integrações adicionais."
+        },
+        {
+          "id": "contribuir",
+          "title": "Contribuir",
+          "text": "Contribuir Ideias e melhorias podem ser propostas pelo repositório oficial . Leia o guia de contribuição ."
+        }
+      ]
+    }
+  ]
+}

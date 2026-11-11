@@ -68,9 +68,9 @@ class DocsRoutingTests(unittest.TestCase):
         for route in ROUTES:
             with self.subTest(route=route):
                 self.assertTrue((SITE / route / "index.html").is_file())
-        self.assertTrue((SITE / "docs/docs.css").is_file())
+        self.assertTrue((SITE / "style.css").is_file())
         self.assertTrue((SITE / "docs/docs.js").is_file())
-        self.assertTrue((SITE / "refinement.css").is_file())
+        self.assertFalse((SITE / "refinement.css").exists())
 
     def test_all_local_links_and_assets_resolve(self):
         documents = [SITE / "index.html"] + [SITE / r / "index.html" for r in ROUTES]
@@ -104,11 +104,11 @@ class DocsRoutingTests(unittest.TestCase):
         for file in documents:
             html = file.read_text(encoding="utf-8")
             with self.subTest(page=str(file.relative_to(SITE))):
-                self.assertIn("refinement.css", html)
+                self.assertIn("style.css", html)
                 self.assertNotIn('style="display:flex;align-items:center;gap:20px', html)
 
     def test_refinement_uses_reduced_motion_and_valid_braces(self):
-        css = (SITE / "refinement.css").read_text(encoding="utf-8")
+        css = (SITE / "style.css").read_text(encoding="utf-8")
         self.assertIn("prefers-reduced-motion", css)
         self.assertIn(".docs-content h2", css)
         self.assertIn(".rank-card", css)
