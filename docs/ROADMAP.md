@@ -21,13 +21,15 @@
 - Perform real visual QA on mobile and desktop before claiming complete.
 - Twelve illustrated ranks (corrected PNG/SVG supplied by maintainer, including `Elite_CORRIGIDO`) imported and linked to the site and generators.
 
-## Phase 2 — Personalization (started; preview)
+## Phase 2 — Personalization (in progress; preview)
 - User-defined color tokens, typography, layouts and size presets.
 - Additional rank styles and transparent standalone insignias.
 - JSON configuration file for theme, timezone, output and validated hex color tokens (implemented).
 - Local browser palette workbench at `/customize/` with actual production-rendered SVG templates, fictional stats, six card types, and JSON export (no browser access to WakaTime).
 - Deterministic preview builder uses the Python renderer during Pages/Visual QA builds and never contacts external services.
 - Preset themes and CLI usage documented; preview layout matches production SVGs for all six types.
+- Pre-2.3 quality gate: OAuth redirect/response hardening, safer output paths, selected-file staging, offline security regressions, and beginner onboarding (in validation).
+- Phase 2.3 (next): internal card typography, data density and rendering options, with previews synchronized to the Python renderer.
 - Phase 2.2: validated `cards` selection, README `layout` (`stacked` / `paired`), `size` (`compact` / `standard` / `large`), live composition preview, and generated README snippet. Internal SVG geometry and typography controls remain planned.
 
 ## Phase 3 — Public product

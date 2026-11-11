@@ -29,7 +29,14 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- assets/axr-stats/*.svg assets/axr-stats/*.png
+          # Stage only AXR-owned files, including removals after deselection.
+          # Globs may fail when a card type has no files, so check each path.
+          for filename in lifetime.svg languages.svg activity.svg ranking.svg heatmap.svg emblem.svg lifetime.png emblem.png README-snippet.md; do
+            file="assets/axr-stats/$filename"
+            if [ -e "$file" ] || git ls-files --error-unmatch "$file" >/dev/null 2>&1; then
+              git add -A -- "$file"
+            fi
+          done
           git diff --cached --quiet && exit 0
           git commit -m 'chore: refresh AXR Stats cards'
           git push

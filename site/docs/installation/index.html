@@ -24,6 +24,7 @@
 <div class="docs-breadcrumb"><a href="../../">AXR Stats</a><span>›</span><a href="../../docs/">Docs</a><span>›</span><span>Instalação</span></div>
 <p class="docs-kicker">PRIMEIROS PASSOS</p><h1>Instalação</h1><p class="docs-lead">Configure sua conta de forma segura e teste a geração local antes de automatizar publicações no GitHub.</p>
 <article class="docs-content">
+<aside class="docs-callout"><p><strong>Primeira vez usando GitHub Actions?</strong> Siga o <a href="https://github.com/axrobert/axr-stats/blob/main/docs/GETTING_STARTED.md">guia para iniciantes</a>, com os cliques necessários para instalar, proteger o OAuth, executar e publicar os cards.</p></aside>
 <aside class="docs-callout docs-warning"><p><strong>Importante: não existe release <code>@v1</code> ainda.</strong> O workflow de exemplo usa a referência mutável <code>@main</code>, adequada apenas para testes da prévia. Para produção, fixe um commit SHA revisado. O procedimento abaixo é apropriado para testar o código atual.</p></aside>
 <h2 id="preparar">1. Prepare suas contas</h2>
 <p>Instale o plugin oficial do WakaTime no seu editor e confira se a atividade aparece no <a href="https://wakatime.com/dashboard">painel do WakaTime</a>. Para ler estatísticas, crie seu <a href="https://wakatime.com/oauth">token OAuth pessoal</a>. A API Key usada pelo plugin do editor não serve.</p>
@@ -32,7 +33,7 @@
 <h2 id="testar">3. Teste o gerador localmente</h2>
 <div class="code-frame"><button type="button" class="copy-code" aria-label="Copiar bloco de código">Copiar</button><pre><code>git clone https://github.com/axrobert/axr-stats.git
 cd axr-stats
-python -m pip install &quot;Pillow&gt;=11,&lt;13&quot; &quot;CairoSVG&gt;=2.7,&lt;3&quot;
+python -m pip install -r requirements-runtime.txt
 python -m unittest discover -s tests -v</code></pre></div>
 <p>Depois de definir a variável de ambiente no seu terminal, gere os cards:</p>
 <div class="code-frame"><button type="button" class="copy-code" aria-label="Copiar bloco de código">Copiar</button><pre><code>python src/run_action.py --theme midnight --timezone America/Maceio --output dist</code></pre></div>

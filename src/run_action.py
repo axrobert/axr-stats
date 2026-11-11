@@ -24,6 +24,35 @@ SNIPPET_FILE = "README-snippet.md"
 MANAGED_FILES = OUTPUT_FILES + (SNIPPET_FILE,)
 
 
+def check_output_path(destination: Path, *, require_relative: bool = False) -> Path:
+    """Reject repository-root, Git internals, traversal and symlink ancestors.
+
+    Only the CLI requires a relative directory. Library calls can use absolute
+    temporary directories for isolated tests.
+    """
+    if "\\" in str(destination) or any(ord(char) < 32 for char in str(destination)):
+        raise RuntimeError("Output path contains unsupported characters")
+    destination = Path(destination)
+    if (require_relative and destination.is_absolute()) or ".." in destination.parts:
+        raise RuntimeError("Output must be a dedicated relative directory inside the repository")
+    if any(part.lower() in (".git", ".github") for part in destination.parts):
+        raise RuntimeError("Output cannot target Git or GitHub internals")
+    if destination == Path("."):
+        raise RuntimeError("Output must not target the repository root")
+    for node in (destination, *destination.parents):
+        if node.is_symlink():
+            raise RuntimeError("Output path contains a symlink directory")
+    resolved = destination.resolve()
+    if resolved == Path.cwd().resolve():
+        raise RuntimeError("Output must be a dedicated directory, not the repository root")
+    if require_relative:
+        root = Path.cwd().resolve()
+        if not resolved.is_relative_to(root):
+            raise RuntimeError("Output directory must remain inside the repository")
+    return resolved
+
+
+
 def validate(directory: Path, published: tuple[str, ...] | None = None) -> None:
     """Reject incomplete, malformed, or empty generated assets."""
     published = OUTPUT_FILES if published is None else tuple(published)
@@ -62,11 +91,7 @@ def publish(staged: Path, destination: Path, published: tuple[str, ...] | None =
     published = OUTPUT_FILES if published is None else tuple(published)
     if not published or any(name not in MANAGED_FILES for name in published):
         raise RuntimeError("Invalid publication selection")
-    if destination.is_symlink():
-        raise RuntimeError("Refusing to publish into a symlink directory")
-    destination = destination.resolve()
-    if destination == Path.cwd().resolve():
-        raise RuntimeError("Output must be a dedicated directory, not the repository root")
+    destination = check_output_path(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
     candidate = Path(tempfile.mkdtemp(prefix=".axr-candidate-", dir=destination.parent))
     backup = None
@@ -81,7 +106,14 @@ def publish(staged: Path, destination: Path, published: tuple[str, ...] | None =
             if filename not in published:
                 (candidate / filename).unlink(missing_ok=True)
         for filename in published:
-            shutil.copy2(staged / filename, candidate / filename)
+            target = candidate / filename
+            # copytree(..., symlinks=True) preserves attacker-controlled links.
+            # Copying over those links would write *outside* the staging directory.
+            if target.is_symlink():
+                target.unlink()
+            elif target.exists() and not target.is_file():
+                raise RuntimeError(f"Managed output name is not a regular file: {filename}")
+            shutil.copy2(staged / filename, target)
         if destination.exists():
             backup = Path(tempfile.mkdtemp(prefix=".axr-backup-", dir=destination.parent))
             backup.rmdir()
@@ -140,6 +172,7 @@ def main() -> None:
     try:
         configuration = read_config(options.config)
         output = Path(choose(options.output, configuration, "output", "assets/axr-stats"))
+        check_output_path(output, require_relative=True)
         theme = choose(options.theme, configuration, "theme", "midnight")
         timezone = choose(options.timezone, configuration, "timezone", "UTC")
         run(output, theme, timezone, options.assets, config=options.config)

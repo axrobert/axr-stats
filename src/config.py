@@ -45,7 +45,10 @@ def read_config(path: Path | None) -> dict:
         if not isinstance(output, str) or not output or len(output) > 200:
             raise RuntimeError("Output must be a relative destination directory")
         relative = Path(output)
-        if relative.is_absolute() or ".." in relative.parts or str(relative) in (".", ""):
+        if (relative.is_absolute() or ".." in relative.parts or
+                any(part.lower() in (".git", ".github") for part in relative.parts) or
+                str(relative) in (".", "") or
+                '\\' in output or any(ord(char) < 32 for char in output)):
             raise RuntimeError("Output must be a dedicated relative directory")
     colors = data.get("colors", {})
     if not isinstance(colors, dict):
