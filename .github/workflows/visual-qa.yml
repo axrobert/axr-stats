@@ -27,7 +27,9 @@ jobs:
       - name: Install browser dependencies
         run: |
           npm install --no-save playwright@1.55.0
-          npx playwright install --with-deps chromium
+          # Ubuntu runner already supplies core browser libraries. Avoid optional
+          # apt/font downloads that can fail on upstream Ubuntu mirror DNS.
+          npx playwright install chromium
       - name: Assemble GitHub Pages directory
         run: |
           mkdir -p _site/assets/badges/current _site/assets/previews
