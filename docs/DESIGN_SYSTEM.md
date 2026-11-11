@@ -62,3 +62,7 @@ Star progress reflects a *custom tier calculation*, not an official GitHub/WakaT
 3. Test 320px, 768px and wide desktop widths.
 4. Use neutral fictional sample data on public product previews.
 5. Keep OAuth secrets in the consuming repository; never insert them into URLs or static site JavaScript.
+
+## Website visual refinement
+
+The public site uses `site/refinement.css` as a deliberate editorial refinement layer over the existing light-themed layout. Maintain the quiet paper background, precise neutral strokes, restrained cobalt actions, square-ish corners (typically 5–9px), and minimal shadows. Avoid repeated cards with pill CTAs and glow, arbitrary gradients, decorative floating ornaments or over-animated interfaces. Typography and spacing must convey hierarchy before borders or decoration. Documentation shares the same refinement file. Validate desktop and mobile visually before release.
