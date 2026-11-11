@@ -16,6 +16,13 @@
   const cardIds = ["lifetime","languages","activity","ranking","heatmap","emblem"];
   const cardNames = {lifetime:"Tempo total e progressão",languages:"Linguagens",activity:"Atividade diária",ranking:"Ranking público WakaTime",heatmap:"Calendário de atividade",emblem:"Emblema do rank"};
   const widths = {compact:500,standard:700,large:850};
+  const safeOutput = () => {
+    const dir=$("#theme-output-dir").value.trim();
+    if (!dir || dir.length>200 || dir.startsWith("/") || dir.includes("\\") ||
+        dir.split("/").some(p=>!p||p==="."||p===".."||[".git",".github"].includes(p.toLowerCase())) ||
+        /[\x00-\x1f]/.test(dir)) return null;
+    return dir;
+  };
   const pairWidths = {compact:250,standard:350,large:420};
   const checkbox = id => document.querySelector('[data-include-card="' + id + '"]');
   const currentCards = () => cardIds.filter(id => checkbox(id)?.checked);
@@ -37,7 +44,7 @@
   let lastCards = cardIds.slice();
   let lastReadme = "";
   const escapeAttr = text => text.replaceAll("&","&amp;").replaceAll('"',"&quot;").replaceAll("<","&lt;");
-  const imageMarkup = (card,width) => '<img src="assets/axr-stats/' + card + '.svg" alt="AXR Stats — ' + escapeAttr(cardNames[card]) + '" width="' + width + '">';
+  const imageMarkup = (card,width) => '<img src="' + escapeAttr((safeOutput() || "assets/axr-stats") + "/" + card + ".svg") + '" alt="AXR Stats — ' + escapeAttr(cardNames[card]) + '" width="' + width + '">';
   function snippet(cards,layout,size) {
     const lines = [
       "<!-- AXR Stats: copie este trecho para o README do seu perfil. -->",
@@ -100,6 +107,16 @@
     const cfg = { theme, colors: {...palette}, cards:selected, layout, size,
       language_rows:languageRows(), typography:typography(), show_rank_stars:showRankStars(),
       show_card_subtitles:showCardSubtitles() };
+    const dir=safeOutput();
+    const zone=$("#theme-timezone").value.trim();
+    let zoneValid=false;
+    try { zoneValid=zone.length>0 && zone.length<=100 && !!new Intl.DateTimeFormat("en-US",{timeZone:zone}); }catch {}
+    $("#theme-output-dir").setAttribute("aria-invalid",String(!dir));
+    $("#theme-timezone").setAttribute("aria-invalid",String(!zoneValid));
+    $("#copy-theme").disabled=!(dir && zoneValid);
+    $("#download-theme").disabled=!(dir && zoneValid);
+    if (dir) cfg.output=dir;
+    if (zoneValid) cfg.timezone=zone;
     redrawReadme(selected,layout,size);
     output.textContent = JSON.stringify(cfg, null, 2);
     window.dispatchEvent(new CustomEvent("axr:theme-update", {detail:{theme, colors:{...palette}, language_rows:languageRows(),
@@ -140,6 +157,8 @@
   $("#theme-typography").addEventListener("change", redraw);
   $("#theme-rank-stars").addEventListener("change", redraw);
   $("#theme-card-subtitles").addEventListener("change", redraw);
+  $("#theme-output-dir").addEventListener("input", redraw);
+  $("#theme-timezone").addEventListener("input", redraw);
   $("#copy-readme").addEventListener("click", async () => {
     try { await navigator.clipboard.writeText(lastReadme); status.textContent="Snippet do README copiado."; }
     catch { status.textContent="Cópia indisponível. Selecione o snippet acima."; }

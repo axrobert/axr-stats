@@ -83,7 +83,9 @@ class TestAXRStats(unittest.TestCase):
     def test_activity_text_is_separated_from_gauge(self):
         card=axr.activity_card(3600,1800,axr.THEMES['midnight'])
         self.assertIn('Logged today',card)
-        self.assertIn('M91 218',card)
+        self.assertIn('M91 198',card)
+        self.assertIn('y="184"',card)
+        self.assertIn('y="207"',card)
         ET.fromstring(card)
 
 

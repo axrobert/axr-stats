@@ -1447,3 +1447,25 @@ body{overflow-x:hidden}
 .theme-advanced-controls .theme-toggle{display:flex;gap:10px;align-items:flex-start;color:#4a5d76;font-size:11px;line-height:1.5;cursor:pointer}
 .theme-toggle input{flex:none;accent-color:#426baa;width:16px;height:16px;margin:1px 0 0}
 .theme-advanced-controls :is(select,input):focus-visible{outline:2px solid #476fa7;outline-offset:3px}
+
+/* Phase 2.4 — progressively revealed settings, accessible plain controls. */
+.theme-advanced-panel{margin:16px 0 4px;border:1px solid #dce4ed;border-radius:6px;background:#fbfcfe;min-width:0}
+.theme-advanced-panel summary{cursor:pointer;padding:12px 14px;font:700 12px Outfit,sans-serif;color:#354760;list-style-position:inside}
+.theme-advanced-panel summary span{float:right;font:500 11px Arial,sans-serif;color:#7a899e}
+.theme-advanced-panel summary:hover{background:#f2f6fa}
+.theme-advanced-panel summary:focus-visible{outline:2px solid #507cba;outline-offset:3px}
+.theme-advanced-panel[open] summary{border-bottom:1px solid #e1e7f0}
+.theme-advanced-panel .theme-colors{padding:13px 14px 8px}
+.theme-advanced-panel .theme-render-options{padding:8px 14px 15px;margin-top:0}
+.theme-advanced-panel .theme-advanced-controls{min-width:0}
+.theme-advanced-controls input[type=text]{box-sizing:border-box;min-width:0;width:100%;min-height:38px;border:1px solid #ccd7e6;border-radius:5px;background:#fff;color:#344862;padding:8px;font-size:12px}
+.theme-advanced-controls input[aria-invalid=true]{border-color:#b64949}
+.theme-import{margin:10px 0 22px;padding:13px 14px;border:1px solid #dce4ed;border-radius:6px;background:#f6f9fd}
+.theme-import label{display:grid;gap:4px;font-size:12px;color:#334762}
+.theme-import label span{font-size:11px;color:#697a94;font-weight:400;line-height:1.5}
+.theme-import input{display:block;max-width:100%;margin:10px 0 0;font-size:11px;color:#354760}
+.theme-import input::file-selector-button{padding:7px 10px;border:1px solid #b9cbe0;border-radius:4px;background:#fff;color:#355b90;cursor:pointer;margin-right:10px}
+.theme-import p{font-size:11px;line-height:1.5;color:#4c647f;margin:8px 0 0}
+.theme-import :is(input,button):focus-visible{outline:2px solid #507cba;outline-offset:2px}
+.theme-install-link{font-size:12px;color:#375f95;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:400px){.theme-advanced-panel summary span{float:none;display:inline-block;margin-left:8px}.theme-advanced-panel .theme-colors{padding:10px}}
