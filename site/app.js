@@ -242,7 +242,13 @@ function selectSlide(index) {
     document.createTextNode(slide.action + " "),
     Object.assign(document.createElement("span"), { textContent: "↗" })
   );
-  byId("hero-medal").src = assetPath(slide.image);
+  const medal=byId("hero-medal");
+  medal.classList.add("is-changing");
+  const settle=()=>medal.classList.remove("is-changing");
+  medal.addEventListener("load",settle,{once:true});
+  medal.addEventListener("error",settle,{once:true});
+  medal.src=assetPath(slide.image);
+  if(medal.complete)settle();
   byId("hero-counter").textContent = String(slideIndex + 1).padStart(2, "0") + " / " + String(slides.length).padStart(2, "0");
   document.querySelectorAll(".slide-dot").forEach((dot, idx) => {
     dot.classList.toggle("selected", idx === slideIndex);
