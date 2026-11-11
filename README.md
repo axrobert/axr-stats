@@ -94,7 +94,7 @@ The rank catalog is maintained in [ranks.json](assets/badges/current/ranks.json)
 ## Quick start
 
 > [!IMPORTANT]
-> **Development preview:** The reusable Action has no stable v1 tag yet. The sample workflow references a future release and **does not work unmodified** today. Test the source before using it publicly.
+> **Development preview:** The reusable Action has no stable v1 tag yet. The sample workflow uses the mutable `@main` ref for **preview testing only**, not a stable release. Pin a reviewed full commit SHA before relying on it in production.
 
 1. Generate a personal OAuth token at [WakaTime OAuth](https://wakatime.com/oauth). An editor API key is not a substitute.
 2. Add the token as the repository Actions secret **WAKATIME_OAUTH_TOKEN**.
@@ -123,7 +123,7 @@ The second command requires the WAKATIME_OAUTH_TOKEN environment variable. **Nev
 
 ## Status, contribution & support
 
-The prototype is running on the maintainer's profile and the documentation website is published at [axrobert.github.io/axr-stats](https://axrobert.github.io/axr-stats/). Third-party installation and cross-platform visual QA are still required before a stable release.
+The prototype is running on the maintainer's profile and the documentation website is published at [axrobert.github.io/axr-stats](https://axrobert.github.io/axr-stats/). Offline consumer integration tests and cross-platform visual QA are available. A real third-party GitHub repository installation with its own OAuth token and permission model still requires validation before a stable release.
 
 See [Contributing](CONTRIBUTING.md), [Design system](docs/DESIGN_SYSTEM.md) and [Roadmap](docs/ROADMAP.md). Support links will be added after the maintainer configures an official donation account.
 

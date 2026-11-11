@@ -44,27 +44,45 @@ def rank_image_data(level):
 
 
 def api(path, token, params=None):
+    """Read official WakaTime responses; retry only transient conditions.
+
+    Never put credentials in a query string or an exception message.
+    """
     url = BASE + '/' + path + (('?' + urllib.parse.urlencode(params)) if params else '')
-    request = urllib.request.Request(url, headers={'Authorization':'Bearer '+token, 'Accept':'application/json', 'User-Agent':'AXR-Stats/0.1'})
+    request = urllib.request.Request(url, headers={
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/json',
+        'User-Agent': 'AXR-Stats/0.1'
+    })
     for attempt in range(4):
         try:
             with urllib.request.urlopen(request, timeout=25) as response:
-                data = json.load(response)
                 status = response.status
+                payload = json.load(response)
         except urllib.error.HTTPError as exc:
-            raise RuntimeError(f'WakaTime returned HTTP {exc.code} for {path}') from None
-        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
-            raise RuntimeError(f'WakaTime connectivity/JSON error for {path}: {type(exc).__name__}') from None
-        if isinstance(data, dict) and ('error' in data or 'errors' in data):
-            raise RuntimeError('WakaTime reported an API error for '+path)
-        if status == 202 or (isinstance(data.get('data'),dict) and data['data'].get('is_up_to_date') is False):
-            if attempt < 3:
-                time.sleep(4 * (attempt+1))
+            if (exc.code == 429 or exc.code >= 500) and attempt < 3:
+                time.sleep(2 * (attempt + 1))
                 continue
-            raise RuntimeError('WakaTime stats are still processing for '+path)
-        if not isinstance(data,dict) or 'data' not in data:
-            raise RuntimeError('Invalid WakaTime response for '+path)
-        return data
+            raise RuntimeError(f'WakaTime returned HTTP {exc.code} for {path}') from None
+        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, OSError) as exc:
+            if attempt < 3:
+                time.sleep(2 * (attempt + 1))
+                continue
+            raise RuntimeError(f'WakaTime connectivity/JSON error for {path}: {type(exc).__name__}') from None
+
+        if not isinstance(payload, dict):
+            raise RuntimeError('Invalid WakaTime response object for ' + path)
+        if 'error' in payload or 'errors' in payload:
+            raise RuntimeError('WakaTime reported an API error for ' + path)
+        body = payload.get('data')
+        if status == 202 or (isinstance(body, dict) and body.get('is_up_to_date') is False):
+            if attempt < 3:
+                time.sleep(4 * (attempt + 1))
+                continue
+            raise RuntimeError('WakaTime stats are still processing for ' + path)
+        if 'data' not in payload:
+            raise RuntimeError('Invalid WakaTime response for ' + path)
+        return payload
     raise RuntimeError('WakaTime unavailable')
 
 

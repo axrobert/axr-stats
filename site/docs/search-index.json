@@ -51,7 +51,7 @@
         {
           "id": "workflow",
           "title": "4. Prepare a automação",
-          "text": "4. Prepare a automação O repositório tem um workflow de exemplo . Antes de utilizá-lo, substitua a referência de versão futura por um commit revisado quando a Action estiver pronta; não recomendamos publicar referências genéricas de branch para terceiros. Ao concluir a geração, a automação deve publicar exclusivamente os arquivos validados. Erros de API devem interromper o job sem substituir imagens válidas."
+          "text": "4. Prepare a automação. O workflow de exemplo usa @main apenas na prévia. Para produção, fixe o SHA completo de um commit revisado. O runner gera SVGs e PNGs numa pasta temporária, valida os oito arquivos e somente então publica. Erros de API preservam os gráficos anteriores."
         },
         {
           "id": "readme",
@@ -238,7 +238,7 @@
         {
           "id": "validacao",
           "title": "Em validação",
-          "text": "Em validação Instalação da Action a partir de outros repositórios. Contratos de dados históricos, fontes e tratamento de falhas. Revisão visual e acessibilidade em diferentes dispositivos. Definição de licença de código e política de assets."
+          "text": "Em validação. Teste de instalação da Action em um repositório externo real (pendente). Testes isolados de consumo adicionados à CI. Revisão de retry da API e publicação validada dos oito artefatos. Revisão visual, acessibilidade e licença."
         },
         {
           "id": "proximos",

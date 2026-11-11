@@ -12,3 +12,11 @@
 - Revoke the OAuth token at WakaTime if you suspect it has leaked.
 
 The example consumer workflow grants `contents: write` so it can commit generated assets. For stricter permissions, split generation and publication between separate jobs.
+
+## Consumer preview and publication integrity
+
+- The public example intentionally uses the mutable `@main` ref as a **preview-only** reference. Before production use, pin a reviewed full commit SHA and monitor releases.
+- `src/run_action.py` now writes all six SVGs and both PNGs to an isolated temporary directory. It validates SVG XML and PNG signatures before updating the consuming repository's destination.
+- Existing unrelated files in the output directory are preserved. A failure before the final publication phase leaves previous images unchanged; a rename failure attempts rollback. This is **not** a durable filesystem transaction across power loss.
+- GitHub Actions still needs `contents: write` only to commit generated output. Do not grant unrelated permissions, and protect the token using repository Secrets.
+- Local fixture tests simulate a consuming repository without transmitting credentials or making real WakaTime API calls. A real external user smoke test remains a release gate.
