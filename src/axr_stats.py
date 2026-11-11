@@ -27,6 +27,22 @@ from zoneinfo import ZoneInfo
 from config import read_config, choose, CARD_IDS
 
 BASE = 'https://api.wakatime.com/api/v1'
+MAX_API_RESPONSE_BYTES = 2_000_000
+
+
+class WakaTimeRedirectHandler(urllib.request.HTTPRedirectHandler):
+    """Never forward an OAuth Bearer token outside the trusted API origin."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        parsed = urllib.parse.urlsplit(newurl)
+        if (parsed.scheme != 'https' or
+                parsed.hostname != 'api.wakatime.com' or
+                parsed.port not in (None, 443) or
+                parsed.username is not None or parsed.password is not None):
+            raise RuntimeError('WakaTime attempted an unsafe API redirect')
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
 THEMES = {
     'midnight': {'background':'#0c1220','surface':'#141e2c','outline':'#2b3a4f','text':'#edf3ff','muted':'#a7b6cc','accent':'#5caeff','success':'#54d2a0'},
     'graphite': {'background':'#111317','surface':'#1b2027','outline':'#353d48','text':'#f1f5f9','muted':'#a3adb9','accent':'#c3a7ff','success':'#58d7b0'},
@@ -55,16 +71,23 @@ def api(path, token, params=None):
         'Accept': 'application/json',
         'User-Agent': 'AXR-Stats/0.1'
     })
+    opener = urllib.request.build_opener(WakaTimeRedirectHandler())
     for attempt in range(4):
         try:
-            with urllib.request.urlopen(request, timeout=25) as response:
+            with opener.open(request, timeout=25) as response:
                 status = response.status
-                payload = json.load(response)
+                raw = response.read(MAX_API_RESPONSE_BYTES + 1)
+                if len(raw) > MAX_API_RESPONSE_BYTES:
+                    raise RuntimeError('WakaTime API response exceeded the safe size limit')
+                payload = json.loads(raw)
         except urllib.error.HTTPError as exc:
             if (exc.code == 429 or exc.code >= 500) and attempt < 3:
                 time.sleep(2 * (attempt + 1))
                 continue
-            raise RuntimeError(f'WakaTime returned HTTP {exc.code} for {path}') from None
+            hint = {401: 'OAuth token expired or invalid; renew the Actions secret',
+                    403: 'OAuth access denied; verify the token permissions',
+                    429: 'Rate limit reached; retry later'}.get(exc.code, 'Check WakaTime availability')
+            raise RuntimeError(f'WakaTime HTTP {exc.code} for {path}. {hint}') from None
         except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, OSError) as exc:
             if attempt < 3:
                 time.sleep(2 * (attempt + 1))
@@ -89,7 +112,13 @@ def api(path, token, params=None):
 
 def esc(v): return html.escape(str(v), quote=True)
 def duration(seconds):
-    h, m = divmod(max(0,round(float(seconds or 0)/60)),60)
+    try:
+        value = float(seconds or 0)
+    except (TypeError, ValueError, OverflowError):
+        raise RuntimeError('WakaTime supplied an invalid duration') from None
+    if not math.isfinite(value) or value < 0:
+        raise RuntimeError('WakaTime supplied an invalid duration')
+    h, m = divmod(round(value/60), 60)
     return f'{h:,}h {m:02d}m'
 
 def label(x,y,value,theme,size=14,weight=400,color='text',anchor=None):
@@ -130,7 +159,9 @@ def lifetime_card(lifetime,month,week,t):
     data=lifetime.get('data')
     if not isinstance(data,dict) or not isinstance(data.get('total_seconds'),(int,float)):
         raise RuntimeError('WakaTime all-time stats are unavailable or invalid')
-    seconds=max(0,float(data['total_seconds']))
+    seconds=float(data['total_seconds'])
+    if not math.isfinite(seconds) or seconds < 0:
+        raise RuntimeError('WakaTime lifetime total must be finite and non-negative')
     level,name,nxt,progress=level_for(seconds/3600)
     filled=5 if nxt is None else min(5,int(progress*5))
     marks=''.join(f'<polygon points="{star(210+i*27,184,10,4.5)}" fill="{t["accent"] if i<filled else t["outline"]}"/>' for i in range(5))
@@ -241,7 +272,10 @@ def badge_card(lifetime,t):
     data=lifetime.get('data')
     if not isinstance(data,dict) or not isinstance(data.get('total_seconds'),(int,float)):
         raise RuntimeError('Lifetime stats unavailable for badge')
-    level,name,nxt,progress=level_for(max(0,float(data['total_seconds']))/3600)
+    seconds = float(data['total_seconds'])
+    if not math.isfinite(seconds) or seconds < 0:
+        raise RuntimeError('WakaTime lifetime total must be finite and non-negative')
+    level,name,nxt,progress=level_for(seconds/3600)
     filled=5 if nxt is None else int(progress*5)
     body=shield(t,level,38,82,.88)
     body+=label(96,220,name,t,16,700,color='accent',anchor='middle')
