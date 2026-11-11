@@ -12,13 +12,13 @@ const base = process.env.AXR_SITE_URL || "http://127.0.0.1:8765/";
 const folder = process.env.AXR_SCREENSHOT_DIR || "screenshots";
 const widths = [320, 375, 768, 1024, 1440, 1920];
 const errors = [];
-const routes = ["", "docs/"];
+const routes = ["", "docs/", "roadmap/"];
 await fs.mkdir(folder, { recursive: true });
 const browser = await chromium.launch({ headless: true, args: ["--no-sandbox"] });
 
 async function exerciseRoute(context, route, width) {
   const page = await context.newPage();
-  const name = route ? "docs" : "home";
+  const name = route === "roadmap/" ? "roadmap" : route ? "docs" : "home";
   page.on("pageerror", error => errors.push(name + " " + width + ": " + error.message));
   const response = await page.goto(new URL(route, base).href, { waitUntil: "domcontentloaded" });
   if (!response?.ok()) errors.push(name + " " + width + ": HTTP " + (response?.status() || "no response"));
@@ -63,13 +63,27 @@ async function exerciseRoute(context, route, width) {
     if (!(await page.locator("#rank-dialog").evaluate(el => el.open))) errors.push("rank modal did not open");
     await page.locator("#close-dialog").click();
   }
-  if (width === 375 && route) {
+  if (width === 375 && route === "docs/") {
     await page.locator(".docs-mobile-nav").click();
     if (await page.locator(".docs-mobile-nav").getAttribute("aria-expanded") !== "true") errors.push("docs mobile sidebar did not open");
     await page.locator("#docs-search").fill("revogue");
     await page.locator("#docs-results a").first().waitFor({ state: "visible", timeout: 8000 });
     const links = await page.locator("#docs-results a").allTextContents();
     if (!links.some(t => t.includes("Segurança"))) errors.push("full-content search did not find security page");
+  }
+  if (width === 375 && route === "roadmap/") {
+    const items=page.locator(".rm-milestone");
+    if(await items.count()!==5) errors.push("roadmap does not have exactly 5 milestones");
+    await page.locator('[data-rm-filter="planned"]').click();
+    if(await page.locator(".rm-milestone:visible").count()!==2) errors.push("roadmap planned filter incorrect");
+    if(await page.locator('[data-rm-filter="planned"]').getAttribute("aria-pressed")!=="true") errors.push("roadmap filter does not report pressed state");
+    await page.locator('[data-rm-filter="all"]').click();
+    if(await page.locator(".rm-milestone:visible").count()!==5) errors.push("roadmap all filter incorrect");
+    await page.locator('.rm-map-stage a[href="#fase-1-5"]').click();
+    if(await page.locator("#fase-1-5").isHidden()) errors.push("roadmap deep-link hidden");
+    await page.locator(".menu-toggle").click();
+    if(await page.locator(".menu-toggle").getAttribute("aria-expanded")!=="true") errors.push("roadmap mobile menu fails");
+    await page.locator(".menu-toggle").click();
   }
   await page.screenshot({ path: path.join(folder, name + "-" + width + ".png"), fullPage: true, animations: "disabled" });
   await page.close();
@@ -105,5 +119,5 @@ if (errors.length) {
   console.error("Visual QA failures:\n" + errors.join("\n"));
   process.exitCode = 1;
 } else {
-  console.log("Visual QA passed: 6 widths, 9 routes, 19 screenshot artifacts, critical interactions.");
+  console.log("Visual QA passed: 6 widths, 10 routes, 25 screenshot artifacts, critical interactions.");
 }

@@ -26,3 +26,7 @@ Run python -m unittest discover -s tests -v, then review mobile and desktop layo
 ## Styling architecture
 
 The homepage and eight documentation routes share `site/style.css`. No new CSS override layers should be introduced. Interactive JavaScript remains separated by concern into `site/ui.js`, `site/app.js` and `site/docs/docs.js`.
+
+## Roadmap experience
+
+The public visual roadmap is `site/roadmap/index.html`, served as `/roadmap/`. It shares `site/style.css` and `site/ui.js`, plus the page-scoped `site/roadmap/roadmap.js`. Interactive filters update only presentation; content and evidence links remain present and accessible without JavaScript. The path diagram has a linear responsive fallback and honors reduced-motion preferences. Keep phases, statuses and evidence synchronized with `docs/ROADMAP.md` and the release checklist. Do not claim dates or completion percentages without evidence.

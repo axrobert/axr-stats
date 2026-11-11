@@ -223,7 +223,7 @@
     {
       "title": "Roadmap",
       "href": "docs/roadmap/",
-      "description": "O que está construído, o que está em validação e os próximos passos — sem prometer uma versão estável antes da hora.",
+      "description": "Explore o roadmap visual em /roadmap/ e confira os marcos, decisões pendentes, entregas concluídas e próximas fases.",
       "sections": [
         {
           "id": "entregue",
