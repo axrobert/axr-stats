@@ -154,6 +154,20 @@ async function exerciseRoute(context, route, width) {
       errors.push("Rank star option missing in JSON");
     if(!(await page.locator('#theme-readme-preview img[src$="lifetime-type-large-no-stars.svg"]').count()))
       errors.push("README preview not synchronized with star and typography options");
+    await page.locator("#theme-card-subtitles").uncheck();
+    await page.waitForFunction(async () => {
+      const img=document.querySelector("#theme-preview-image");
+      if (!img?.src.startsWith("blob:") || img.getAttribute("aria-busy")==="true") return false;
+      try {
+        const svg=await (await fetch(img.src)).text();
+        return !svg.includes("Original tiers; not the WakaTime leaderboard");
+      } catch {return false;}
+    },null,{timeout:12000});
+    if(JSON.parse(await page.locator("#theme-json").textContent()).show_card_subtitles!==false)
+      errors.push("Subtitle option not exported");
+    if(!(await page.locator('#theme-readme-preview img[src$="lifetime-type-large-no-stars-no-subtitle.svg"]').count()))
+      errors.push("Subtitle preview selection not reflected in README");
+    await page.locator("#theme-card-subtitles").check();
     await page.locator('#theme-rank-stars').check();
     await page.locator('#theme-typography').selectOption("standard");
     await page.locator("#theme-language-rows").selectOption("10");

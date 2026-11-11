@@ -22,12 +22,14 @@ class TypographyOptionsTests(unittest.TestCase):
             path=Path(temp)/"axr-stats.json"
             for typo in ("compact","standard","large"):
                 for stars in (False,True):
-                    path.write_text(json.dumps({"typography":typo,"show_rank_stars":stars}))
+                    path.write_text(json.dumps({"typography":typo,"show_rank_stars":stars, "show_card_subtitles": stars}))
                     self.assertEqual(read_config(path)["typography"],typo)
                     self.assertIs(read_config(path)["show_rank_stars"],stars)
+                    self.assertIs(read_config(path)["show_card_subtitles"],stars)
             for data in (
                 {"typography":"auto"},{"typography":None},{"typography":2},
-                {"show_rank_stars":0},{"show_rank_stars":"false"},{"show_rank_stars":None}
+                {"show_rank_stars":0},{"show_rank_stars":"false"},{"show_rank_stars":None},
+                {"show_card_subtitles":0},{"show_card_subtitles":"false"},{"show_card_subtitles":None}
             ):
                 with self.subTest(data=data):
                     path.write_text(json.dumps(data))
@@ -57,6 +59,10 @@ class TypographyOptionsTests(unittest.TestCase):
         new=cards(lifetime,month,week,summaries,{},today,
                   typography="standard",show_rank_stars=True)
         self.assertEqual(old,new)
+        minimal=cards(lifetime,month,week,summaries,{},today,show_card_subtitles=False)
+        for key in old:
+            self.assertLess(len(minimal[key]),len(old[key]))
+            self.assertIn("<svg ",minimal[key])
         no_stars=cards(lifetime,month,week,summaries,{},today,show_rank_stars=False)
         for key in ("lifetime.svg","emblem.svg"):
             self.assertNotIn("<polygon",no_stars[key])
@@ -71,7 +77,7 @@ class TypographyOptionsTests(unittest.TestCase):
             folder=Path(temp)
             paths=build(folder)
             self.assertEqual(len(paths),6)
-            self.assertEqual(len(list(folder.glob("*.svg"))),30)
+            self.assertEqual(len(list(folder.glob("*.svg"))),60)
             for typo in ("standard","compact","large"):
                 suffix="" if typo=="standard" else "-type-"+typo
                 for rows,height in ((5,335),(8,422),(10,480)):
@@ -84,8 +90,16 @@ class TypographyOptionsTests(unittest.TestCase):
                 for name in ("activity","ranking","heatmap"):
                     self.assertTrue((folder/(name+suffix+".svg")).is_file())
             self.assertEqual(
-                (folder/"lifetime.svg").read_text(),
-                (folder/"lifetime.svg").read_text())
+                (folder/"lifetime.svg").read_text().replace(' xmlns="http://www.w3.org/2000/svg"', ''),
+                (folder/"lifetime.svg").read_text().replace(' xmlns="http://www.w3.org/2000/svg"', ''))
+            for filename in ("lifetime", "languages", "activity", "ranking", "heatmap", "emblem"):
+                default=(folder/(filename+".svg")).read_text()
+                minimal=(folder/(filename+"-no-subtitle.svg")).read_text()
+                self.assertEqual(
+                    ET.fromstring(default).attrib,
+                    ET.fromstring(minimal).attrib)
+                self.assertIn("<text ", default)
+                self.assertLess(len(minimal),len(default))
 
 
 if __name__=="__main__":
