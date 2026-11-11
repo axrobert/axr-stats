@@ -46,7 +46,7 @@
         {
           "id": "testar",
           "title": "3. Teste o gerador localmente",
-          "text": "3. Teste o gerador localmente Copiar git clone https://github.com/axrobert/axr-stats.git cd axr-stats python -m pip install \"Pillow>=11,<13\" \"CairoSVG>=2.7,<3\" python -m unittest discover -s tests -v Depois de definir a variável de ambiente no seu terminal, gere os cards: Copiar python src/run_action.py --theme midnight --timezone America/Maceio --output dist Não publique seu segredo. O token precisa estar definido como WAKATIME_OAUTH_TOKEN somente no ambiente de execução; nunca o copie para um arquivo público."
+          "text": "3. Teste o gerador localmente Copiar git clone https://github.com/axrobert/axr-stats.git cd axr-stats python -m pip install -r requirements-runtime.txt python -m unittest discover -s tests -v Depois de definir a variável de ambiente no seu terminal, gere os cards: Copiar python src/run_action.py --theme midnight --timezone America/Maceio --output dist Não publique seu segredo. O token precisa estar definido como WAKATIME_OAUTH_TOKEN somente no ambiente de execução; nunca o copie para um arquivo público."
         },
         {
           "id": "workflow",

@@ -33,7 +33,7 @@
 <h2 id="testar">3. Teste o gerador localmente</h2>
 <div class="code-frame"><button type="button" class="copy-code" aria-label="Copiar bloco de código">Copiar</button><pre><code>git clone https://github.com/axrobert/axr-stats.git
 cd axr-stats
-python -m pip install &quot;Pillow&gt;=11,&lt;13&quot; &quot;CairoSVG&gt;=2.7,&lt;3&quot;
+python -m pip install -r requirements-runtime.txt
 python -m unittest discover -s tests -v</code></pre></div>
 <p>Depois de definir a variável de ambiente no seu terminal, gere os cards:</p>
 <div class="code-frame"><button type="button" class="copy-code" aria-label="Copiar bloco de código">Copiar</button><pre><code>python src/run_action.py --theme midnight --timezone America/Maceio --output dist</code></pre></div>

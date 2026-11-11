@@ -18,7 +18,8 @@
 - [x] Import 12 corrected rank illustrations supplied by the maintainer (including `Elite_CORRIGIDO`) into site/product and profile assets.
 - [ ] Inspect the corrected images at final output resolution and verify render integration before stable launch.
 - [x] Pin the product CI/Pages/visual workflow GitHub Actions dependencies to verified upstream commit SHAs (2026-11-11).
-- [ ] Audit and pin remaining package dependencies and platform compatibility before stable launch.
+- [x] Pin direct Pillow/CairoSVG runtime versions and validate on the Python CI matrix.
+- [ ] Continuously audit transitive package dependencies and supported runner environments before stable launch.
 - [ ] Review WakaTime scopes, revocation, and third-party usage beyond this single connected profile.
 - [ ] Verify documentation and public installation instructions using the final immutable tag or SHA.
 - [ ] Final screenshots, accessible checks, changelog and release notes.

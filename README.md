@@ -129,7 +129,7 @@ Veja os campos aceitos em [Configuração de temas](docs/THEME_CONFIG.md). O arq
 
     python -m unittest discover -s tests -v
 
-    python -m pip install 'Pillow>=11,<13' 'CairoSVG>=2.7,<3'
+    python -m pip install -r requirements-runtime.txt
 
     python src/run_action.py --theme midnight --timezone America/Maceio --output dist
 

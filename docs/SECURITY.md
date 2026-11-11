@@ -29,3 +29,7 @@ The example consumer workflow grants `contents: write` so it can commit generate
 - Publication refuses symlinked output directories/ancestors and Git internal destinations. Existing managed file symlinks are replaced in staging rather than followed; unrelated files are preserved. This is filesystem hardening, **not** a guarantee against malicious concurrent processes on the same runner.
 - Selective workflow staging handles additions and deletions without relying on file globs that may have zero matches.
 - This is a targeted static review with tests. It is not a complete penetration test, supply-chain certification or assertion that no vulnerabilities remain.
+
+## Dependências de renderização — revisão de 11/11/2026
+
+A versão antiga permitia Pillow 11/12, afetadas por múltiplos advisories publicados em outubro de 2026. O runtime passou a usar **Pillow 13.0.0** e **CairoSVG 2.9.1** com versões diretas fixadas em `requirements-runtime.txt`. A dependência e sua árvore transitiva devem ser verificadas periodicamente com `pip-audit`. A origem oficial de versões e correções é PyPI e os avisos de segurança de cada mantenedor. Versões fixadas não garantem ausência futura de vulnerabilidades.
