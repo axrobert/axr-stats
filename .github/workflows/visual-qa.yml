@@ -1,0 +1,56 @@
+name: AXR Stats — Visual QA
+
+on:
+  pull_request:
+    paths:
+      - 'site/**'
+      - 'assets/badges/**'
+      - 'assets/previews/**'
+      - 'tests/browser_smoke.mjs'
+      - '.github/workflows/visual-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install browser dependencies
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Assemble GitHub Pages directory
+        run: |
+          mkdir -p _site/assets/badges/current _site/assets/previews
+          cp -r site/. _site/
+          cp assets/badges/current/*.png _site/assets/badges/current/
+          cp assets/badges/current/*.svg _site/assets/badges/current/
+          cp assets/badges/current/ranks.json _site/assets/badges/current/
+          cp assets/previews/*.svg _site/assets/previews/
+          touch _site/.nojekyll
+      - name: Start local static server
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory _site > /tmp/axr-http.log 2>&1 &
+          for i in $(seq 1 25); do
+            if curl --silent --fail http://127.0.0.1:8765/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/axr-http.log
+          exit 1
+      - name: Inspect all required breakpoints and interactions
+        run: node tests/browser_smoke.mjs
+      - name: Upload visual screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: axr-visual-qa
+          path: screenshots/
+          retention-days: 7
+          if-no-files-found: warn
