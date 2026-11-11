@@ -48,7 +48,7 @@
 - O bloco publicitário redundante no README pessoal foi removido anteriormente. Não reintroduzir: manter apenas os cards reais, com link discreto em Projects se necessário.
 
 ## 5. Fase ativa: 2.4 — Onboarding, importação e correção de layout
-- Branch de trabalho: `feat/phase24-onboarding-import-layout`, criada da `main`.
+- Branch da implementação: `feat/phase24-onboarding-import-layout`, integrada à `main` no PR #25. Próxima tarefa: iniciar a Fase 2.5 (instalação guiada e testes com usuários iniciantes) em branch separada.
 - Objetivos desta fase: simplificar a interface para leigos, esconder controles avançados, importar JSON local sem enviar dados, validar importação antes de mutar a UI, manter o README alinhado à pasta configurada e distanciar a curva do texto no card Atividade.
 - Alterações preparadas na branch:
   - `src/axr_stats.py`: gauge do card Activity de `cy=218` para `cy=198`, textos em y=184 e y=207; mantém 350×300 e indicadores inferiores.
@@ -59,14 +59,14 @@
   - `tests/test_phase24_onboarding.py`: regressão de geometria e contratos de controles.
   - `tests/browser_smoke.mjs`: casos importados válidos/inválidos e alinhamento JSON/snippet.
   - README, `docs/THEME_CONFIG.md`, `docs/ROADMAP.md`, docs online e índice de busca atualizados.
-- **Status de integração: consultar PR e CI antes de afirmar que foi mesclado ou publicado.** Se os testes falharem, corrigir a branch. Validar screenshots e comportamento em 320/375/768/1024/1440/1920.
+- **Integração concluída:** PR #25 (https://github.com/axrobert/axr-stats/pull/25) integrado à `main` por squash commit `436a42e60634d4405d15bb8fcd893fe947fa8f5f`. CI Python 3.11/3.12/3.13 e Chromium Visual QA aprovados. Capturas inspecionadas em 320/375/768/1024/1440/1920. Verificar status do Pages para o novo commit antes de declarar a implantação final.
 - Atenção especial: verificar que o importador está incluído no HTML, que o JSON inválido não altera controles, que o HTML mantém estrutura correta e que o medidor Activity não sobrepõe texto. Não inventar resultados.
 
 ## 6. Configuração pública
 Campos aceitos: `theme`, `timezone`, `output`, `colors`, `cards`, `layout`, `size`, `language_rows`, `typography`, `show_rank_stars`, `show_card_subtitles`. O JSON não contém nem aceita token de API. A entrada `config-path` da Action aponta para o JSON no repositório do consumidor.
 
 ## 7. Próximos passos recomendados
-1. Revisar e executar a CI/Visual QA da Fase 2.4; inspecionar screenshots, corrigir eventuais falhas, fazer merge apenas quando aprovado.
+1. Fase 2.4 finalizada no PR #25. Revisar nova `main` e status do deploy GitHub Pages, especialmente após mudanças futuras.
 2. Atualizar este `CONTEXT.md` com PR, commit da `main`, resultados de QA e pendências reais.
 3. Tornar a instalação para leigos mais simples: assistente orientado para copiar workflow e configuração, mensagens de erro claras e checklist da primeira execução.
 4. Revisar SVGs com valores reais extremos (horas grandes, idiomas longos, ranking indisponível), acessibilidade, foco por teclado e densidade mobile.
@@ -76,3 +76,10 @@ Campos aceitos: `theme`, `timezone`, `output`, `colors`, `cards`, `layout`, `siz
 > “Continue o projeto AXR Stats no GitHub a partir do `CONTEXT.md` do repositório `axrobert/axr-stats`. Primeiro leia o contexto, confira `main`, branches, PRs, Actions e `docs/ROADMAP.md`; depois prossiga na fase ativa. Trabalhe diretamente nos arquivos, preserve os 12 emblemas e os dados reais, execute testes e atualize `CONTEXT.md` na entrega.”
 
 **Importante:** este documento não substitui inspeção do código, nem autorização para mexer em segredos, licenças ou publicar release.
+
+## 9. Conclusão da Fase 2.4 — verificação de 11/11/2026
+
+- PR #25 incorporado por squash ao commit `436a42e60634d4405d15bb8fcd893fe947fa8f5f`.
+- CI Python (3.11/3.12/3.13): passou. Chromium Visual QA: passou e gerou screenshots para 320, 375, 768, 1024, 1440 e 1920px.
+- A implantação GitHub Pages após o merge deve ser verificada por execução associada ao HEAD da `main`, e não inferida da CI.
+- Próxima fase recomendada: **2.5 — instalação guiada para iniciantes** (workflow passo a passo e tratamento de erros). Ainda não implementada neste documento.

@@ -32,7 +32,7 @@
 - Phase 2.3.1 (completed; PR #21): Languages SVG density via `language_rows` (5/8/10), real previews and strict validation.
 - Phase 2.3.2 (completed; PR #22): `typography` scale (90/100/108%), `show_rank_stars` toggle, six-card preview parity and offline lazy-loaded fixtures. Further internal arrangements remain planned.
 - Phase 2.3.3 (completed; PR #23): optional SVG subtitles using `show_card_subtitles` with real preview parity.
-- Phase 2.4 (in validation): beginner-focused progressive disclosure, safe local JSON import, validated output paths and timezone, and Activity gauge text clearance.
+- Phase 2.4 (completed; PR #25): beginner-focused progressive disclosure, safe local JSON import, validated output paths and timezone, Activity gauge text clearance, browser QA on 6 viewport widths, and CONTEXT.md handoff. Next: installation wizard and newcomer testing.
 - Phase 2.2: validated `cards` selection, README `layout` (`stacked` / `paired`), `size` (`compact` / `standard` / `large`), live composition preview, and generated README snippet. Internal SVG geometry and typography controls remain planned.
 
 ## Phase 3 — Public product
