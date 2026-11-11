@@ -100,6 +100,16 @@ Todos os emblemas da coleção foram substituídos pelos arquivos corrigidos for
 
 A página [Roadmap](https://axrobert.github.io/axr-stats/roadmap/) agora usa cinco insígnias de criação própria em `site/roadmap/icons/`. Cada ícone tem **SVG com caminhos vetoriais nativos** e um **PNG transparente otimizado** gerado a partir dele. Os ícones são independentes dos 12 emblemas de ranking.
 
+## Personalização — Fase 2 (prévia)
+
+Você pode manter os temas padrão ou fornecer um arquivo [`axr-stats.json`](examples/axr-stats.json) para selecionar tema, fuso, diretório de saída e ajustar cores dos cards via tokens `#RRGGBB`, **sem editar o código**.
+
+```bash
+python src/run_action.py --config examples/axr-stats.json
+```
+
+Veja os campos aceitos em [Configuração de temas](docs/THEME_CONFIG.md). O arquivo não deve conter tokens ou credenciais. Essa funcionalidade ainda é prévia; layouts customizados, editor visual e seleção de cards continuam planejados.
+
 ## Quick start
 
 > [!IMPORTANT]

@@ -1,0 +1,11 @@
+{
+  "theme": "aurora",
+  "timezone": "America/Maceio",
+  "output": "assets/axr-stats",
+  "colors": {
+    "background": "#0A1720",
+    "surface": "#10262B",
+    "accent": "#74D9C7",
+    "text": "#EAFFFB"
+  }
+}
