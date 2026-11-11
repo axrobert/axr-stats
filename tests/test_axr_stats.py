@@ -104,7 +104,7 @@ class TestAXRStats(unittest.TestCase):
                 self.assertEqual(badge.size,(320,320))
             for item in axr.RANKS:
                 with Image.open(ROOT/'assets/badges/current'/item['png']) as image:
-                    self.assertEqual(image.size,(512,512))
+                    self.assertEqual(image.size,(384,384))
                     self.assertEqual(image.mode,'RGBA')
 
 

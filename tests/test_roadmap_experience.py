@@ -49,6 +49,9 @@ class RoadmapTests(unittest.TestCase):
         page=(SITE/"roadmap/index.html").read_text()
         self.assertTrue(set(re.findall(r'data-icon="([^"]+)"',page)) <= icons)
         self.assertTrue((SITE/"roadmap/roadmap.js").is_file())
+        for icon in ("01-foundation", "02-release", "03-identity", "04-personalization", "05-platform"):
+            self.assertTrue((SITE/"roadmap/icons"/(icon+".svg")).is_file())
+            self.assertTrue((SITE/"roadmap/icons"/(icon+".png")).is_file())
 
     def test_nav_links_to_roadmap(self):
         self.assertIn('href="roadmap/"',(SITE/"index.html").read_text())

@@ -96,6 +96,10 @@ The rank catalog is maintained in [ranks.json](assets/badges/current/ranks.json)
 
 Todos os emblemas da coleção foram substituídos pelos arquivos corrigidos fornecidos pelo mantenedor. Os nomes e os limites de horas permanecem os mesmos. Os `*.svg` desta coleção contêm PNG incorporado (não são vetores editáveis). Confira os ícones na [galeria do site](https://axrobert.github.io/axr-stats/#ranks) e o [roadmap visual](https://axrobert.github.io/axr-stats/roadmap/).
 
+### Ícones do roadmap
+
+A página [Roadmap](https://axrobert.github.io/axr-stats/roadmap/) agora usa cinco insígnias de criação própria em `site/roadmap/icons/`. Cada ícone tem **SVG com caminhos vetoriais nativos** e um **PNG transparente otimizado** gerado a partir dele. Os ícones são independentes dos 12 emblemas de ranking.
+
 ## Quick start
 
 > [!IMPORTANT]
