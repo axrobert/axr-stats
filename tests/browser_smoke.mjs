@@ -113,6 +113,9 @@ async function exerciseRoute(context, route, width) {
         output:"assets/custom-axr",timezone:"America/Maceio"
       }))
     });
+    await page.waitForFunction(() => {
+      return (document.querySelector("#theme-import-status")?.textContent || "").includes("importada");
+    },null,{timeout:10000});
     const imported=JSON.parse(await page.locator("#theme-json").textContent());
     if(imported.theme!=="graphite"||imported.output!=="assets/custom-axr"||
        imported.timezone!=="America/Maceio"||imported.cards.length!==3||
