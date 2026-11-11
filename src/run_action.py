@@ -13,17 +13,25 @@ from PIL import Image
 
 from axr_stats import main as generate
 from render_rank_png import render
-from config import read_config, choose
+from config import read_config, choose, CARD_IDS
+from layouts import selected_files, snippet
 
 SVG_FILES = ("lifetime.svg", "languages.svg", "activity.svg",
              "ranking.svg", "heatmap.svg", "emblem.svg")
 PNG_FILES = ("lifetime.png", "emblem.png")
 OUTPUT_FILES = SVG_FILES + PNG_FILES
+SNIPPET_FILE = "README-snippet.md"
+MANAGED_FILES = OUTPUT_FILES + (SNIPPET_FILE,)
 
 
-def validate(directory: Path) -> None:
+def validate(directory: Path, published: tuple[str, ...] | None = None) -> None:
     """Reject incomplete, malformed, or empty generated assets."""
+    published = OUTPUT_FILES if published is None else tuple(published)
+    if not published or any(name not in MANAGED_FILES for name in published):
+        raise RuntimeError("Invalid selected output files")
     for filename in SVG_FILES:
+        if filename not in published:
+            continue
         item = directory / filename
         if not item.is_file() or item.stat().st_size < 100:
             raise RuntimeError(f"Missing or empty generated SVG: {filename}")
@@ -31,19 +39,29 @@ def validate(directory: Path) -> None:
         if root.tag != "{http://www.w3.org/2000/svg}svg":
             raise RuntimeError(f"Invalid SVG root: {filename}")
     for filename in PNG_FILES:
+        if filename not in published:
+            continue
         item = directory / filename
         if not item.is_file():
             raise RuntimeError(f"Missing generated PNG: {filename}")
         with Image.open(item) as image:
             image.verify()
 
+    if SNIPPET_FILE in published:
+        item = directory / SNIPPET_FILE
+        if not item.is_file() or item.stat().st_size < 50:
+            raise RuntimeError("Missing README snippet")
 
-def publish(staged: Path, destination: Path) -> None:
+
+def publish(staged: Path, destination: Path, published: tuple[str, ...] | None = None) -> None:
     """Swap validated cards together while preserving unrelated user files.
 
     Rolls back on a swap error. Directory renames minimize partial updates,
     but a process/power crash between renames is not a durable ACID transaction.
     """
+    published = OUTPUT_FILES if published is None else tuple(published)
+    if not published or any(name not in MANAGED_FILES for name in published):
+        raise RuntimeError("Invalid publication selection")
     if destination.is_symlink():
         raise RuntimeError("Refusing to publish into a symlink directory")
     destination = destination.resolve()
@@ -57,7 +75,12 @@ def publish(staged: Path, destination: Path) -> None:
             if not destination.is_dir():
                 raise RuntimeError("Output destination is not a directory")
             shutil.copytree(destination, candidate, dirs_exist_ok=True, symlinks=True)
-        for filename in OUTPUT_FILES:
+        # Remove *only* previously generated names that are now deselected.
+        # Never remove unrelated user content, including any other files.
+        for filename in MANAGED_FILES:
+            if filename not in published:
+                (candidate / filename).unlink(missing_ok=True)
+        for filename in published:
             shutil.copy2(staged / filename, candidate / filename)
         if destination.exists():
             backup = Path(tempfile.mkdtemp(prefix=".axr-backup-", dir=destination.parent))
@@ -77,6 +100,12 @@ def publish(staged: Path, destination: Path) -> None:
 
 
 def run(output: Path, theme: str, timezone: str, assets: Path, config: Path | None = None) -> None:
+    settings = read_config(config)
+    selection = settings.get("cards", CARD_IDS)
+    expected = selected_files(selection)
+    has_readme = "layout" in settings or "size" in settings
+    if has_readme:
+        expected += (SNIPPET_FILE,)
     with tempfile.TemporaryDirectory(prefix="axr-generate-") as work:
         staged = Path(work)
         args = ["--output", str(staged), "--theme", theme, "--timezone", timezone]
@@ -87,11 +116,17 @@ def run(output: Path, theme: str, timezone: str, assets: Path, config: Path | No
         if not tier_file.is_file():
             raise RuntimeError("Rank level metadata not generated")
         tier = int(tier_file.read_text(encoding="ascii").strip())
-        render(staged / "lifetime.svg", tier, assets,
-               staged / "lifetime.png", staged / "emblem.png")
-        validate(staged)
-        publish(staged, output)
-    print(f"AXR Stats: published {len(OUTPUT_FILES)} validated files to {output}")
+        if "lifetime" in selection or "emblem" in selection:
+            render(staged / "lifetime.svg", tier, assets,
+                   staged / "lifetime.png", staged / "emblem.png")
+        if has_readme:
+            (staged / SNIPPET_FILE).write_text(
+                snippet(selection, settings.get("layout", "stacked"),
+                        settings.get("size", "standard"), output),
+                encoding="utf-8")
+        validate(staged, expected)
+        publish(staged, output, expected)
+    print(f"AXR Stats: published {len(expected)} validated files to {output}")
 
 
 def main() -> None:
