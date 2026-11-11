@@ -86,16 +86,37 @@ async function exerciseRoute(context, route, width) {
     await page.locator(".menu-toggle").click();
   }
   if (width === 375 && route === "customize/") {
+    await page.waitForFunction(() => {
+      const img = document.getElementById("theme-preview-image");
+      return img?.complete && img.naturalWidth > 0;
+    }, null, {timeout:12000});
+    if (await page.locator("[data-preview-card]").count() !== 6) errors.push("customize preview has not six cards");
+    await page.locator('[data-preview-card="ranking"]').click();
+    await page.waitForFunction(() => document.querySelector("#theme-preview-image")?.complete);
+    const rankingSvg = await page.locator("#theme-preview-image").evaluate(async img => (await fetch(img.src)).text());
+    if (!rankingSvg.includes("#2841")) errors.push("real ranking SVG preview does not match fixture");
+    await page.locator('[data-preview-card="lifetime"]').click();
+    await page.waitForFunction(() => document.querySelector("#theme-preview-image")?.complete);
+    const lifetimeSvg = await page.locator("#theme-preview-image").evaluate(async img => (await fetch(img.src)).text());
+    if (!lifetimeSvg.includes("data:image/png;base64,")) errors.push("real rank art not embedded in preview");
     const initial = await page.locator("#theme-json").textContent();
     if (!initial.includes('"theme": "midnight"')) errors.push("customize initial preset wrong");
     await page.locator('[data-theme="aurora"]').click();
     if (!(await page.locator("#theme-json").textContent()).includes('"theme": "aurora"')) errors.push("customize preset not reflected");
     await page.locator('[data-hex="accent"]').fill("#DDAABB");
+    await page.waitForFunction(async () => {
+      const img=document.querySelector("#theme-preview-image");
+      if (!img?.src.startsWith("blob:")) return false;
+      try { return (await (await fetch(img.src)).text()).includes("#ddaabb"); }
+      catch { return false; }
+    }, null, {timeout:10000});
     if (!(await page.locator("#theme-json").textContent()).includes("#DDAABB")) errors.push("customize hex editor not reflected");
     await page.locator('[data-hex="accent"]').fill("invalid");
     if (await page.locator('[data-hex="accent"]').getAttribute("aria-invalid") !== "true") errors.push("customize invalid color accepted");
     await page.locator('[data-hex="accent"]').blur();
     if (await page.locator('[data-hex="accent"]').getAttribute("aria-invalid") === "true") errors.push("customize invalid color not restored");
+    await page.locator("#download-preview").click();
+    if (!(await page.locator("#theme-preview-message").textContent()).includes("fictícia")) errors.push("SVG preview download must be labeled fictional");
     await page.locator("#download-theme").click();
     if (!(await page.locator("#theme-feedback").textContent()).includes("Arquivo")) errors.push("customize download feedback missing");
   }
@@ -133,5 +154,5 @@ if (errors.length) {
   console.error("Visual QA failures:\n" + errors.join("\n"));
   process.exitCode = 1;
 } else {
-  console.log("Visual QA passed: 6 widths, 11 routes, 31 screenshot artifacts, critical interactions.");
+  console.log("Visual QA passed: 6 widths, 11 routes, 31 screenshot artifacts, six canonical preview SVGs and critical interactions.");
 }

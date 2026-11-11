@@ -30,4 +30,12 @@ Valores informados por CLI/`with` prevalecem sobre o JSON. Os demais vêm do JSO
 
 Não coloque tokens OAuth, chaves ou segredos no arquivo de configuração; o parser recusa campos não documentados. O arquivo é somente de apresentação, não autentica usuários, não coleta dados nem substitui o GitHub Actions Secret.
 
-Esta entrega inicia a Fase 2. Editor visual, escolhas de layout e seleção individual de cards continuam planejados; nenhuma release estável foi publicada.
+A Fase 2 agora inclui prévias reais dos seis **templates SVG** no [Theme Workbench](https://axrobert.github.io/axr-stats/customize/). As prévias são produzidas pelo gerador Python, com **fixtures fictícias e determinísticas** em `scripts/generate_preview_cards.py`. No GitHub Pages, apenas os SVGs estáticos são carregados; o JavaScript recolore os sete tokens conhecidos e pode baixar um SVG de **demonstração**. Os números não mudam e nenhum token OAuth é utilizado no navegador.
+
+Para gerar as prévias localmente:
+
+```bash
+python scripts/generate_preview_cards.py --output site/customize/previews
+```
+
+Esses SVGs são artefatos do build, não registros reais da conta. A imagem de rank embutida é mantida sem recoloração. Seleção individual de cards **para publicação**, escolhas de layout e editor completo ainda estão planejados; nenhuma release estável foi publicada.

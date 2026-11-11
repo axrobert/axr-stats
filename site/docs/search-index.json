@@ -63,7 +63,7 @@
     {
       "title": "Configuração",
       "href": "docs/configuration/",
-      "description": "Altere tema, fuso horário e destino dos arquivos sem editar o núcleo do gerador.",
+      "description": "Configuração por JSON e prévias reais dos seis templates SVG com dados fictícios, exportação de cores e opções de tema.",
       "sections": [
         {
           "id": "parametros",
@@ -74,6 +74,11 @@
           "id": "exemplo",
           "title": "Exemplo",
           "text": "Exemplo Copiar python src/axr_stats.py --theme aurora --timezone America/Maceio --output dist O código da Action expõe as entradas theme , timezone e output . Seus nomes devem corresponder aos da versão que você estiver utilizando."
+        },
+        {
+          "id": "previsualizacao",
+          "title": "Prévia dos cards",
+          "text": "Prévia dos cards Abra o Theme Workbench para visualizar os seis SVGs gerados pelo Python com números fictícios. Ele recolore os sete tokens aceitos pelo JSON, sem alterar emblemas ou consultar o WakaTime. Você pode baixar um SVG de demonstração, mas não usá-lo como suas estatísticas pessoais."
         },
         {
           "id": "temas",
