@@ -51,7 +51,7 @@
         {
           "id": "workflow",
           "title": "4. Prepare a automação",
-          "text": "4. Prepare a automação O repositório tem um workflow de exemplo . Use a referência @main apenas em testes de prévia. Em produção, fixe um commit SHA completo e revisado; a tag v1 ainda não existe. Ao concluir a geração, a automação deve publicar exclusivamente os arquivos validados. O runner gera SVGs e PNGs numa pasta temporária, valida os oito arquivos e somente então publica. Erros de API anteriores à publicação preservam os gráficos existentes."
+          "text": "4. Prepare a automação O repositório tem um workflow de exemplo . Use a referência @main apenas em testes de prévia. Em produção, fixe um commit SHA completo e revisado; a tag v1 ainda não existe. Teste externo comprovado: o repositório de perfil executou a Action com um SHA fixo e permissões contents: read , sem publicar os arquivos. Confira a execução validada no GitHub Actions . Para publicar os cards em seu próprio repositório, o workflow de exemplo requer contents: write . Ao concluir a geração, a automação deve publicar exclusivamente os arquivos validados. O runner gera SVGs e PNGs numa pasta temporária, valida os oito arquivos e somente então publica. Erros de API anteriores à publicação preservam os gráficos existentes."
         },
         {
           "id": "readme",
@@ -238,7 +238,7 @@
         {
           "id": "validacao",
           "title": "Em validação",
-          "text": "Em validação Teste de instalação da Action em um repositório externo real (pendente). Testes isolados de consumo foram adicionados à CI. Revisão de retry da API e publicação validada dos oito artefatos (em validação). Revisão visual e acessibilidade em diferentes dispositivos. Definição de licença de código e política de assets."
+          "text": "Em validação Teste externo real aprovado em GitHub Actions com saída isolada, oito imagens validadas e nenhuma alteração no perfil. Compatibilidade com outras contas ainda requer testes. Revisão de retry da API e publicação validada dos oito artefatos (em validação). Revisão visual e acessibilidade em diferentes dispositivos. Definição de licença de código e política de assets."
         },
         {
           "id": "proximos",

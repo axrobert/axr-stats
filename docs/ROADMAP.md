@@ -8,9 +8,10 @@
 - Separate repository and documentation.
 - Original brand SVG, previews, tier emblems and themes.
 - Test matrix and browser screenshot/render regression tests (done).
-- Consumer-style offline integration and batch output safety (in progress).
-- Real third-party repository installation and GitHub Actions credential/permission audit (pending).
-- Pin GitHub Action dependencies and tag v1 after QA.
+- Consumer-style offline integration and batch output safety (done; product PR #11).
+- Real external GitHub Action installation in `axrobert/axrobert` (passed; [smoke run](https://github.com/axrobert/axrobert/actions/runs/42962893687)). Used the existing OAuth secret with `contents: read`, a fixed Action commit, an isolated output path, and no commits to the profile.
+- Validate on another account/OS and review token scopes before claiming broad compatibility (pending).
+- Pin remaining GitHub Action dependencies and publish `v1` only after the maintainer approves code/assets licensing and release QA.
 - Decide and publish the open-source license.
 
 ## Phase 1.5 — Product identity & visual polish (current)
