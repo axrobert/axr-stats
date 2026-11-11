@@ -1,0 +1,32 @@
+name: AXR Stats — Dependency Audit
+on:
+  pull_request:
+    paths:
+      - 'requirements-runtime.txt'
+      - 'action.yml'
+      - '.github/workflows/dependency-audit.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'requirements-runtime.txt'
+      - '.github/workflows/dependency-audit.yml'
+  schedule:
+    - cron: '23 8 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-python:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install dependency auditor
+        run: python -m pip install --disable-pip-version-check 'pip-audit>=2.7,<4'
+      - name: Check runtime dependencies against published vulnerability database
+        run: python -m pip_audit --requirement requirements-runtime.txt
