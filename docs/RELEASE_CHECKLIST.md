@@ -16,7 +16,8 @@
 - [ ] Maintainer chooses the **code license**. Nothing automatically grants open-source usage rights.
 - [ ] Maintainer confirms a separate **illustration/brand licensing policy** for current and corrected icons.
 - [ ] Replace and inspect corrected 12 rank illustrations once the maintainer supplies them.
-- [ ] Pin/review remaining upstream GitHub Actions dependencies and document supported runners.
+- [x] Pin the product CI/Pages/visual workflow GitHub Actions dependencies to verified upstream commit SHAs (2026-11-11).
+- [ ] Audit and pin remaining package dependencies and platform compatibility before stable launch.
 - [ ] Review WakaTime scopes, revocation, and third-party usage beyond this single connected profile.
 - [ ] Verify documentation and public installation instructions using the final immutable tag or SHA.
 - [ ] Final screenshots, accessible checks, changelog and release notes.
