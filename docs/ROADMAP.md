@@ -24,8 +24,8 @@
 ## Phase 2 — Personalization (started; preview)
 - User-defined color tokens, typography, layouts and size presets.
 - Additional rank styles and transparent standalone insignias.
-- JSON configuration file for theme, timezone, output and validated hex color tokens (initial preview implemented).
-- Preset themes and CLI usage documented; visual editor, layout selection and live preview CLI remain planned.
+- JSON configuration file for theme, timezone, output and validated hex color tokens (initial preview implemented).\n- Local browser palette workbench at `/customize/` with live schematic card preview and JSON export (does not call WakaTime).
+- Preset themes and CLI usage documented; layout selection, precise generated-card previews and full editor remain planned.
 
 ## Phase 3 — Public product
 - Browser-based card builder with live preview.

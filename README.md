@@ -12,7 +12,7 @@ Cards de programação, evolução por horas e medalhas personalizadas para perf
 ![GitHub Actions](https://img.shields.io/badge/GitHub-Actions-2088FF?style=flat-square&logo=githubactions)
 ![Preview](https://img.shields.io/badge/Status-Development%20Preview-F59E0B?style=flat-square)
 
-[**Website**](https://axrobert.github.io/axr-stats/) · [**Documentação**](https://axrobert.github.io/axr-stats/docs/) · [Instalação](https://axrobert.github.io/axr-stats/docs/installation/) · [Ranks](https://axrobert.github.io/axr-stats/docs/ranks/) · [Roadmap](https://axrobert.github.io/axr-stats/roadmap/)
+[**Website**](https://axrobert.github.io/axr-stats/) · [**Documentação**](https://axrobert.github.io/axr-stats/docs/) · [Instalação](https://axrobert.github.io/axr-stats/docs/installation/) · [Ranks](https://axrobert.github.io/axr-stats/docs/ranks/) · [Roadmap](https://axrobert.github.io/axr-stats/roadmap/) · [Personalizar](https://axrobert.github.io/axr-stats/customize/)
 
 </div>
 
@@ -100,7 +100,7 @@ Todos os emblemas da coleção foram substituídos pelos arquivos corrigidos for
 
 A página [Roadmap](https://axrobert.github.io/axr-stats/roadmap/) agora usa cinco insígnias de criação própria em `site/roadmap/icons/`. Cada ícone tem **SVG com caminhos vetoriais nativos** e um **PNG transparente otimizado** gerado a partir dele. Os ícones são independentes dos 12 emblemas de ranking.
 
-## Personalização — Fase 2 (prévia)
+## Personalização — Fase 2 (prévia)\n\n[**Experimentar paletas no site**](https://axrobert.github.io/axr-stats/customize/) · Configuração local, sem autenticação. A prévia é esquemática; não gera cards reais no navegador.
 
 Você pode manter os temas padrão ou fornecer um arquivo [`axr-stats.json`](examples/axr-stats.json) para selecionar tema, fuso, diretório de saída e ajustar cores dos cards via tokens `#RRGGBB`, **sem editar o código**.
 
@@ -108,7 +108,7 @@ Você pode manter os temas padrão ou fornecer um arquivo [`axr-stats.json`](exa
 python src/run_action.py --config examples/axr-stats.json
 ```
 
-Veja os campos aceitos em [Configuração de temas](docs/THEME_CONFIG.md). O arquivo não deve conter tokens ou credenciais. Essa funcionalidade ainda é prévia; layouts customizados, editor visual e seleção de cards continuam planejados.
+Veja os campos aceitos em [Configuração de temas](docs/THEME_CONFIG.md). O arquivo não deve conter tokens ou credenciais. A configuração por JSON e a prévia visual de paletas já estão disponíveis. Layouts customizados, editor completo de cards e seleção individual continuam planejados.
 
 ## Quick start
 

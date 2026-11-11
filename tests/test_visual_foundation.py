@@ -41,7 +41,7 @@ class VisualFoundationTests(unittest.TestCase):
         self.assertIn("prefers-reduced-motion", content)
         self.assertIn(".docs-content h2", content)
         self.assertIn(".hero-stage", content)
-        self.assertLess(len(content.encode("utf-8")), 76000)
+        self.assertLess(len(content.encode("utf-8")), 85000)
 
     def test_search_index_covers_all_eight_docs_and_headings(self):
         obj = json.loads((SITE / "docs/search-index.json").read_text(encoding="utf-8"))
