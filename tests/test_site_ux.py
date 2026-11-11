@@ -35,10 +35,11 @@ class UxTests(unittest.TestCase):
                 content = path.read_text(encoding="utf-8")
                 p = Page(); p.feed(content)
                 self.assertEqual(p.footer_count, 1)
-                self.assertEqual(len([x for x in p.styles if x.endswith("ui.css")]), 1)
+                self.assertEqual(len([x for x in p.styles if x.endswith("style.css")]), 1)
                 self.assertEqual(len([x for x in p.scripts if x.endswith("ui.js")]), 1)
                 self.assertTrue(p.icons)
                 self.assertIn("docs/roadmap/", content)
+                self.assertFalse(any(x.endswith(("ui.css", "refinement.css", "docs.css")) for x in p.styles))
 
     def test_no_legacy_seven_tier_claims(self):
         html = (SITE / "index.html").read_text(encoding="utf-8")
@@ -60,7 +61,7 @@ class UxTests(unittest.TestCase):
                 self.assertIn(icon, symbol_ids)
 
     def test_reduced_motion_and_interactions(self):
-        css = (SITE / "ui.css").read_text(encoding="utf-8")
+        css = (SITE / "style.css").read_text(encoding="utf-8")
         js = (SITE / "ui.js").read_text(encoding="utf-8")
         main = (SITE / "app.js").read_text(encoding="utf-8")
         for snippet in ("prefers-reduced-motion", "scroll-behavior:smooth",

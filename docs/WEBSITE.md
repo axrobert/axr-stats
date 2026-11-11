@@ -22,3 +22,7 @@ GitHub Pages is a responsive, light-themed discovery experience inspired by the 
 ## Checks
 
 Run python -m unittest discover -s tests -v, then review mobile and desktop layouts. Merging to main runs the Pages workflow. Reusable Action remains a development preview, not a stable v1 release.
+
+## Styling architecture
+
+The homepage and eight documentation routes share `site/style.css`. No new CSS override layers should be introduced. Interactive JavaScript remains separated by concern into `site/ui.js`, `site/app.js` and `site/docs/docs.js`.
