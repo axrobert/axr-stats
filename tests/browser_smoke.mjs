@@ -92,7 +92,12 @@ async function exerciseRoute(context, route, width) {
     }, null, {timeout:12000});
     if (await page.locator("[data-preview-card]").count() !== 6) errors.push("customize preview has not six cards");
     await page.locator('[data-preview-card="ranking"]').click();
-    await page.waitForFunction(() => document.querySelector("#theme-preview-image")?.complete);
+    await page.waitForFunction(async () => {
+      const img = document.querySelector("#theme-preview-image");
+      if (!img?.src.startsWith("blob:") || img.getAttribute("aria-busy")==="true") return false;
+      try { return (await (await fetch(img.src)).text()).includes("#2841"); }
+      catch { return false; }
+    }, null, {timeout:12000});
     const rankingSvg = await page.locator("#theme-preview-image").evaluate(async img => (await fetch(img.src)).text());
     if (!rankingSvg.includes("#2841")) errors.push("real ranking SVG preview does not match fixture");
     await page.locator('[data-preview-card="lifetime"]').click();
