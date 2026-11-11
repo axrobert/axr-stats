@@ -11,13 +11,11 @@
   let theme = "midnight";
   let palette = {...presets.midnight};
   const valid = value => /^#[a-f\d]{6}$/i.test(value);
-  const canvas = $("#theme-card");
   const output = $("#theme-json");
   const status = $("#theme-feedback");
 
   function redraw() {
     for (const key of keys) {
-      canvas.style.setProperty("--preview-" + key, palette[key]);
       const color = document.querySelector('[data-color="' + key + '"]');
       const hex = document.querySelector('[data-hex="' + key + '"]');
       if (color) color.value = palette[key];
