@@ -29,7 +29,8 @@
     emblem:"Emblema original preservado; estrelas configuráveis."
   };
   const cache = new Map();
-  let selected = "lifetime", languageRows = 10, typography = "standard", showStars = true;
+  let selected = "lifetime", languageRows = 10, typography = "standard", showStars = true,
+      headerStyle = "standard";
   let palette = Object.fromEntries(tokens.map(k => [
     k,document.querySelector('[data-color="' + k + '"]')?.value || defaults[k]
   ]));
@@ -40,6 +41,7 @@
     if (card === "languages" && languageRows !== 10) stem += "-" + languageRows;
     if (typography !== "standard") stem += "-type-" + typography;
     if ((card === "lifetime" || card === "emblem") && !showStars) stem += "-no-stars";
+    if (headerStyle === "minimal") stem += "-header-minimal";
     return stem;
   }
   function applyTheme(svg) {
@@ -117,6 +119,7 @@
     if ([5,8,10].includes(detail.language_rows)) languageRows = detail.language_rows;
     if (["compact","standard","large"].includes(detail.typography)) typography = detail.typography;
     if (typeof detail.show_rank_stars === "boolean") showStars = detail.show_rank_stars;
+    if (["standard","minimal"].includes(detail.header_style)) headerStyle = detail.header_style;
     void paint();
   });
   download.addEventListener("click",() => {
@@ -138,5 +141,6 @@
   languageRows = Number(document.getElementById("theme-language-rows")?.value || 10);
   typography = document.getElementById("theme-typography")?.value || "standard";
   showStars = document.getElementById("theme-rank-stars")?.checked ?? true;
+  headerStyle = document.getElementById("theme-header-style")?.value || "standard";
   activate(selected);
 })();
