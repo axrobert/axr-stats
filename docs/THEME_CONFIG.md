@@ -28,6 +28,7 @@ Arquivo de exemplo: [`examples/axr-stats.json`](../examples/axr-stats.json).
 - `language_rows`: `5`, `8` ou `10` (padrão). Controla o número máximo de linguagens e a altura interna do card SVG de Linguagens.
 - `typography`: `compact` (90%), `standard` (100%, padrão) ou `large` (108%). Ajusta a escala dos textos do SVG; o tamanho externo permanece igual.
 - `show_rank_stars`: `true` (padrão) ou `false`. Mostra ou oculta as estrelas de progresso dos cards Tempo total e Emblema; a insígnia original permanece.
+- `header_style`: `standard` (padrão, título + descrição + marca lateral) ou `minimal` (título e divisor, sem descrição). Aplica-se ao cabeçalho de todos os seis SVGs, sem alterar as métricas.
 - `colors`: objeto opcional com os tokens `background`, `surface`, `outline`, `text`, `muted`, `accent` e `success`, sempre no formato `#RRGGBB`.
 
 Valores informados por CLI/`with` prevalecem sobre o JSON. Os demais vêm do JSON e, na ausência deste, dos padrões anteriores. A paleta customizada altera os cards SVG e, por consequência, o card rasterizado; **não recolore os 12 emblemas artísticos**.
@@ -77,3 +78,7 @@ Use `"language_rows": 5`, `8` ou `10` no `axr-stats.json`. O renderizador Python
 O editor apresenta três escalas tipográficas seguras e uma opção para ocultar as estrelas dos cards de Tempo total e Emblema. O cálculo das horas e das classificações oficiais não muda. As prévias são SVGs derivados do próprio renderizador Python, com números fictícios. O navegador carrega apenas o card selecionado, sem conexão com a API do WakaTime.
 
 **Compatibilidade:** omitir `typography` e `show_rank_stars` mantém exatamente os valores anteriores: `standard` e `true`. A opção `large` pode precisar de revisão visual quando nomes de linguagens forem excepcionalmente longos; os valores são limitados para reduzir colisões.
+
+## Fase 2.3.3 — Cabeçalho dos cards
+
+Defina `"header_style": "minimal"` para um cabeçalho mais discreto, sem a descrição secundária e sem a barra vertical. A opção padrão é `"standard"` e conserva o SVG anterior. Não são alterados horas, ranking, largura, altura ou artes dos emblemas. O [personalizador](https://axrobert.github.io/axr-stats/customize/) carrega a prévia real para ambos os estilos, sem OAuth.

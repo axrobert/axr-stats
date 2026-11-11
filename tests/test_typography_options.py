@@ -66,12 +66,34 @@ class TypographyOptionsTests(unittest.TestCase):
         self.assertIn("#",old["lifetime.svg"])
         self.assertIn("<polygon",old["lifetime.svg"])
 
+    def test_header_styles_validate_and_keep_default_svg(self):
+        from axr_stats import shell
+        with tempfile.TemporaryDirectory() as temp:
+            cfg=Path(temp)/"config.json"
+            for style in ("standard","minimal"):
+                cfg.write_text(json.dumps({"header_style":style}))
+                self.assertEqual(read_config(cfg)["header_style"],style)
+            for style in (None,"huge",0,True,{},[]):
+                cfg.write_text(json.dumps({"header_style":style}))
+                with self.assertRaises(RuntimeError): read_config(cfg)
+        classic=presentation_theme(THEMES["midnight"])
+        explicit=presentation_theme(THEMES["midnight"],header_style="standard")
+        clean=presentation_theme(THEMES["midnight"],header_style="minimal")
+        self.assertEqual(shell(350,300,"Metric","Sample subtitle","",classic),
+                         shell(350,300,"Metric","Sample subtitle","",explicit))
+        clean_svg=shell(350,300,"Metric","Sample subtitle","",clean)
+        self.assertNotIn("Sample subtitle",clean_svg)
+        self.assertIn('d="M28 66 H322"',clean_svg)
+        self.assertIn('viewBox="0 0 350 300"',clean_svg)
+        with self.assertRaises(RuntimeError):
+            presentation_theme(THEMES["midnight"],header_style="untrusted")
+
     def test_all_fixture_variants_match_rendered_dimensions(self):
         with tempfile.TemporaryDirectory() as temp:
             folder=Path(temp)
             paths=build(folder)
             self.assertEqual(len(paths),6)
-            self.assertEqual(len(list(folder.glob("*.svg"))),30)
+            self.assertEqual(len(list(folder.glob("*.svg"))),60)
             for typo in ("standard","compact","large"):
                 suffix="" if typo=="standard" else "-type-"+typo
                 for rows,height in ((5,335),(8,422),(10,480)):
@@ -83,9 +105,14 @@ class TypographyOptionsTests(unittest.TestCase):
                     self.assertIn("data:image/png;base64,",art)
                 for name in ("activity","ranking","heatmap"):
                     self.assertTrue((folder/(name+suffix+".svg")).is_file())
-            self.assertEqual(
-                (folder/"lifetime.svg").read_text(),
-                (folder/"lifetime.svg").read_text())
+            for name in ("lifetime","languages","activity","ranking","heatmap","emblem"):
+                standard=(folder/(name+".svg")).read_text()
+                minimal=(folder/(name+"-header-minimal.svg")).read_text()
+                self.assertNotEqual(standard,minimal)
+                self.assertIn('d="M28 66 H',minimal)
+                self.assertNotIn('width="4" height="23"',minimal)
+            self.assertTrue((folder/"lifetime-type-large-no-stars-header-minimal.svg").is_file())
+            self.assertTrue((folder/"languages-5-type-compact-header-minimal.svg").is_file())
 
 
 if __name__=="__main__":

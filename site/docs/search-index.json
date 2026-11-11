@@ -63,7 +63,7 @@
     {
       "title": "Configuração",
       "href": "docs/configuration/",
-      "description": "Configurar cards, tipografia, estrelas, densidade, paletas e layouts do README.",
+      "description": "Personalize cores, tipografia, densidade, estrelas, cabeçalhos e layouts do README.",
       "sections": [
         {
           "id": "parametros",
@@ -94,6 +94,11 @@
           "id": "tipografia",
           "title": "Tipografia e estrelas de progresso",
           "text": "Tipografia e estrelas de progresso A Fase 2.3.2 aceita typography : compact (90%), standard (100%, padrão) e large (108%). O campo show_rank_stars aceita true ou false , controlando as estrelas nos cards Tempo total e Emblema. As artes originais não são alteradas, e os dados do WakaTime permanecem iguais. Experimente as prévias SVG no editor."
+        },
+        {
+          "id": "cabecalho",
+          "title": "Cabeçalho dos cards",
+          "text": "Cabeçalho dos cards Use header_style com standard (título, subtítulo e barra lateral) ou minimal (título e divisor, sem subtítulo). A segunda opção muda apenas a apresentação interna; métricas e emblemas permanecem iguais. Veja os dois estilos no personalizador."
         },
         {
           "id": "temas",

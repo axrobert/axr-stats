@@ -156,6 +156,18 @@ async function exerciseRoute(context, route, width) {
       errors.push("README preview not synchronized with star and typography options");
     await page.locator('#theme-rank-stars').check();
     await page.locator('#theme-typography').selectOption("standard");
+    await page.locator('#theme-header-style').selectOption("minimal");
+    await page.waitForFunction(async () => {
+      const img=document.querySelector("#theme-preview-image");
+      if (!img?.src.startsWith("blob:") || img.getAttribute("aria-busy")==="true") return false;
+      try { return (await (await fetch(img.src)).text()).includes('d="M28 66 H672"'); }
+      catch { return false; }
+    },null,{timeout:10000});
+    if(JSON.parse(await page.locator("#theme-json").textContent()).header_style!=="minimal")
+      errors.push("Header composition not exported");
+    if(!(await page.locator('#theme-readme-preview img[src$="lifetime-header-minimal.svg"]').count()))
+      errors.push("README composition missing minimal header variant");
+    await page.locator('#theme-header-style').selectOption("standard");
     await page.locator("#theme-language-rows").selectOption("10");
     await page.locator('[data-preview-card="lifetime"]').click();
     const initial = await page.locator("#theme-json").textContent();
