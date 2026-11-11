@@ -12,13 +12,13 @@ const base = process.env.AXR_SITE_URL || "http://127.0.0.1:8765/";
 const folder = process.env.AXR_SCREENSHOT_DIR || "screenshots";
 const widths = [320, 375, 768, 1024, 1440, 1920];
 const errors = [];
-const routes = ["", "docs/", "roadmap/"];
+const routes = ["", "docs/", "roadmap/", "customize/"];
 await fs.mkdir(folder, { recursive: true });
 const browser = await chromium.launch({ headless: true, args: ["--no-sandbox"] });
 
 async function exerciseRoute(context, route, width) {
   const page = await context.newPage();
-  const name = route === "roadmap/" ? "roadmap" : route ? "docs" : "home";
+  const name = route === "roadmap/" ? "roadmap" : route === "customize/" ? "customize" : route ? "docs" : "home";
   page.on("pageerror", error => errors.push(name + " " + width + ": " + error.message));
   const response = await page.goto(new URL(route, base).href, { waitUntil: "domcontentloaded" });
   if (!response?.ok()) errors.push(name + " " + width + ": HTTP " + (response?.status() || "no response"));
@@ -75,7 +75,7 @@ async function exerciseRoute(context, route, width) {
     const items=page.locator(".rm-milestone");
     if(await items.count()!==5) errors.push("roadmap does not have exactly 5 milestones");
     await page.locator('[data-rm-filter="planned"]').click();
-    if(await page.locator(".rm-milestone:visible").count()!==2) errors.push("roadmap planned filter incorrect");
+    if(await page.locator(".rm-milestone:visible").count()!==1) errors.push("roadmap planned filter incorrect");
     if(await page.locator('[data-rm-filter="planned"]').getAttribute("aria-pressed")!=="true") errors.push("roadmap filter does not report pressed state");
     await page.locator('[data-rm-filter="all"]').click();
     if(await page.locator(".rm-milestone:visible").count()!==5) errors.push("roadmap all filter incorrect");
@@ -84,6 +84,20 @@ async function exerciseRoute(context, route, width) {
     await page.locator(".menu-toggle").click();
     if(await page.locator(".menu-toggle").getAttribute("aria-expanded")!=="true") errors.push("roadmap mobile menu fails");
     await page.locator(".menu-toggle").click();
+  }
+  if (width === 375 && route === "customize/") {
+    const initial = await page.locator("#theme-json").textContent();
+    if (!initial.includes('"theme": "midnight"')) errors.push("customize initial preset wrong");
+    await page.locator('[data-theme="aurora"]').click();
+    if (!(await page.locator("#theme-json").textContent()).includes('"theme": "aurora"')) errors.push("customize preset not reflected");
+    await page.locator('[data-hex="accent"]').fill("#DDAABB");
+    if (!(await page.locator("#theme-json").textContent()).includes("#DDAABB")) errors.push("customize hex editor not reflected");
+    await page.locator('[data-hex="accent"]').fill("invalid");
+    if (await page.locator('[data-hex="accent"]').getAttribute("aria-invalid") !== "true") errors.push("customize invalid color accepted");
+    await page.locator('[data-hex="accent"]').blur();
+    if (await page.locator('[data-hex="accent"]').getAttribute("aria-invalid") === "true") errors.push("customize invalid color not restored");
+    await page.locator("#download-theme").click();
+    if (!(await page.locator("#theme-feedback").textContent()).includes("Arquivo")) errors.push("customize download feedback missing");
   }
   await page.screenshot({ path: path.join(folder, name + "-" + width + ".png"), fullPage: true, animations: "disabled" });
   await page.close();
@@ -119,5 +133,5 @@ if (errors.length) {
   console.error("Visual QA failures:\n" + errors.join("\n"));
   process.exitCode = 1;
 } else {
-  console.log("Visual QA passed: 6 widths, 10 routes, 25 screenshot artifacts, critical interactions.");
+  console.log("Visual QA passed: 6 widths, 11 routes, 31 screenshot artifacts, critical interactions.");
 }

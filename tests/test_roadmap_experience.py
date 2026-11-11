@@ -26,7 +26,7 @@ class RoadmapTests(unittest.TestCase):
     def test_public_route_and_evidence(self):
         page=(SITE/"roadmap/index.html").read_text(encoding="utf-8")
         dom=Check();dom.feed(page)
-        self.assertEqual(dom.elements,["done","active","active","planned","planned"])
+        self.assertEqual(dom.elements,["done","active","active","active","planned"])
         self.assertEqual(len([x for x in dom.buttons if "data-rm-filter" in x]),4)
         for anchor in ("fase-0","fase-1","fase-1-5","fase-2","fase-3","trajetoria","detalhes","release"):
             self.assertIn(anchor,dom.ids)
