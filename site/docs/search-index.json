@@ -63,7 +63,7 @@
     {
       "title": "Configuração",
       "href": "docs/configuration/",
-      "description": "Configuração por JSON e prévias reais dos seis templates SVG com dados fictícios, exportação de cores e opções de tema.",
+      "description": "Personalize cores, escolha cards e gere um snippet do README com layouts e tamanhos configuráveis.",
       "sections": [
         {
           "id": "parametros",
@@ -79,6 +79,11 @@
           "id": "previsualizacao",
           "title": "Prévia dos cards",
           "text": "Prévia dos cards Abra o Theme Workbench para visualizar os seis SVGs gerados pelo Python com números fictícios. Ele recolore os sete tokens aceitos pelo JSON, sem alterar emblemas ou consultar o WakaTime. Você pode baixar um SVG de demonstração, mas não usá-lo como suas estatísticas pessoais."
+        },
+        {
+          "id": "selecionar-cards",
+          "title": "Publicação e layout do README",
+          "text": "Publicação e layout do README No personalizador , escolha os cards que deseja publicar. O JSON exportado inclui cards (lista de nomes), layout ( stacked ou paired ) e size ( compact , standard ou large ). Quando há layout ou tamanho, a Action gera README-snippet.md com caminhos relativos aos cards publicados. Os SVGs mantêm sua geometria original e as credenciais ficam exclusivamente no GitHub Actions Secret."
         },
         {
           "id": "temas",
