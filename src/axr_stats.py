@@ -24,6 +24,7 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from zoneinfo import ZoneInfo
+from config import read_config, choose
 
 BASE = 'https://api.wakatime.com/api/v1'
 THEMES = {
@@ -275,10 +276,18 @@ def write_cards(rendered,target):
 
 def main(argv=None):
     p=argparse.ArgumentParser(description='AXR Stats — WakaTime SVG cards for README.md')
-    p.add_argument('--output',default='dist')
-    p.add_argument('--theme',choices=THEMES,default='midnight')
-    p.add_argument('--timezone',default='UTC',help='IANA timezone, e.g. America/Maceio')
+    p.add_argument('--output', default=None)
+    p.add_argument('--theme', choices=('midnight','graphite','aurora'), default=None)
+    p.add_argument('--timezone', default=None,help='IANA timezone, e.g. America/Maceio')
+    p.add_argument('--config', type=Path,default=None,help='Optional JSON presentation settings (never credentials)')
     opts=p.parse_args(argv)
+    configuration=read_config(opts.config)
+    opts.output=choose(opts.output,configuration,'output','dist')
+    opts.theme=choose(opts.theme,configuration,'theme','midnight')
+    opts.timezone=choose(opts.timezone,configuration,'timezone','UTC')
+    if configuration.get('colors'):
+        THEMES['_user_config']={**THEMES[opts.theme],**configuration['colors']}
+        opts.theme='_user_config'
     token=os.environ.get('WAKATIME_OAUTH_TOKEN','').strip()
     if not token:
         raise RuntimeError('Set WAKATIME_OAUTH_TOKEN in GitHub Actions secrets; do not use plugin API keys')

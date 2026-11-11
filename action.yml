@@ -8,15 +8,19 @@ inputs:
   theme:
     description: 'Theme: midnight, graphite, aurora'
     required: false
-    default: 'midnight'
+    default: ''
   timezone:
     description: 'IANA timezone (for summaries and day boundaries)'
     required: false
-    default: 'UTC'
+    default: ''
   output:
     description: 'Destination folder in the consuming repository'
     required: false
-    default: 'assets/axr-stats'
+    default: ''
+  config-path:
+    description: 'Optional relative JSON settings path, e.g. axr-stats.json. Must NOT contain secrets.'
+    required: false
+    default: ''
 runs:
   using: composite
   steps:
@@ -30,9 +34,11 @@ runs:
         AXR_THEME: ${{ inputs.theme }}
         AXR_TIMEZONE: ${{ inputs.timezone }}
         AXR_OUTPUT: ${{ inputs.output }}
+        AXR_CONFIG: ${{ inputs.config-path }}
       run: |
-        python3 "${{ github.action_path }}/src/run_action.py" \
-          --output "$AXR_OUTPUT" \
-          --timezone "$AXR_TIMEZONE" \
-          --theme "$AXR_THEME" \
-          --assets "${{ github.action_path }}/assets/badges/current"
+        args=(--assets "${{ github.action_path }}/assets/badges/current")
+        if [ -n "$AXR_THEME" ]; then args+=(--theme "$AXR_THEME"); fi
+        if [ -n "$AXR_TIMEZONE" ]; then args+=(--timezone "$AXR_TIMEZONE"); fi
+        if [ -n "$AXR_OUTPUT" ]; then args+=(--output "$AXR_OUTPUT"); fi
+        if [ -n "$AXR_CONFIG" ]; then args+=(--config "$AXR_CONFIG"); fi
+        python3 "${{ github.action_path }}/src/run_action.py" "${args[@]}"

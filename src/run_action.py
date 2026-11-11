@@ -13,6 +13,7 @@ from PIL import Image
 
 from axr_stats import main as generate
 from render_rank_png import render
+from config import read_config, choose
 
 SVG_FILES = ("lifetime.svg", "languages.svg", "activity.svg",
              "ranking.svg", "heatmap.svg", "emblem.svg")
@@ -75,10 +76,13 @@ def publish(staged: Path, destination: Path) -> None:
             shutil.rmtree(candidate)
 
 
-def run(output: Path, theme: str, timezone: str, assets: Path) -> None:
+def run(output: Path, theme: str, timezone: str, assets: Path, config: Path | None = None) -> None:
     with tempfile.TemporaryDirectory(prefix="axr-generate-") as work:
         staged = Path(work)
-        generate(["--output", str(staged), "--theme", theme, "--timezone", timezone])
+        args = ["--output", str(staged), "--theme", theme, "--timezone", timezone]
+        if config is not None:
+            args.extend(["--config", str(config)])
+        generate(args)
         tier_file = staged / ".rank-level"
         if not tier_file.is_file():
             raise RuntimeError("Rank level metadata not generated")
@@ -92,13 +96,18 @@ def run(output: Path, theme: str, timezone: str, assets: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Publish AXR Stats profile cards safely")
-    parser.add_argument("--output", default="assets/axr-stats", type=Path)
-    parser.add_argument("--theme", default="midnight", choices=("midnight", "graphite", "aurora"))
-    parser.add_argument("--timezone", default="UTC")
+    parser.add_argument("--output", default=None, type=Path)
+    parser.add_argument("--theme", default=None, choices=("midnight", "graphite", "aurora"))
+    parser.add_argument("--timezone", default=None)
+    parser.add_argument("--config", default=None, type=Path)
     parser.add_argument("--assets", type=Path, default=Path(__file__).resolve().parents[1] / "assets/badges/current")
     options = parser.parse_args()
     try:
-        run(options.output, options.theme, options.timezone, options.assets)
+        configuration = read_config(options.config)
+        output = Path(choose(options.output, configuration, "output", "assets/axr-stats"))
+        theme = choose(options.theme, configuration, "theme", "midnight")
+        timezone = choose(options.timezone, configuration, "timezone", "UTC")
+        run(output, theme, timezone, options.assets, config=options.config)
     except (RuntimeError, ValueError, OSError, ET.ParseError) as error:
         raise SystemExit(f"AXR Stats error: {error}") from None
 
