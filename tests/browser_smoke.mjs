@@ -98,8 +98,9 @@ async function exerciseRoute(context, route, width) {
       try { return (await (await fetch(img.src)).text()).includes("#2841"); }
       catch { return false; }
     }, null, {timeout:12000});
-    const rankingSvg = await page.locator("#theme-preview-image").evaluate(async img => (await fetch(img.src)).text());
-    if (!rankingSvg.includes("#2841")) errors.push("real ranking SVG preview does not match fixture");
+    // waitForFunction above already asserts the selected SVG contains the
+    // fictional fixture rank. Do not re-fetch a mutable blob URL after it:
+    // rapid preview updates may revoke or replace the previous one.
     await page.locator('[data-preview-card="lifetime"]').click();
     await page.waitForFunction(() => document.querySelector("#theme-preview-image")?.complete);
     const lifetimeSvg = await page.locator("#theme-preview-image").evaluate(async img => (await fetch(img.src)).text());
