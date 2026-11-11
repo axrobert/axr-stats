@@ -233,7 +233,7 @@
         {
           "id": "polish",
           "title": "Fase 1.5 — Identidade e acabamento",
-          "text": "Fase 1.5 — Identidade e acabamento A interface está sendo lapidada para reduzir componentes genéricos: tipografia, bordas, botões, respiro, responsividade e documentação. Ainda requer avaliação visual em navegadores e aparelhos reais."
+          "text": "Fase 1.5 — Identidade e acabamento A interface recebe revisão contínua de tipografia, espaçamento, responsividade e documentação. A Fase 2 já começou com configuração por JSON e prévia local de cores. Abrir personalização de temas ."
         },
         {
           "id": "validacao",
@@ -243,7 +243,7 @@
         {
           "id": "proximos",
           "title": "Próximas etapas",
-          "text": "Próximas etapas Validar a coleção corrigida de 12 ranks em todos os tamanhos. Publicar release estável e documentação completa da Action. Editor visual de temas e escolha de cards sem configuração manual. Novas conquistas, badges especiais e integrações adicionais."
+          "text": "Próximas etapas Validar a coleção corrigida de 12 ranks em todos os tamanhos. Publicar release estável e documentação completa da Action. Personalização de layouts e editor completo de cards. A prévia de cores já está disponível. Novas conquistas, badges especiais e integrações adicionais."
         },
         {
           "id": "contribuir",
