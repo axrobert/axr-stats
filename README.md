@@ -103,7 +103,9 @@ The rank catalog is maintained in [ranks.json](assets/badges/current/ranks.json)
 
     python -m unittest discover -s tests -v
 
-    python src/axr_stats.py --theme midnight --timezone America/Maceio --output dist
+    python -m pip install 'Pillow>=11,<13' 'CairoSVG>=2.7,<3'
+
+    python src/run_action.py --theme midnight --timezone America/Maceio --output dist
 
 The second command requires the WAKATIME_OAUTH_TOKEN environment variable. **Never commit or share its value.** The PNG composer uses Pillow and CairoSVG; see the [Action definition](action.yml).
 

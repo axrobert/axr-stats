@@ -35,8 +35,7 @@ cd axr-stats
 python -m pip install &quot;Pillow&gt;=11,&lt;13&quot; &quot;CairoSVG&gt;=2.7,&lt;3&quot;
 python -m unittest discover -s tests -v</code></pre></div>
 <p>Depois de definir a variável de ambiente no seu terminal, gere os cards:</p>
-<div class="code-frame"><button type="button" class="copy-code" aria-label="Copiar bloco de código">Copiar</button><pre><code>python src/axr_stats.py --theme midnight --timezone America/Maceio --output dist
-python src/render_rank_png.py --card dist/lifetime.svg --tier-file dist/.rank-level --assets assets/badges/current --output dist/lifetime.png --emblem-output dist/emblem.png</code></pre></div>
+<div class="code-frame"><button type="button" class="copy-code" aria-label="Copiar bloco de código">Copiar</button><pre><code>python src/run_action.py --theme midnight --timezone America/Maceio --output dist</code></pre></div>
 <aside class="docs-callout "><p><strong>Não publique seu segredo.</strong> O token precisa estar definido como <code>WAKATIME_OAUTH_TOKEN</code> somente no ambiente de execução; nunca o copie para um arquivo público.</p></aside>
 <h2 id="workflow">4. Prepare a automação</h2>
 <p>O repositório tem um <a href="https://github.com/axrobert/axr-stats/blob/main/examples/consumer-workflow.yml">workflow de exemplo</a>. Use a referência <code>@main</code> apenas em testes de prévia. Em produção, fixe um commit SHA completo e revisado; a tag <code>v1</code> ainda não existe.</p>
