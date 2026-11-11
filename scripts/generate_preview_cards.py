@@ -15,7 +15,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from axr_stats import THEMES, activity_card, cards, languages_card, lifetime_card, badge_card, presentation_theme, languages_card
+from axr_stats import THEMES, activity_card, cards, languages_card, lifetime_card, badge_card, presentation_theme
 
 FILES = ("lifetime.svg", "languages.svg", "activity.svg",
          "ranking.svg", "heatmap.svg", "emblem.svg")

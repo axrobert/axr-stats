@@ -18,7 +18,7 @@
 <a class="header-github" href="https://github.com/axrobert/axr-stats" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
 </div></header>
 <main id="conteudo" class="wrap theme-main">
-<div class="theme-intro"><p class="eyebrow">PERSONALIZAÇÃO / FASE 2 · PRÉVIA</p><h1>Uma paleta. Seu estilo.</h1><p>Experimente as cores nos seis cards gerados pelo AXR Stats e exporte um <code>axr-stats.json</code> para usar com a Action. As métricas exibidas são fictícias; os emblemas preservam suas artes.</p></div>
+<div class="theme-intro"><p class="eyebrow">PERSONALIZAÇÃO / FASE 2 · PRÉVIA</p><h1>Uma paleta. Seu estilo.</h1><p>Ajuste cores, tipografia e elementos dos seis cards, depois exporte um <code>axr-stats.json</code> para usar com a Action. Os números exibidos são fictícios; as artes dos emblemas são preservadas.</p></div>
 <div class="theme-workbench">
 <section class="theme-editor" aria-labelledby="theme-editor-heading">
 <div class="theme-panel-heading"><span class="theme-index">01</span><div><h2 id="theme-editor-heading">Configurar cores</h2><p>Escolha um ponto de partida e ajuste os tokens.</p></div></div>
@@ -56,6 +56,11 @@
 <select id="theme-language-rows"><option value="5">5 — compacto</option><option value="8">8 — intermediário</option><option value="10" selected>10 — detalhado (padrão)</option></select>
 </label>
 <p>Ajusta a altura e a quantidade de linhas do SVG de Linguagens, sem alterar o histórico real.</p>
+<div class="theme-advanced-controls" aria-label="Opções de renderização">
+<label for="theme-typography">Escala tipográfica
+<select id="theme-typography"><option value="compact">Compacta · 90%</option><option value="standard" selected>Padrão · 100%</option><option value="large">Ampliada · 108%</option></select></label>
+<label class="theme-toggle" for="theme-rank-stars"><input id="theme-rank-stars" type="checkbox" checked><span>Exibir estrelas de progressão nos cards Tempo total e Emblema</span></label>
+</div>
 </div>
 <p class="theme-selection-feedback" id="theme-selection-feedback" role="status" aria-live="polite"></p>
 </section>
